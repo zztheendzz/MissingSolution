@@ -9,7 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using VM.Core;
 namespace Machine.UI
 {
     public partial class FormMain : Form
@@ -26,9 +26,9 @@ namespace Machine.UI
         TrayModel currentTray;
         TrayProcessor processor;
         ushort registerData = 5;
-        VisionDataService visionDb;
-        TrayRunService trayRunService;
-
+        //VisionDataService visionDb;
+        //TrayRunService trayRunService;
+        string nameFlow = "";
         int portVision = 8001;
         int portRobot = 502;
         int currentTrayId;
@@ -36,10 +36,11 @@ namespace Machine.UI
         int ok = 0;
         int ng = 0;
         int none = 0;
+        string pathModel1 = "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw";
         string conn = @"Server=(localdb)\MSSQLLocalDB;Database=VisionResult;Trusted_Connection=True;";
         Model1[] trays = new Model1[]
         {
-            new Model1(11,10,"traycode1"),
+            new Model1(11,10,"traycode1","D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"),
             new Model1(6,8,"traycode2"),
             new Model1(12,10, "traycode3"),
             new Model1(18,10, "traycode4"),
@@ -51,8 +52,8 @@ namespace Machine.UI
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Normal;
-            visionDb = new VisionDataService(conn);
-            trayRunService = new TrayRunService(conn);
+            //visionDb = new VisionDataService(conn);
+            //trayRunService = new TrayRunService(conn);
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -68,14 +69,16 @@ namespace Machine.UI
             {
                 this.Invoke(new Action(() =>
                 {
-                    richTextBox3.AppendText(msg + "\n");
+                   // richTextBox1.AppendText(msg + "\n");
                     robot.WriteStringToRobot(registerData, msg); //send data to robot
                     var results = VisionParser.Parse(msg); // 👈 parse ở đây
 
+                    string appendTextRs = $"[{DateTime.Now:HH: mm: ss}]";
                     foreach (var item in results)
                     {
-                        richTextBox3.AppendText(item + "\n");
+                        appendTextRs += item + "\t";
                     }
+                    richTextBox3.AppendText(appendTextRs + "\n");
 
                     var cells = processor.ProcessBatch(results);
 
@@ -105,9 +108,9 @@ namespace Machine.UI
             {
                 this.Invoke(new Action(() =>
                 {
-                    richTextBox1.AppendText("✅ Tray DONE\n");
+                    richTextBox2.AppendText("✅ Tray DONE\n");
 
-                    trayRunService.UpdateEndTime(currentTrayId);
+                    //trayRunService.UpdateEndTime(currentTrayId);
                     // 🔥 reset UI
                     ClearTray();
 
@@ -161,9 +164,20 @@ namespace Machine.UI
 
             if (list.Count > 0)
             {
-                visionDb.InsertBatch(list);
+               // visionDb.InsertBatch(list);
             }
         }
+
+        public void tesetSwichSln(object sender, EventArgs e)
+        {
+            var proc = sender as VmProcedure;
+            string nameFlow="a";
+            VmSolution.Load(trays[0].programVision);
+            VmProcedure pro1 = VmSolution.Instance["OutImage"] as VmProcedure;
+           var imgResult = proc.ModuResult.GetOutputImageV2(nameFlow);
+        }
+
+
         void UpdateUI()
         {
             textBox3.Text = Math.Round((double)ng / total * 100, 2).ToString() + "%";
@@ -206,30 +220,45 @@ namespace Machine.UI
             if (index < 0 || index >= trays.Length) return;
 
             var model = trays[index];
-            currentTray = model.ToTrayModel();
 
-            processor = new TrayProcessor(currentTray);
-            processor.Reset();
-            StartTray();
-            int rows = model.row;
-            int cols = model.col;
-
-            DataTable table = new DataTable();
-
-            for (int j = 0; j < cols; j++)
-                table.Columns.Add("C" + (j + 1));
-
-            for (int i = 0; i < rows; i++)
+            if (!File.Exists(model.programVision))
             {
-                DataRow row = table.NewRow();
-                for (int j = 0; j < cols; j++)
-                    row[j] = "";
-
-                table.Rows.Add(row);
+                MessageBox.Show("File không tồn tại");
+                return;
             }
 
-            dataGridView1.DataSource = table;
-            SetupGridStyle();
+            try
+            {
+                // 🔥 set working dir
+                string dir = Path.GetDirectoryName(model.programVision);
+                Directory.SetCurrentDirectory(dir);
+
+                // 🔥 clear instance cũ
+                if (VmSolution.Instance != null)
+                {
+                    VmSolution.Instance.Dispose();
+                }
+
+                // 🔥 load
+                VmSolution.Load(model.programVision);
+
+                // 🔥 lấy flow
+                var pro1 = VmSolution.Instance["Flow1"] as VmProcedure;
+
+                if (pro1 == null)
+                {
+                    MessageBox.Show("Không tìm thấy Flow1");
+                    return;
+                }
+
+                // 🔥 callback
+                pro1.OnWorkEndStatusCallBack -= OnVisionDone;
+                pro1.OnWorkEndStatusCallBack += OnVisionDone;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         // ================== STYLE ==================
@@ -290,6 +319,7 @@ namespace Machine.UI
         }
         private void ClearTray()
         {
+            richTextBox3.Clear();
             if (dataGridView1.InvokeRequired)
             {
                 dataGridView1.Invoke(new Action(ClearTray));
@@ -308,15 +338,33 @@ namespace Machine.UI
         {
             var model = trays[comboBox1.SelectedIndex];
 
-            currentTrayId = trayRunService.Create(new TrayRun
-            {
-                TrayName = model.Name,
-                Row = model.row,
-                Col = model.col,
-                StartTime = DateTime.Now
-            });
+            //currentTrayId = trayRunService.Create(new TrayRun
+            //{
+            //    TrayName = model.Name,
+            //    Row = model.row,
+            //    Col = model.col,
+            //    StartTime = DateTime.Now
+            //});
         }
         // ================== COLOR ==================
+        private void OnVisionDone(object sender, EventArgs e)
+        {
+            var proc = sender as VmProcedure;
+            if (proc?.ModuResult == null) return;
+
+            // 🔥 LẤY ẢNH FINAL
+            var img = proc.ModuResult.GetOutputImageV2("OutImage");
+
+            if (img != null)
+            {
+                Bitmap bmp = img.ToBitmap();
+
+                this.Invoke(new Action(() =>
+                {
+                    pictureBox1.Image = bmp;
+                }));
+            }
+        }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value == null) return;
@@ -429,12 +477,12 @@ namespace Machine.UI
 
             robot.WriteIndex(val);
 
-            richTextBox1.AppendText($"📤 Send Index: {val}\n");
+            richTextBox2.AppendText($"📤 Send Index: {val}\n");
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            richTextBox1.AppendText("🔌 Connecting...\n");
+            richTextBox2.AppendText("🔌 Connecting...\n");
             var ok = robot.Connect(ipRobot, portRobot);
 
             if (!await ok)
@@ -448,7 +496,7 @@ namespace Machine.UI
         {
             robot.Disconnect();
 
-            richTextBox1.AppendText("🔌 Disconnected\n");
+            richTextBox2.AppendText("🔌 Disconnected\n");
         }
 
         private void richTextBox3_TextChanged(object sender, EventArgs e)
@@ -461,15 +509,15 @@ namespace Machine.UI
         {
             try
             {
-                richTextBox3.AppendText("🔌 Connecting Vision...\n");
+                richTextBox2.AppendText("🔌 Connecting Vision...\n");
 
                 await vision.Connect(ipVision, portVision);
 
-                richTextBox1.AppendText("✅ Vision Connected\n");
+                richTextBox2.AppendText("✅ Vision Connected\n");
             }
             catch (Exception ex)
             {
-                richTextBox1.AppendText("❌ Vision Connect Error: " + ex.Message + "\n");
+                richTextBox2.AppendText("❌ Vision Connect Error: " + ex.Message + "\n");
             }
         }
 
@@ -477,7 +525,7 @@ namespace Machine.UI
         {
             //disconnect vision
             vision.Disconnect();
-            richTextBox3.AppendText("🔌 Vision Disconnected\n");
+            richTextBox2.AppendText("🔌 Vision Disconnected\n");
 
         }
 
@@ -491,8 +539,7 @@ namespace Machine.UI
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     excelService.Export(dataGridView1, sfd.FileName);
-
-                    MessageBox.Show("✅ Export thành công!");
+                    richTextBox2.AppendText("✅ Export thành công!");
                 }
             }
         }
@@ -510,6 +557,21 @@ namespace Machine.UI
         private void button15_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+             total = 0;
+             ok = 0;
+             ng = 0;
+             none = 0;
+            txtOK.Text = "0%";
+            txtNG.Text = "0%";
+            textBox6.Text = "0";
+            textBox1.Text = "0%";
+            textBox2.Text = "0%";
+            textBox3.Text = "0%";
+            textBox4.Text = "0%";
         }
     }
 }

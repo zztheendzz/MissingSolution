@@ -35,6 +35,17 @@ namespace Machine.UI.model
             this.row = row;
             Index = row * col + col;
         }
+
+        public Model1(int col, int row, string name,string programVision)
+        {
+            this.Name = name;
+            this.col = col;
+            this.row = row;
+            this.programVision = programVision;
+            Index = row * col + col;
+        }
+
+
         public TrayModel ToTrayModel()
         {
             var tray = new TrayModel

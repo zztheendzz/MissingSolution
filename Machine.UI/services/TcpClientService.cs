@@ -13,6 +13,7 @@ namespace Machine.UI.services
 {
     public class TcpClientService
     {
+        
         public Action<int, int, string> OnData;
         public Action<List<string>> OnBatchData;
         private int currentBatch = 0;
