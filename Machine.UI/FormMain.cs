@@ -10,10 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VM.Core;
+using System.Text.Json;
+
 namespace Machine.UI
 {
     public partial class FormMain : Form
     {
+
+
+
         ExportExcelService excelService = new ExportExcelService();
         CameraService cam = new CameraService();
         bool isRunning = false;
@@ -38,15 +43,15 @@ namespace Machine.UI
         int none = 0;
         string pathModel1 = "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw";
         string conn = @"Server=(localdb)\MSSQLLocalDB;Database=VisionResult;Trusted_Connection=True;";
-        Model1[] trays = new Model1[]
-        {
-            new Model1(11,10,"traycode1","D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"),
-            new Model1(6,8,"traycode2"),
-            new Model1(12,10, "traycode3"),
-            new Model1(18,10, "traycode4"),
+        //Model1[] trays = new Model1[]
+        //{
+        //    new Model1(11,10,"traycode1","D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"),
+        //    new Model1(6,8,"traycode2"),
+        //    new Model1(12,10, "traycode3"),
+        //    new Model1(18,10, "traycode4"),
 
-        };
-
+        //};
+        List<Model1> trays;
         public FormMain()
         {
             InitializeComponent();
@@ -54,10 +59,18 @@ namespace Machine.UI
             this.WindowState = FormWindowState.Normal;
             //visionDb = new VisionDataService(conn);
             //trayRunService = new TrayRunService(conn);
+
+
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
+            string path = Path.Combine(Application.StartupPath, "configDB", "models.json");
+
+            string json = File.ReadAllText(path);
+
+            trays = JsonSerializer.Deserialize<List<Model1>>(json);
+
             robot.OnIndexReceived = (index) =>
             {
                 this.Invoke(new Action(() =>
@@ -172,7 +185,7 @@ namespace Machine.UI
         {
             var proc = sender as VmProcedure;
             string nameFlow="a";
-            VmSolution.Load(trays[0].programVision);
+            VmSolution.Load(trays[0].ProgramVision);
             VmProcedure pro1 = VmSolution.Instance["OutImage"] as VmProcedure;
            var imgResult = proc.ModuResult.GetOutputImageV2(nameFlow);
         }
@@ -194,7 +207,7 @@ namespace Machine.UI
         {
             comboBox1.Items.Clear();
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            for (int i = 0; i < trays.Length; i++)
+            for (int i = 0; i < trays.Count; i++)
             {
                 comboBox1.Items.Add($"Tray {trays[i].Name}");
             }
@@ -215,51 +228,149 @@ namespace Machine.UI
         }
 
         // ================== LOAD TRAY ==================
+
         private void LoadTray(int index)
         {
-            if (index < 0 || index >= trays.Length) return;
+
+            if (index < 0 || index >= trays.Count) return;
 
             var model = trays[index];
 
-            if (!File.Exists(model.programVision))
+            // 🔥 1. BUILD GRID (thiếu đoạn này nên không chia ô)
+            int rows = model.Row;
+            int cols = model.Col;
+
+            DataTable table = new DataTable();
+
+            for (int j = 0; j < cols; j++)
+                table.Columns.Add("C" + (j + 1));
+
+            for (int i = 0; i < rows; i++)
             {
-                MessageBox.Show("File không tồn tại");
+                var r = table.NewRow();
+                for (int j = 0; j < cols; j++)
+                    r[j] = "";
+                table.Rows.Add(r);
+            }
+
+            dataGridView1.DataSource = table;
+            SetupGridStyle();
+
+            // 🔥 2. LOAD VISION (code cũ của bạn giữ nguyên)
+            if (!File.Exists(model.ProgramVision))
+            {
+                richTextBox2.AppendText("❌ File không tồn tại\n");
                 return;
             }
 
             try
             {
-                // 🔥 set working dir
-                string dir = Path.GetDirectoryName(model.programVision);
+                if (!File.Exists(model.ProgramVision))
+                {
+                    richTextBox2.AppendText("❌ File không tồn tại\n");
+                    return;
+                }
+
+                string dir = Path.GetDirectoryName(model.ProgramVision);
                 Directory.SetCurrentDirectory(dir);
 
-                // 🔥 clear instance cũ
                 if (VmSolution.Instance != null)
                 {
                     VmSolution.Instance.Dispose();
                 }
 
-                // 🔥 load
-                VmSolution.Load(model.programVision);
+                VmSolution.Load(model.ProgramVision);
 
-                // 🔥 lấy flow
+                // 🔥 CHECK 1: instance
+                if (VmSolution.Instance == null)
+                {
+                    richTextBox2.AppendText("❌ Load fail (Instance null)\n");
+                    return;
+                }
+
+                // 🔥 CHECK 2: list flow
                 var pro1 = VmSolution.Instance["Flow1"] as VmProcedure;
 
                 if (pro1 == null)
                 {
-                    MessageBox.Show("Không tìm thấy Flow1");
+                    richTextBox2.AppendText("❌ Không tìm thấy Flow1\n");
                     return;
                 }
 
-                // 🔥 callback
+                richTextBox2.AppendText($"✅ Flow: {pro1.Name}\n");
+
                 pro1.OnWorkEndStatusCallBack -= OnVisionDone;
                 pro1.OnWorkEndStatusCallBack += OnVisionDone;
+
+                richTextBox2.AppendText($"✅ Load OK: {model.Name}\n");
+
+                //var pro1 = VmSolution.Instance["Flow1"] as VmProcedure;
+
+                // 🔥 CHECK 3: flow
+                if (pro1 == null)
+                {
+                    richTextBox2.AppendText("❌ Không tìm thấy Flow1\n");
+                    return;
+                }
+
+                pro1.OnWorkEndStatusCallBack -= OnVisionDone;
+                pro1.OnWorkEndStatusCallBack += OnVisionDone;
+
+                // ✅ SUCCESS
+                richTextBox2.AppendText($"✅ Load OK: {model.Name}\n");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                richTextBox2.AppendText("❌ Exception: " + ex.Message + "\n");
             }
         }
+
+
+        //private void LoadTray(int index)
+        //{
+        //    if (index < 0 || index >= trays.Count) return;
+
+        //    var model = trays[index];
+
+        //    if (!File.Exists(model.ProgramVision))
+        //    {
+        //        //MessageBox.Show("File không tồn tại");
+        //        return;
+        //    }
+
+        //    try
+        //    {
+        //        // 🔥 set working dir
+        //        string dir = Path.GetDirectoryName(model.ProgramVision);
+        //        Directory.SetCurrentDirectory(dir);
+
+        //        // 🔥 clear instance cũ
+        //        if (VmSolution.Instance != null)
+        //        {
+        //            VmSolution.Instance.Dispose();
+        //        }
+
+        //        // 🔥 load
+        //        VmSolution.Load(model.ProgramVision);
+
+        //        // 🔥 lấy flow
+        //        var pro1 = VmSolution.Instance["Flow1"] as VmProcedure;
+
+        //        if (pro1 == null)
+        //        {
+        //            MessageBox.Show("Không tìm thấy Flow1");
+        //            return;
+        //        }
+
+        //        // 🔥 callback
+        //        pro1.OnWorkEndStatusCallBack -= OnVisionDone;
+        //        pro1.OnWorkEndStatusCallBack += OnVisionDone;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //}
 
         // ================== STYLE ==================
         private void SetupGridStyle()

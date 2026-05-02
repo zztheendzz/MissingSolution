@@ -1,0 +1,26 @@
+[
+    {
+        "Name": "traycode1",
+        "Row": 11,
+        "Col": 10,
+        "programVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"
+    },
+    {
+        "Name": "traycode2",
+        "Row": 6,
+        "Col": 8,
+        "programVision": "traycode2"
+    },
+    {
+        "Name": "traycode3",
+        "Row": 12,
+        "Col": 10,
+        "programVision": "traycode3"
+    },
+    {
+        "Name": "traycode4",
+        "Row": 18,
+        "Col": 10,
+        "programVision": "traycode4"
+    }
+]

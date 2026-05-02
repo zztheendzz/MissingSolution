@@ -8,40 +8,41 @@ namespace Machine.UI.model
 {
     public class Model1
     {
-        public int col { get; set; }
-        public int row { get; set; } 
-        public string programVision {  get; set; }
-        public int result { get; set; }
+        public int Col { get; set; }
+        public int Row { get; set; }
+        public string ProgramVision { get; set; }
+        public int Result { get; set; }
         public int Index { get; set; }
         public string Name { get; set; }
+        public Model1() { }
         public Model1(int col, int row, string programVision, int result)
         {
-            this.col = col;
-            this.row = row;
-            this.programVision = programVision;
-            this.result = result;
+            this.Col = col;
+            this.Row = row;
+            this.ProgramVision = programVision;
+            this.Result = result;
         }
         public Model1(int col, int row)
         {
 
-            this.col = col;
-            this.row = row;
+            this.Col = col;
+            this.Row   = row;
             Index = row * col + col;
         }
         public Model1(int col, int row,string name)
         {
             this.Name = name;
-            this.col = col;
-            this.row = row;
+            this.Col = col;
+            this.Row = row;
             Index = row * col + col;
         }
 
         public Model1(int col, int row, string name,string programVision)
         {
             this.Name = name;
-            this.col = col;
-            this.row = row;
-            this.programVision = programVision;
+            this.Col = col;
+            this.Row = row;
+            this.ProgramVision = programVision;
             Index = row * col + col;
         }
 
@@ -50,13 +51,13 @@ namespace Machine.UI.model
         {
             var tray = new TrayModel
             {   Name=Name,
-                Rows = row,
-                Cols = col
+                Rows = Row,
+                Cols = Col
             };
 
-            for (int r = 0; r < row; r++)
+            for (int r = 0; r < Row; r++)
             {
-                for (int c = 0; c < col; c++)
+                for (int c = 0; c < Col; c++)
                 {
                     tray.Cells.Add(new Cell
                     {
