@@ -10,7 +10,7 @@ namespace Machine.UI.model
     {
         public int Col { get; set; }
         public int Row { get; set; }
-        public string ProgramVision { get; set; }
+        public string ProgramVision { get; set; } 
         public int Result { get; set; }
         public int Index { get; set; }
         public string Name { get; set; }

@@ -58,7 +58,6 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.pnControl = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flPnDevice = new System.Windows.Forms.FlowLayoutPanel();
@@ -72,17 +71,18 @@
             this.button5 = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button6 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.vmRenderControl1 = new VMControls.Winform.Release.VmRenderControl();
             this.pnInfor.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -92,11 +92,10 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.flPnDevice.SuspendLayout();
             this.flPnImage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnInfor
@@ -301,7 +300,6 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Clear Data";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -429,8 +427,8 @@
             this.tableLayoutPanel2.RowCount = 6;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 305F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 275F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 313F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 67F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(416, 947);
@@ -438,9 +436,9 @@
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(3, 687);
+            this.richTextBox2.Location = new System.Drawing.Point(3, 517);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(410, 137);
+            this.richTextBox2.Size = new System.Drawing.Size(410, 307);
             this.richTextBox2.TabIndex = 16;
             this.richTextBox2.Text = "";
             // 
@@ -448,7 +446,7 @@
             // 
             this.richTextBox3.Location = new System.Drawing.Point(3, 412);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(410, 269);
+            this.richTextBox3.Size = new System.Drawing.Size(410, 72);
             this.richTextBox3.TabIndex = 15;
             this.richTextBox3.Text = "";
             this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
@@ -457,20 +455,10 @@
             // 
             this.richTextBox1.Location = new System.Drawing.Point(3, 830);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(410, 60);
+            this.richTextBox1.Size = new System.Drawing.Size(410, 61);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(3, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(357, 33);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "camera";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // pnControl
             // 
@@ -668,76 +656,48 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // dataGridView1
+            // flowLayoutPanel2
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 210);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1263, 543);
-            this.dataGridView1.TabIndex = 8;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.flowLayoutPanel2.Controls.Add(this.button6);
+            this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel4);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 771);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(1233, 132);
+            this.flowLayoutPanel2.TabIndex = 21;
             // 
-            // tableLayoutPanel3
+            // button6
             // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.pictureBox1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel2, 0, 2);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(206, 86);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 561F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1275, 911);
-            this.tableLayoutPanel3.TabIndex = 9;
+            this.button6.Location = new System.Drawing.Point(3, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(357, 33);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "camera";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // button7
+            // tableLayoutPanel4
             // 
-            this.button7.Location = new System.Drawing.Point(3, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(210, 52);
-            this.button7.TabIndex = 12;
-            this.button7.Text = "test send modbus";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(242, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(243, 52);
-            this.button8.TabIndex = 13;
-            this.button8.Text = "Connect Robot";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(242, 61);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(243, 58);
-            this.button9.TabIndex = 14;
-            this.button9.Text = "Disconnect Robot";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(535, 3);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(241, 52);
-            this.button10.TabIndex = 16;
-            this.button10.Text = "Connect Vision";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.98978F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.01022F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            this.tableLayoutPanel4.Controls.Add(this.button11, 2, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button12, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button9, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button7, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button10, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button8, 1, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(366, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(829, 122);
+            this.tableLayoutPanel4.TabIndex = 19;
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(535, 61);
+            this.button11.Location = new System.Drawing.Point(534, 61);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(241, 58);
             this.button11.TabIndex = 17;
@@ -755,42 +715,84 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // tableLayoutPanel4
+            // button9
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.98978F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.01022F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 296F));
-            this.tableLayoutPanel4.Controls.Add(this.button11, 2, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button12, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button9, 1, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button7, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button10, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button8, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(366, 3);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(829, 122);
-            this.tableLayoutPanel4.TabIndex = 19;
+            this.button9.Location = new System.Drawing.Point(242, 61);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(243, 58);
+            this.button9.TabIndex = 14;
+            this.button9.Text = "Disconnect Robot";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // pictureBox1
+            // button7
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1269, 185);
-            this.pictureBox1.TabIndex = 20;
-            this.pictureBox1.TabStop = false;
+            this.button7.Location = new System.Drawing.Point(3, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(210, 52);
+            this.button7.TabIndex = 12;
+            this.button7.Text = "test send modbus";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
-            // flowLayoutPanel2
+            // button10
             // 
-            this.flowLayoutPanel2.Controls.Add(this.button6);
-            this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel4);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 771);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(1233, 132);
-            this.flowLayoutPanel2.TabIndex = 21;
+            this.button10.Location = new System.Drawing.Point(534, 3);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(241, 52);
+            this.button10.TabIndex = 16;
+            this.button10.Text = "Connect Vision";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(242, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(243, 52);
+            this.button8.TabIndex = 13;
+            this.button8.Text = "Connect Robot";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel2, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.vmRenderControl1, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(200, 86);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 561F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1275, 911);
+            this.tableLayoutPanel3.TabIndex = 9;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 210);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(1263, 543);
+            this.dataGridView1.TabIndex = 8;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // vmRenderControl1
+            // 
+            this.vmRenderControl1.BackColor = System.Drawing.Color.Black;
+            this.vmRenderControl1.CoordinateInfoVisible = true;
+            this.vmRenderControl1.ImageSource = null;
+            this.vmRenderControl1.Location = new System.Drawing.Point(6, 6);
+            this.vmRenderControl1.Margin = new System.Windows.Forms.Padding(6);
+            this.vmRenderControl1.ModuleSource = null;
+            this.vmRenderControl1.Name = "vmRenderControl1";
+            this.vmRenderControl1.Size = new System.Drawing.Size(1263, 195);
+            this.vmRenderControl1.TabIndex = 22;
             // 
             // FormMain
             // 
@@ -819,11 +821,10 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flPnDevice.ResumeLayout(false);
             this.flPnImage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -864,26 +865,26 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
         private System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private VMControls.Winform.Release.VmRenderControl vmRenderControl1;
     }
 }
 
