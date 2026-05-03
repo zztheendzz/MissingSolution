@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Wordprocessing;
 using FrontendUI.Design.Controls;
 using Machine.UI.model;
 using Machine.UI.services;
@@ -7,10 +8,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using VM.Core;
 
 namespace Machine.UI
@@ -29,8 +32,11 @@ namespace Machine.UI
         TrayModel currentTray;
         TrayProcessor processor;
         ushort registerData = 5;
-        //VisionDataService visionDb;
-        //TrayRunService trayRunService;
+
+        VisionDataService visionDb;
+        TrayRunService trayRunService;
+        int _previousIndex = -1;
+        bool _isInitializing = true;
 
         int portVision = 8001;
         int portRobot = 502;
@@ -39,15 +45,8 @@ namespace Machine.UI
         int ok = 0;
         int ng = 0;
         int none = 0;
-        string conn = @"Server=(localdb)\MSSQLLocalDB;Database=VisionResult;Trusted_Connection=True;";
-        //Model1[] trays = new Model1[]
-        //{
-        //    new Model1(11,10,"traycode1"),
-        //    new Model1(6,8,"traycode2"),
-        //    new Model1(12,10, "traycode3"),
-        //    new Model1(18,10, "traycode4"),
 
-        //};
+
         List<Model1> trays;
 
         public FormMain()
@@ -56,8 +55,10 @@ namespace Machine.UI
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Normal;
 
-            //visionDb = new VisionDataService(conn);
-            //trayRunService = new TrayRunService(conn);
+            string conn = configDB.configDB.ConnectionString;
+
+            visionDb = new VisionDataService(conn);
+            trayRunService = new TrayRunService(conn);
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -119,7 +120,7 @@ namespace Machine.UI
                 {
                     richTextBox2.AppendText("✅ Tray DONE\n");
 
-                    //trayRunService.UpdateEndTime(currentTrayId);
+                    trayRunService.UpdateEndTime(currentTrayId);
                     // 🔥 reset UI
                     ClearTray();
 
@@ -131,6 +132,10 @@ namespace Machine.UI
             InitComboBox();
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             LoadTray(0);
+            _previousIndex = 0;
+            comboBox1.SelectedIndex = 0;
+
+            _isInitializing = false;
         }
 
         public void InsertData(List<Cell> cells)
@@ -173,7 +178,7 @@ namespace Machine.UI
 
             if (list.Count > 0)
             {
-                // visionDb.InsertBatch(list);
+                 visionDb.InsertBatch(list);
             }
         }
         void UpdateUI()
@@ -197,11 +202,34 @@ namespace Machine.UI
                 comboBox1.Items.Add($"Tray {trays[i].Name}");
             }
 
-            comboBox1.SelectedIndex = -1;
+            comboBox1.SelectedIndex = 1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBox1.SelectedIndex < 0) return;
+            if (_isInitializing) return; // 🔥 chặn lần đầu
+            string trayName = trays[comboBox1.SelectedIndex].Name;
+
+            var result = MessageBox.Show(
+                $"Bạn có chắc chắn đổi sang tray {trayName} không?",
+                "Xác nhận đổi tray",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.No)
+            {
+                // 🔥 rollback về giá trị cũ
+                comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
+                comboBox1.SelectedIndex = _previousIndex;
+                comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+                return;
+            }
+
+            // ✅ user đồng ý → update index cũ
+            _previousIndex = comboBox1.SelectedIndex;
+
             // 🔥 reset processor
             processor?.Reset();
 
@@ -223,7 +251,7 @@ namespace Machine.UI
 
             processor = new TrayProcessor(currentTray);
             processor.Reset();
-            //StartTray();
+            StartTray();
             int rows = model.Row;
             int cols = model.Col;
 
@@ -257,37 +285,15 @@ namespace Machine.UI
 
                 string dir = Path.GetDirectoryName(model.ProgramVision);
                 Directory.SetCurrentDirectory(dir);
-
-                //if (VmSolution.Instance != null)
-                //{
-                //    VmSolution.Instance.Dispose();
-
-                //    richTextBox2.AppendText("❌ VmSolution.Instance \t" );
-                //}
-
-                //try {
-                //    VmSolution.Load(model.ProgramVision,"",false);
-
-                //} catch (Exception e){
-                //    richTextBox2.AppendText("❌ Load fail \t"+ e.ToString() );
-
-                //}
-
                 try
                 {
                     if (VmSolution.Instance != null)
                     {
-                        VmSolution.Instance.Dispose();
+                      //  VmSolution.Instance.Dispose();
                     }
 
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-
                     System.Threading.Thread.Sleep(200);
-
                     VmSolution.Load(model.ProgramVision, "", false);
-
-
                     richTextBox2.AppendText("Load OK\n");
                 }
                 catch (Exception e)
@@ -309,10 +315,12 @@ namespace Machine.UI
                     return;
                 }
 
+                vmRenderControl1.ModuleSource = flow;
+
                 flow.OnWorkEndStatusCallBack -= OnVisionDone;
                 flow.OnWorkEndStatusCallBack += OnVisionDone;
-                vmRenderControl1.ModuleSource = flow;
-                flow.Run();
+            //    flow.Run();
+
                 richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
             }
             catch (Exception ex)
@@ -323,18 +331,39 @@ namespace Machine.UI
         private void OnVisionDone(object sender, EventArgs e)
         {
             var proc = sender as VmProcedure;
-            if (proc?.ModuResult == null) return;
 
-            // 🔥 LẤY ẢNH FINAL
-            var img = proc.ModuResult.GetOutputImageV2("Out Image");
-
-            if (img != null)
+            this.Invoke(new Action(() =>
             {
-                Bitmap bmp = img.ToBitmap();
+                richTextBox2.AppendText("🔥 CALLBACK\n");
+            }));
+            this.Invoke(new Action(() =>
+            {
+                richTextBox2.AppendText($"ModuResult = {(proc.ModuResult == null ? "NULL" : "OK")}\n");
+            }));
+            if (proc?.ModuResult == null)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    richTextBox2.AppendText("❌ ModuResult NULL\n");
+                }));
+                return;
+            }
+
+            // 🔥 lấy list output
+            var outputs = proc.ModuResult.GetAllOutputNameInfo();
+
+            this.Invoke(new Action(() =>
+            {
+                richTextBox2.AppendText($"Output count = {outputs?.Count}\n");
+            }));
+            foreach (var item in outputs)
+            {
+                string name = item.Name;
+                string type = item.TypeName.ToString();
 
                 this.Invoke(new Action(() =>
                 {
-                   // pictureBox1.Image = bmp;
+                    richTextBox2.AppendText($"Name: {name} | Type: {type}\n");
                 }));
             }
         }
@@ -414,15 +443,21 @@ namespace Machine.UI
         }
         void StartTray()
         {
+            if (comboBox1.SelectedIndex < 0)
+            {
+              //  MessageBox.Show("Chưa chọn tray!");
+                return;
+            }
+
             var model = trays[comboBox1.SelectedIndex];
 
-            //currentTrayId = trayRunService.Create(new TrayRun
-            //{
-            //    TrayName = model.Name,
-            //    Row = model.row,
-            //    Col = model.col,
-            //    StartTime = DateTime.Now
-            //});
+            currentTrayId = trayRunService.Create(new TrayRun
+            {
+                TrayName = model.Name,
+                Row = model.Row,
+                Col = model.Col,
+                StartTime = DateTime.Now
+            });
         }
         // ================== COLOR ==================
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -433,35 +468,17 @@ namespace Machine.UI
 
             if (val.Contains("OK"))
             {
-                e.CellStyle.BackColor = Color.LimeGreen;
+                e.CellStyle.BackColor = System.Drawing.Color.LimeGreen;
             }
             else if (val.Contains("NG"))
             {
-                e.CellStyle.BackColor = Color.Red;
-                e.CellStyle.ForeColor = Color.White;
+                e.CellStyle.BackColor = System.Drawing.Color.Red;
+                e.CellStyle.ForeColor = System.Drawing.Color.White;
             }
             else
             {
-                e.CellStyle.BackColor = Color.LightGray;
+                e.CellStyle.BackColor = System.Drawing.Color.LightGray;
             }
-        }
-
-        // ================== CAMERA ==================
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            //if (!isRunning)
-            //{
-            //    if (cam.InitCamera())
-            //    {
-            //        cam.Start(pictureBox1);
-            //        isRunning = true;
-            //    }
-            //}
-            //else
-            //{
-            //    cam.Stop();
-            //    isRunning = false;
-            //}
         }
 
         // ================== UI EVENTS (GIỮ NGUYÊN) ==================
@@ -489,19 +506,6 @@ namespace Machine.UI
                 flPnImage.Height = 70;
         }
 
-        private void tHiden_Tick(object sender, EventArgs e) { }
-
-        private void btnReset_Click(object sender, EventArgs e) { }
-
-        private void btnData_Click(object sender, EventArgs e) { }
-
-        private void ImageDisplayInit() { }
-
-        private void groupBox3_Enter(object sender, EventArgs e) { }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-
-        private async void btnMenu_Click(object sender, EventArgs e) { }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -519,17 +523,7 @@ namespace Machine.UI
             lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
-        private void pnResult_Paint(object sender, PaintEventArgs e) { }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void button7_Click(object sender, EventArgs e)
         {
@@ -547,7 +541,7 @@ namespace Machine.UI
 
             if (!await ok)
             {
-                MessageBox.Show("Không kết nối được Modbus");
+                richTextBox2.AppendText("Không kết nối được Modbus");
             }
 
         }
@@ -603,8 +597,10 @@ namespace Machine.UI
                 }
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            //Clear data
             total = 0;
             ok = 0;
             ng = 0;
@@ -618,7 +614,18 @@ namespace Machine.UI
             textBox4.Text = "0%";
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var flow = VmSolution.Instance["Flow1"] as VmProcedure;
+            try { 
+                flow?.Run();
+                    }
+            catch(Exception ex)
+            {
+                richTextBox2.AppendText("ERR run vision " + ex.ToString() +"\n");
+            }
 
+        }
         private void txtOK_TextChanged(object sender, EventArgs e)
         {
 
@@ -630,6 +637,35 @@ namespace Machine.UI
         }
 
         private void button15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void vmRenderControl1_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void tHiden_Tick(object sender, EventArgs e) { }
+
+        private void btnReset_Click(object sender, EventArgs e) { }
+
+        private void btnData_Click(object sender, EventArgs e) { }
+
+        private void ImageDisplayInit() { }
+
+        private void groupBox3_Enter(object sender, EventArgs e) { }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private async void btnMenu_Click(object sender, EventArgs e) { }
+        private void pnResult_Paint(object sender, PaintEventArgs e) { }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

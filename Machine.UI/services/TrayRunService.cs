@@ -1,11 +1,6 @@
 ﻿using Machine.UI.model;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace Machine.UI.services
 {
@@ -18,41 +13,43 @@ namespace Machine.UI.services
             connectionString = conn;
         }
 
+        // ✅ Create + lấy Id (SQLite 
         public int Create(TrayRun tray)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
 
-                var cmd = new SqlCommand(@"
-                INSERT INTO TrayRun (TrayName, Row, Col, StartTime)
-                OUTPUT INSERTED.Id
-                VALUES (@TrayName, @Row, @Col, @StartTime)
-            ", conn);
+                var cmd = new SQLiteCommand(@"
+                    INSERT INTO TrayRun (TrayName, Row, Col, StartTime)
+                    VALUES (@TrayName, @Row, @Col, @StartTime);
+                    SELECT last_insert_rowid();
+                ", conn);
 
-                cmd.Parameters.Add("@TrayName", SqlDbType.VarChar).Value = tray.TrayName;
-                cmd.Parameters.Add("@Row", SqlDbType.Int).Value = tray.Row;
-                cmd.Parameters.Add("@Col", SqlDbType.Int).Value = tray.Col;
-                cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = tray.StartTime;
+                cmd.Parameters.AddWithValue("@TrayName", tray.TrayName);
+                cmd.Parameters.AddWithValue("@Row", tray.Row);
+                cmd.Parameters.AddWithValue("@Col", tray.Col);
+                cmd.Parameters.AddWithValue("@StartTime", tray.StartTime);
 
-                return (int)cmd.ExecuteScalar();
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
+        // ✅ Update EndTime
         public void UpdateEndTime(int trayId)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
 
-                var cmd = new SqlCommand(@"
-                UPDATE TrayRun
-                SET EndTime = @EndTime
-                WHERE Id = @Id
-            ", conn);
+                var cmd = new SQLiteCommand(@"
+                    UPDATE TrayRun
+                    SET EndTime = @EndTime
+                    WHERE Id = @Id
+                ", conn);
 
-                cmd.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = DateTime.Now;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = trayId;
+                cmd.Parameters.AddWithValue("@EndTime", DateTime.Now);
+                cmd.Parameters.AddWithValue("@Id", trayId);
 
                 cmd.ExecuteNonQuery();
             }

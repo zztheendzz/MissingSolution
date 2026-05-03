@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pnInfor = new System.Windows.Forms.Panel();
             this.lblTime = new System.Windows.Forms.Label();
             this.lblDay = new System.Windows.Forms.Label();
@@ -51,8 +50,6 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtNG = new System.Windows.Forms.TextBox();
-            this.tHiden = new System.Windows.Forms.Timer(this.components);
-            this.tUpdate = new System.Windows.Forms.Timer(this.components);
             this.pnResult = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
@@ -70,7 +67,6 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.button6 = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -83,6 +79,7 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.vmRenderControl1 = new VMControls.Winform.Release.VmRenderControl();
+            this.button2 = new System.Windows.Forms.Button();
             this.pnInfor.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,7 +106,7 @@
             this.pnInfor.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnInfor.Location = new System.Drawing.Point(0, 0);
             this.pnInfor.Name = "pnInfor";
-            this.pnInfor.Size = new System.Drawing.Size(1900, 80);
+            this.pnInfor.Size = new System.Drawing.Size(2148, 80);
             this.pnInfor.TabIndex = 0;
             // 
             // lblTime
@@ -390,24 +387,12 @@
             this.txtNG.Text = "0";
             this.txtNG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tHiden
-            // 
-            this.tHiden.Enabled = true;
-            this.tHiden.Interval = 5000;
-            this.tHiden.Tick += new System.EventHandler(this.tHiden_Tick);
-            // 
-            // tUpdate
-            // 
-            this.tUpdate.Enabled = true;
-            this.tUpdate.Interval = 1000;
-            this.tUpdate.Tick += new System.EventHandler(this.tUpdate_Tick);
-            // 
             // pnResult
             // 
             this.pnResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.pnResult.Controls.Add(this.tableLayoutPanel2);
             this.pnResult.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnResult.Location = new System.Drawing.Point(1481, 80);
+            this.pnResult.Location = new System.Drawing.Point(1729, 80);
             this.pnResult.Name = "pnResult";
             this.pnResult.Size = new System.Drawing.Size(419, 920);
             this.pnResult.TabIndex = 5;
@@ -658,18 +643,17 @@
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.button6);
             this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel4);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 771);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(1233, 132);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(1199, 132);
             this.flowLayoutPanel2.TabIndex = 21;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(3, 3);
+            this.button6.Location = new System.Drawing.Point(768, 3);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(357, 33);
+            this.button6.Size = new System.Drawing.Size(306, 33);
             this.button6.TabIndex = 8;
             this.button6.Text = "camera";
             this.button6.UseVisualStyleBackColor = true;
@@ -677,27 +661,30 @@
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.98978F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.01022F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            this.tableLayoutPanel4.ColumnCount = 4;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.42857F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.57143F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 261F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 312F));
             this.tableLayoutPanel4.Controls.Add(this.button11, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.button12, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.button9, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.button7, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button10, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.button8, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(366, 3);
+            this.tableLayoutPanel4.Controls.Add(this.button2, 3, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button6, 3, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(829, 122);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1077, 122);
             this.tableLayoutPanel4.TabIndex = 19;
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(534, 61);
+            this.button11.Location = new System.Drawing.Point(507, 61);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(241, 58);
             this.button11.TabIndex = 17;
@@ -717,7 +704,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(242, 61);
+            this.button9.Location = new System.Drawing.Point(237, 61);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(243, 58);
             this.button9.TabIndex = 14;
@@ -737,7 +724,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(534, 3);
+            this.button10.Location = new System.Drawing.Point(507, 3);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(241, 52);
             this.button10.TabIndex = 16;
@@ -747,7 +734,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(242, 3);
+            this.button8.Location = new System.Drawing.Point(237, 3);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(243, 52);
             this.button8.TabIndex = 13;
@@ -768,7 +755,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 561F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1275, 911);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1523, 911);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // dataGridView1
@@ -778,7 +765,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1263, 543);
+            this.dataGridView1.Size = new System.Drawing.Size(1517, 543);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -788,17 +775,28 @@
             this.vmRenderControl1.CoordinateInfoVisible = true;
             this.vmRenderControl1.ImageSource = null;
             this.vmRenderControl1.Location = new System.Drawing.Point(6, 6);
-            this.vmRenderControl1.Margin = new System.Windows.Forms.Padding(6);
+            this.vmRenderControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.vmRenderControl1.ModuleSource = null;
             this.vmRenderControl1.Name = "vmRenderControl1";
-            this.vmRenderControl1.Size = new System.Drawing.Size(1263, 195);
+            this.vmRenderControl1.Size = new System.Drawing.Size(1511, 195);
             this.vmRenderControl1.TabIndex = 22;
+            this.vmRenderControl1.Load += new System.EventHandler(this.vmRenderControl1_Load);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(768, 61);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(306, 33);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Run Vision";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1900, 1000);
+            this.ClientSize = new System.Drawing.Size(2148, 1000);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.pnResult);
             this.Controls.Add(this.pnControl);
@@ -850,12 +848,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Timer tHiden;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lblDay;
         private System.Windows.Forms.Label lblHour;
         private System.Windows.Forms.Label lblTime;
-        private System.Windows.Forms.Timer tUpdate;
         private System.Windows.Forms.Panel pnResult;
         private System.Windows.Forms.Panel pnControl;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -864,7 +860,6 @@
         private System.Windows.Forms.FlowLayoutPanel flPnImage;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox richTextBox3;
@@ -885,6 +880,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dataGridView1;
         private VMControls.Winform.Release.VmRenderControl vmRenderControl1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

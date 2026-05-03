@@ -1,17 +1,14 @@
 ﻿using Machine.UI.model;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace Machine.UI.services
 {
     public class VisionDataService
     {
         private readonly string connectionString;
-        string conn = @"Server=(localdb)\MSSQLLocalDB;Database=VisionResult;Trusted_Connection=True;";
+
         public VisionDataService(string conn)
         {
             connectionString = conn;
@@ -20,42 +17,44 @@ namespace Machine.UI.services
         // ✅ Insert 1 record
         public void Insert(VisionData data)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
 
-                var cmd = new SqlCommand(@"
-                INSERT INTO VisionData (TrayId, Row, Col, Result)
-                VALUES (@TrayId, @Row, @Col, @Result)
-            ", conn);
+                var cmd = new SQLiteCommand(@"
+                    INSERT INTO VisionData (TrayId, Row, Col, Result, CreatedAt)
+                    VALUES (@TrayId, @Row, @Col, @Result, @CreatedAt)
+                ", conn);
 
                 cmd.Parameters.AddWithValue("@TrayId", data.TrayId);
                 cmd.Parameters.AddWithValue("@Row", data.Row);
                 cmd.Parameters.AddWithValue("@Col", data.Col);
                 cmd.Parameters.AddWithValue("@Result", data.Result);
+                cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
             }
         }
 
-        // ✅ Insert batch (rất quan trọng cho vision)
+        // ✅ Insert batch (rất quan trọng)
         public void InsertBatch(List<VisionData> list)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
 
                 using (var tran = conn.BeginTransaction())
                 {
-                    var cmd = new SqlCommand(@"
-                INSERT INTO VisionData (TrayId, Row, Col, Result)
-                VALUES (@TrayId, @Row, @Col, @Result)
-            ", conn, tran);
+                    var cmd = new SQLiteCommand(@"
+                        INSERT INTO VisionData (TrayId, Row, Col, Result, CreatedAt)
+                        VALUES (@TrayId, @Row, @Col, @Result, @CreatedAt)
+                    ", conn, tran);
 
-                    cmd.Parameters.Add("@TrayId", System.Data.SqlDbType.Int);
-                    cmd.Parameters.Add("@Row", System.Data.SqlDbType.Int);
-                    cmd.Parameters.Add("@Col", System.Data.SqlDbType.Int);
-                    cmd.Parameters.Add("@Result", System.Data.SqlDbType.Int);
+                    cmd.Parameters.Add("@TrayId", System.Data.DbType.Int32);
+                    cmd.Parameters.Add("@Row", System.Data.DbType.Int32);
+                    cmd.Parameters.Add("@Col", System.Data.DbType.Int32);
+                    cmd.Parameters.Add("@Result", System.Data.DbType.Int32);
+                    cmd.Parameters.Add("@CreatedAt", System.Data.DbType.DateTime);
 
                     foreach (var data in list)
                     {
@@ -63,6 +62,7 @@ namespace Machine.UI.services
                         cmd.Parameters["@Row"].Value = data.Row;
                         cmd.Parameters["@Col"].Value = data.Col;
                         cmd.Parameters["@Result"].Value = data.Result;
+                        cmd.Parameters["@CreatedAt"].Value = DateTime.Now;
 
                         cmd.ExecuteNonQuery();
                     }
@@ -77,13 +77,13 @@ namespace Machine.UI.services
         {
             var result = new List<VisionData>();
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
 
-                var cmd = new SqlCommand(@"
-                SELECT * FROM VisionData WHERE TrayId = @TrayId
-            ", conn);
+                var cmd = new SQLiteCommand(@"
+                    SELECT * FROM VisionData WHERE TrayId = @TrayId
+                ", conn);
 
                 cmd.Parameters.AddWithValue("@TrayId", trayId);
 
@@ -93,12 +93,12 @@ namespace Machine.UI.services
                     {
                         result.Add(new VisionData
                         {
-                            Id = (int)reader["Id"],
-                            TrayId = (int)reader["TrayId"],
-                            Row = (int)reader["Row"],
-                            Col = (int)reader["Col"],
-                            Result =(int) reader["Result"],
-                            CreatedAt = (DateTime)reader["CreatedAt"]
+                            Id = Convert.ToInt32(reader["Id"]),
+                            TrayId = Convert.ToInt32(reader["TrayId"]),
+                            Row = Convert.ToInt32(reader["Row"]),
+                            Col = Convert.ToInt32(reader["Col"]),
+                            Result = Convert.ToInt32(reader["Result"]),
+                            CreatedAt = Convert.ToDateTime(reader["CreatedAt"])
                         });
                     }
                 }
@@ -106,8 +106,5 @@ namespace Machine.UI.services
 
             return result;
         }
-
-
-
     }
 }
