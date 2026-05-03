@@ -119,7 +119,6 @@ namespace Machine.UI
                 this.Invoke(new Action(() =>
                 {
                     richTextBox2.AppendText("✅ Tray DONE\n");
-
                     trayRunService.UpdateEndTime(currentTrayId);
                     // 🔥 reset UI
                     ClearTray();
