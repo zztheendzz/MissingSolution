@@ -30,7 +30,7 @@ namespace Machine.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnMenu = new System.Windows.Forms.Button();
             this.btnDevice = new System.Windows.Forms.Button();
@@ -38,7 +38,6 @@ namespace Machine.UI
             this.button3 = new System.Windows.Forms.Button();
             this.btnData = new System.Windows.Forms.Button();
             this.btnImage = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -58,16 +57,16 @@ namespace Machine.UI
             this.txtNG = new System.Windows.Forms.TextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.vmRenderControl1 = new VMControls.Winform.Release.VmRenderControl();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -76,23 +75,21 @@ namespace Machine.UI
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
-            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel7.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblMachineName
@@ -128,7 +125,7 @@ namespace Machine.UI
             this.btnDevice.ForeColor = System.Drawing.Color.White;
             this.btnDevice.Image = global::Machine.UI.Properties.Resources.Multiple_Devices;
             this.btnDevice.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDevice.Location = new System.Drawing.Point(0, 350);
+            this.btnDevice.Location = new System.Drawing.Point(0, 703);
             this.btnDevice.Margin = new System.Windows.Forms.Padding(0);
             this.btnDevice.Name = "btnDevice";
             this.btnDevice.Padding = new System.Windows.Forms.Padding(5, 5, 45, 5);
@@ -166,7 +163,7 @@ namespace Machine.UI
             this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Image = global::Machine.UI.Properties.Resources.Slider;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(0, 70);
+            this.button3.Location = new System.Drawing.Point(0, 563);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
             this.button3.Padding = new System.Windows.Forms.Padding(5, 5, 45, 5);
@@ -184,7 +181,7 @@ namespace Machine.UI
             this.btnData.ForeColor = System.Drawing.Color.White;
             this.btnData.Image = global::Machine.UI.Properties.Resources.Database;
             this.btnData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnData.Location = new System.Drawing.Point(0, 140);
+            this.btnData.Location = new System.Drawing.Point(0, 319);
             this.btnData.Margin = new System.Windows.Forms.Padding(0);
             this.btnData.Name = "btnData";
             this.btnData.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
@@ -203,7 +200,7 @@ namespace Machine.UI
             this.btnImage.ForeColor = System.Drawing.Color.White;
             this.btnImage.Image = global::Machine.UI.Properties.Resources.Pictures_Folder;
             this.btnImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImage.Location = new System.Drawing.Point(0, 280);
+            this.btnImage.Location = new System.Drawing.Point(0, 633);
             this.btnImage.Margin = new System.Windows.Forms.Padding(0);
             this.btnImage.Name = "btnImage";
             this.btnImage.Padding = new System.Windows.Forms.Padding(5, 5, 50, 5);
@@ -213,25 +210,6 @@ namespace Machine.UI
             this.btnImage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnImage.UseVisualStyleBackColor = true;
             this.btnImage.Click += new System.EventHandler(this.btnImage_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.FlatAppearance.BorderSize = 0;
-            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReset.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Image = global::Machine.UI.Properties.Resources.Reset;
-            this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReset.Location = new System.Drawing.Point(0, 210);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(0);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Padding = new System.Windows.Forms.Padding(5, 5, 55, 5);
-            this.btnReset.Size = new System.Drawing.Size(195, 70);
-            this.btnReset.TabIndex = 4;
-            this.btnReset.Text = "Reset";
-            this.btnReset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // groupBox1
             // 
@@ -281,14 +259,14 @@ namespace Machine.UI
             this.tableLayoutPanel2.Controls.Add(this.richTextBox2, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.richTextBox3, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1927, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1926, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.12525F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.60636F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.44732F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.82107F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(408, 1006);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(409, 1006);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // groupBox3
@@ -476,7 +454,7 @@ namespace Machine.UI
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(3, 453);
+            this.richTextBox2.Location = new System.Drawing.Point(3, 452);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(396, 245);
             this.richTextBox2.TabIndex = 16;
@@ -484,81 +462,92 @@ namespace Machine.UI
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(3, 709);
+            this.richTextBox3.Location = new System.Drawing.Point(3, 708);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.Size = new System.Drawing.Size(396, 239);
             this.richTextBox3.TabIndex = 15;
             this.richTextBox3.Text = "";
             this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
             // 
-            // flowLayoutPanel2
+            // button2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel4);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 830);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(1701, 182);
-            this.flowLayoutPanel2.TabIndex = 21;
+            this.button2.Location = new System.Drawing.Point(3, 155);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(189, 32);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Run Vision";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // tableLayoutPanel4
+            // button6
             // 
-            this.tableLayoutPanel4.ColumnCount = 5;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.97098F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.02902F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 287F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 304F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 345F));
-            this.tableLayoutPanel4.Controls.Add(this.button2, 4, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button6, 4, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button10, 3, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button11, 3, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button8, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button9, 2, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button12, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button7, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel7, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.40803F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.59197F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1695, 299);
-            this.tableLayoutPanel4.TabIndex = 19;
+            this.button6.Location = new System.Drawing.Point(3, 193);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(189, 32);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "camera";
+            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(3, 79);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(190, 32);
+            this.button10.TabIndex = 16;
+            this.button10.Text = "Connect Vision";
+            this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(1048, 70);
+            this.button11.Location = new System.Drawing.Point(3, 117);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(241, 58);
+            this.button11.Size = new System.Drawing.Size(189, 32);
             this.button11.TabIndex = 17;
             this.button11.Text = "Disconnect Vision";
+            this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(3, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(191, 32);
+            this.button8.TabIndex = 13;
+            this.button8.Text = "Connect Robot";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(3, 41);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(189, 32);
+            this.button9.TabIndex = 14;
+            this.button9.Text = "Disconnect Robot";
+            this.button9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(3, 3);
+            this.button12.Location = new System.Drawing.Point(3, 123);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(374, 58);
+            this.button12.Size = new System.Drawing.Size(194, 33);
             this.button12.TabIndex = 18;
             this.button12.Text = "Export Excel";
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(761, 70);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(243, 58);
-            this.button9.TabIndex = 14;
-            this.button9.Text = "Disconnect Robot";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(450, 3);
+            this.button7.Location = new System.Drawing.Point(3, 776);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(249, 52);
             this.button7.TabIndex = 12;
@@ -566,45 +555,24 @@ namespace Machine.UI
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
-            // button10
+            // dateTimePickerFrom
             // 
-            this.button10.Location = new System.Drawing.Point(1048, 3);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(241, 52);
-            this.button10.TabIndex = 16;
-            this.button10.Text = "Connect Vision";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.dateTimePickerFrom.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(3, 25);
+            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(194, 30);
+            this.dateTimePickerFrom.TabIndex = 21;
+            this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // button8
+            // dateTimePickerTo
             // 
-            this.button8.Location = new System.Drawing.Point(761, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(243, 52);
-            this.button8.TabIndex = 13;
-            this.button8.Text = "Connect Robot";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(1352, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(282, 52);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Run Vision";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(1352, 70);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(282, 58);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "camera";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.dateTimePickerTo.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerTo.Location = new System.Drawing.Point(3, 85);
+            this.dateTimePickerTo.Name = "dateTimePickerTo";
+            this.dateTimePickerTo.Size = new System.Drawing.Size(193, 30);
+            this.dateTimePickerTo.TabIndex = 22;
             // 
             // tableLayoutPanel3
             // 
@@ -612,16 +580,15 @@ namespace Machine.UI
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.vmRenderControl1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel2, 0, 2);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(223, 0);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.96911F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.27027F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.85714F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1701, 1012);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.36364F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 1.778656F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1700, 1012);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // vmRenderControl1
@@ -634,7 +601,7 @@ namespace Machine.UI
             this.vmRenderControl1.Margin = new System.Windows.Forms.Padding(0);
             this.vmRenderControl1.ModuleSource = null;
             this.vmRenderControl1.Name = "vmRenderControl1";
-            this.vmRenderControl1.Size = new System.Drawing.Size(1701, 373);
+            this.vmRenderControl1.Size = new System.Drawing.Size(1700, 373);
             this.vmRenderControl1.TabIndex = 22;
             this.vmRenderControl1.Load += new System.EventHandler(this.vmRenderControl1_Load);
             // 
@@ -642,21 +609,21 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 373);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1701, 457);
+            this.dataGridView1.Size = new System.Drawing.Size(2125, 775);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -665,7 +632,7 @@ namespace Machine.UI
             this.tableLayoutPanel5.ColumnCount = 3;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.59978F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 88.40022F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 413F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 414F));
             this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel3, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel2, 2, 0);
@@ -682,11 +649,13 @@ namespace Machine.UI
             // 
             this.flowLayoutPanel3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.flowLayoutPanel3.Controls.Add(this.btnSetting);
-            this.flowLayoutPanel3.Controls.Add(this.button3);
+            this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel3.Controls.Add(this.btnData);
-            this.flowLayoutPanel3.Controls.Add(this.btnReset);
+            this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel6);
+            this.flowLayoutPanel3.Controls.Add(this.button3);
             this.flowLayoutPanel3.Controls.Add(this.btnImage);
             this.flowLayoutPanel3.Controls.Add(this.btnDevice);
+            this.flowLayoutPanel3.Controls.Add(this.button7);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
@@ -714,7 +683,7 @@ namespace Machine.UI
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.012685F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.98731F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 439F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 440F));
             this.tableLayoutPanel1.Controls.Add(this.btnMenu, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblMachineName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 2, 1);
@@ -729,64 +698,57 @@ namespace Machine.UI
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1905, 69);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1904, 69);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(432, 32);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
-            // dateTimePickerFrom
+            // flowLayoutPanel4
             // 
-            this.dateTimePickerFrom.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(114, 3);
-            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(210, 30);
-            this.dateTimePickerFrom.TabIndex = 21;
-            this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.flowLayoutPanel4.Controls.Add(this.button8);
+            this.flowLayoutPanel4.Controls.Add(this.button9);
+            this.flowLayoutPanel4.Controls.Add(this.button10);
+            this.flowLayoutPanel4.Controls.Add(this.button11);
+            this.flowLayoutPanel4.Controls.Add(this.button2);
+            this.flowLayoutPanel4.Controls.Add(this.button6);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(6, 73);
+            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 243);
+            this.flowLayoutPanel4.TabIndex = 9;
+            this.flowLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel4_Paint);
             // 
-            // dateTimePickerTo
+            // flowLayoutPanel6
             // 
-            this.dateTimePickerTo.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerTo.Location = new System.Drawing.Point(114, 53);
-            this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(210, 30);
-            this.dateTimePickerTo.TabIndex = 22;
+            this.flowLayoutPanel6.Controls.Add(this.label6);
+            this.flowLayoutPanel6.Controls.Add(this.dateTimePickerFrom);
+            this.flowLayoutPanel6.Controls.Add(this.label7);
+            this.flowLayoutPanel6.Controls.Add(this.dateTimePickerTo);
+            this.flowLayoutPanel6.Controls.Add(this.button12);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 392);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 168);
+            this.flowLayoutPanel6.TabIndex = 13;
             // 
-            // tableLayoutPanel7
+            // label7
             // 
-            this.tableLayoutPanel7.ColumnCount = 2;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.86667F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.13333F));
-            this.tableLayoutPanel7.Controls.Add(this.dateTimePickerFrom, 1, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.dateTimePickerTo, 1, 1);
-            this.tableLayoutPanel7.Controls.Add(this.label7, 0, 1);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 70);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 2;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(374, 100);
-            this.tableLayoutPanel7.TabIndex = 21;
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label7.Location = new System.Drawing.Point(3, 60);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 22);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "To";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 22);
             this.label6.TabIndex = 23;
             this.label6.Text = "From";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 50);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 22);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "To";
             // 
             // FormMain
             // 
@@ -806,8 +768,6 @@ namespace Machine.UI
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -815,8 +775,9 @@ namespace Machine.UI
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel7.ResumeLayout(false);
-            this.tableLayoutPanel7.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -825,7 +786,6 @@ namespace Machine.UI
         private System.Windows.Forms.Button btnMenu;
         private System.Windows.Forms.Label lblMachineName;
         private System.Windows.Forms.Button btnSetting;
-        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnData;
         private System.Windows.Forms.Button btnImage;
         private System.Windows.Forms.Button button3;
@@ -848,8 +808,6 @@ namespace Machine.UI
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtNG;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button9;
@@ -869,9 +827,10 @@ namespace Machine.UI
         private FlowLayoutPanel flowLayoutPanel1;
         private DateTimePicker dateTimePickerFrom;
         private DateTimePicker dateTimePickerTo;
-        private TableLayoutPanel tableLayoutPanel7;
-        private Label label7;
+        private FlowLayoutPanel flowLayoutPanel4;
+        private FlowLayoutPanel flowLayoutPanel6;
         private Label label6;
+        private Label label7;
     }
 }
 

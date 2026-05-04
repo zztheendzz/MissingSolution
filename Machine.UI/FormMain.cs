@@ -67,7 +67,8 @@ namespace Machine.UI
         private async void FormMain_Load(object sender, EventArgs e)
         {
             string path = Path.Combine(Application.StartupPath, "configDB", "models.json");
-
+            flowLayoutPanel4.Visible = false;
+            flowLayoutPanel6.Visible = false;
             string json = File.ReadAllText(path);
 
             trays = JsonSerializer.Deserialize<List<Model1>>(json);
@@ -84,7 +85,7 @@ namespace Machine.UI
                 this.Invoke(new Action(() =>
                 {
                     var results = VisionParser.Parse(msg);
-
+                    robot.WriteStringToRobot(registerData, msg);
                     string appendTextRs = $"[{DateTime.Now:HH:mm:ss}] ";
                     foreach (var item in results)
                     {
@@ -110,12 +111,12 @@ namespace Machine.UI
                 // robot.Connect(ipRobot, portRobot),
                 //vision.Connect(ipVision, portVision)
                 );
-            bool visionOk = await ConnectVisionSafe();
+          //  bool visionOk = await ConnectVisionSafe();
 
-            if (!visionOk)
-            {
-                MessageBox.Show("Không kết nối được Vision!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //if (!visionOk)
+            //{
+            //    MessageBox.Show("Không kết nối được Vision!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             robot.OnTrayCompleted = () =>
             {
                 this.Invoke(new Action(() =>
@@ -306,9 +307,9 @@ namespace Machine.UI
             // ===== 3. LOAD VISION (🔥 QUAN TRỌNG) =====
             if (!File.Exists(model.ProgramVision))
             {
-             //   richTextBox2.AppendText($"📂 Path: {model.ProgramVision}\n");
+
                 AppendLog(richTextBox2, $"📂 Path: {model.ProgramVision}");
-                //richTextBox2.AppendText("❌ File không tồn tại\n");
+
                 AppendLog(richTextBox2, "❌ File không tồn tại");
                 return;
             }
@@ -347,7 +348,7 @@ namespace Machine.UI
                   //  richTextBox2.AppendText("❌ Không có Flow1\n");
                     AppendLog(richTextBox2, "❌ Không có Flow1");
                     return;
-                }
+                } 
 
                 vmRenderControl1.ModuleSource = _flow;
 
@@ -357,11 +358,38 @@ namespace Machine.UI
 
               //  richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
                 AppendLog(richTextBox2, $"✅ Vision OK: {model.Name}");
+                _ = Task.Run(async () =>
+                {
+                    bool visionOk = await ConnectVisionSafe();
+
+                    if (!visionOk)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            MessageBox.Show("Không kết nối được Vision!", "Lỗi");
+                        }));
+                    }
+                });
             }
             catch (Exception ex)
             {
                 AppendLog(richTextBox2, "❌ " + ex.ToString());
             }
+
+            _ = Task.Run(async () =>
+            {
+                AppendLog(richTextBox2, "🤖 Connecting Robot...");
+
+                var ok = await robot.Connect(ipRobot, portRobot);
+
+                this.Invoke(new Action(() =>
+                {
+                    if (ok)
+                        AppendLog(richTextBox2, "✅ Robot Connected");
+                    else
+                        AppendLog(richTextBox2, "❌ Robot Connect Fail");
+                }));
+            });
         }
         private void OnVisionDone(object sender, EventArgs e)
         {
@@ -369,7 +397,6 @@ namespace Machine.UI
 
             this.Invoke(new Action(() =>
             {
-             //   richTextBox2.AppendText("🔥 Vision Done\n");
                 AppendLog(richTextBox2, "🔥 Vision Done");
             }));
 
@@ -377,7 +404,6 @@ namespace Machine.UI
             {
                 this.Invoke(new Action(() =>
                 {
-                    // richTextBox2.AppendText("❌ ModuResult NULL\n");
                     AppendLog(richTextBox2, "❌ ModuResult NULL");
                 }));
 
@@ -552,7 +578,9 @@ namespace Machine.UI
 
         private void btnCamera_Click(object sender, EventArgs e) { }
 
-        private void btnSetting_Click(object sender, EventArgs e) { }
+        private void btnSetting_Click(object sender, EventArgs e) {
+            flowLayoutPanel4.Visible = !flowLayoutPanel4.Visible;
+        }
 
         private void tUpdate_Tick(object sender, EventArgs e)
         {
@@ -700,7 +728,9 @@ namespace Machine.UI
 
         private void btnReset_Click(object sender, EventArgs e) { }
 
-        private void btnData_Click(object sender, EventArgs e) { }
+        private void btnData_Click(object sender, EventArgs e) {
+            flowLayoutPanel6.Visible = !flowLayoutPanel6.Visible;
+        }
 
         private void ImageDisplayInit() { }
 
@@ -781,6 +811,11 @@ namespace Machine.UI
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel4_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -69,6 +69,26 @@ namespace Machine.UI.services
             }
 
         }
+        public void _WriteStringToRobot(ushort register, string msg)
+        {
+            try
+            {
+                if (master == null) return;
+
+                // 👉 bỏ dấu phẩy
+                var clean = msg.Replace(",", "");
+
+                ushort[] data = clean
+                    .Select(c => (ushort)(c - '0'))
+                    .ToArray();
+
+                master.WriteMultipleRegisters(register, data);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("WriteStringToRobot error: " + ex.Message);
+            }
+        }
         public void WriteStringToRobot(ushort register ,string msg)
         {
             try {
@@ -84,8 +104,6 @@ namespace Machine.UI.services
             catch (Exception ex) {
 
                 Console.WriteLine("WriteStringToRobot error: " + ex.Message + " Register: " + register + " Msg: " + msg);
-
-
             }
 
         }
