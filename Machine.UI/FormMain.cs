@@ -20,7 +20,7 @@ namespace Machine.UI
 {
     public partial class FormMain : Form
     {
-        ExportExcelService excelService = new ExportExcelService();
+        ExportExcelService excelService;
         CameraService cam = new CameraService();
         bool isRunning = false;
         TcpClientService vision = new TcpClientService();
@@ -46,17 +46,18 @@ namespace Machine.UI
         int ng = 0;
         int none = 0;
 
+        VmProcedure _flow;
+        string _lastTcpMsg = null;
+        bool _isVisionRunning = false;
 
         List<Model1> trays;
-
         public FormMain()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Normal;
-
             string conn = configDB.configDB.ConnectionString;
-
+            excelService = new ExportExcelService(conn);
             visionDb = new VisionDataService(conn);
             trayRunService = new TrayRunService(conn);
         }
@@ -72,24 +73,23 @@ namespace Machine.UI
             {
                 this.Invoke(new Action(() =>
                 {
-                    richTextBox2.AppendText($" Index: {index}\n");
+                  //  richTextBox2.AppendText($" Index: {index}\n");
+                    AppendLog(richTextBox2, $" Index: {index}" );
                 }));
             };
             vision.OnRawData = (msg) =>
             {
                 this.Invoke(new Action(() =>
                 {
-                    // richTextBox1.AppendText(msg + "\n");
-                    robot.WriteStringToRobot(registerData, msg); //send data to robot
-                    var results = VisionParser.Parse(msg); // 👈 parse ở đây
+                    var results = VisionParser.Parse(msg);
 
-                    string appendTextRs = $"[{DateTime.Now:HH: mm: ss}]";
+                    string appendTextRs = $"[{DateTime.Now:HH:mm:ss}] ";
                     foreach (var item in results)
                     {
                         appendTextRs += item + "\t";
                     }
-                    richTextBox3.AppendText(appendTextRs + "\n");
-
+                   // richTextBox3.AppendText(appendTextRs + "\n");
+                    AppendLog(richTextBox3, appendTextRs);
                     var cells = processor.ProcessBatch(results);
 
                     InsertData(cells);
@@ -100,25 +100,26 @@ namespace Machine.UI
                         {
                             UpdateTray(cell.Row, cell.Col, cell.Result);
                         }
-
-                        if (processor.IsFull)
-                        {
-                            Console.WriteLine("Tray FULL");
-                        }
                     }
                 }));
             };
 
             await Task.WhenAll(
-                //vision.Connect(ipVision, portVision),
-                // robot.Connect(ipRobot, portRobot)
-
+                // robot.Connect(ipRobot, portRobot),
+                //vision.Connect(ipVision, portVision)
                 );
+            bool visionOk = await ConnectVisionSafe();
+
+            if (!visionOk)
+            {
+                MessageBox.Show("Không kết nối được Vision!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             robot.OnTrayCompleted = () =>
             {
                 this.Invoke(new Action(() =>
                 {
-                    richTextBox2.AppendText("✅ Tray DONE\n");
+                  //  richTextBox2.AppendText("✅ Tray DONE\n");
+                    AppendLog(richTextBox2, "✅ Tray DONE");
                     trayRunService.UpdateEndTime(currentTrayId);
                     // 🔥 reset UI
                     ClearTray();
@@ -133,10 +134,38 @@ namespace Machine.UI
             LoadTray(0);
             _previousIndex = 0;
             comboBox1.SelectedIndex = 0;
-
+            comboBox1.BringToFront();
+            comboBox1.Size = new Size(150, 30);
+            comboBox1.Dock = DockStyle.None;
             _isInitializing = false;
         }
+        async Task<bool> ConnectVisionSafe()
+        {
+            try
+            {
+                //richTextBox2.AppendText("🔌 Connecting Vision...\n");
+                AppendLog(richTextBox2, "🔌 Connecting Vision...");
+                var connectTask = vision.Connect(ipVision, portVision);
 
+                // ⏱ timeout 3s (tránh treo)
+                if (await Task.WhenAny(connectTask, Task.Delay(3000)) != connectTask)
+                {
+                    throw new TimeoutException("Vision connect timeout");
+                }
+
+                await connectTask;
+
+             //   richTextBox2.AppendText("✅ Vision Connected\n");
+                AppendLog(richTextBox2, "✅ Vision Connected");
+                return true;
+            }
+            catch (Exception ex)
+            {
+               // richTextBox2.AppendText($"❌ Vision Error: {ex.Message}\n");
+                AppendLog(richTextBox2, $"❌ Vision Error: {ex.Message}");
+                return false;
+            }
+        }
         public void InsertData(List<Cell> cells)
         {
             var list = new List<VisionData>();
@@ -182,9 +211,11 @@ namespace Machine.UI
         }
         void UpdateUI()
         {
-            textBox3.Text = Math.Round((double)ng / total * 100, 2).ToString() + "%";
-            textBox1.Text = Math.Round((double)none / total * 100, 2).ToString() + "%";
-            textBox2.Text = (100 - Math.Round((double)ng / total * 100, 2) - Math.Round((double)none / total * 100, 2)).ToString() + "%";
+            textBox3.Text = ((double)ng / total * 100).ToString("F2") + "%";
+            textBox1.Text = ((double)none / total * 100).ToString("F2") + "%";
+            textBox2.Text = (100
+                - (double)ng / total * 100
+                - (double)none / total * 100).ToString("F2") + "%";
 
             txtOK.Text = ok.ToString();
             txtNG.Text = ng.ToString();
@@ -273,15 +304,16 @@ namespace Machine.UI
             // ===== 3. LOAD VISION (🔥 QUAN TRỌNG) =====
             if (!File.Exists(model.ProgramVision))
             {
-                richTextBox2.AppendText($"📂 Path: {model.ProgramVision}\n");
-                richTextBox2.AppendText("❌ File không tồn tại\n");
+             //   richTextBox2.AppendText($"📂 Path: {model.ProgramVision}\n");
+                AppendLog(richTextBox2, $"📂 Path: {model.ProgramVision}");
+                //richTextBox2.AppendText("❌ File không tồn tại\n");
+                AppendLog(richTextBox2, "❌ File không tồn tại");
                 return;
             }
 
             try
             {
-                richTextBox2.AppendText($"📂 Load: {model.ProgramVision}\n");
-
+                AppendLog(richTextBox2, $"📂 Load: {model.ProgramVision}");
                 string dir = Path.GetDirectoryName(model.ProgramVision);
                 Directory.SetCurrentDirectory(dir);
                 try
@@ -293,38 +325,40 @@ namespace Machine.UI
 
                     System.Threading.Thread.Sleep(200);
                     VmSolution.Load(model.ProgramVision, "", false);
-                    richTextBox2.AppendText("Load OK\n");
+                    AppendLog(richTextBox2, "Load OK");
                 }
                 catch (Exception e)
                 {
-                    richTextBox2.AppendText("❌ Load fail\n" + e.ToString() + "\n");
+                    AppendLog(richTextBox2, "❌ Load fail\n" + e.ToString());
                 }
 
                 if (VmSolution.Instance == null)
                 {
-                    richTextBox2.AppendText("❌ Load fail\n");
+                    AppendLog(richTextBox2, "❌ Load fail");
                     return;
                 }
 
-                var flow = VmSolution.Instance["Flow1"] as VmProcedure;
+                _flow = VmSolution.Instance["Flow1"] as VmProcedure;
 
-                if (flow == null)
+                if (_flow == null)
                 {
-                    richTextBox2.AppendText("❌ Không có Flow1\n");
+                  //  richTextBox2.AppendText("❌ Không có Flow1\n");
+                    AppendLog(richTextBox2, "❌ Không có Flow1");
                     return;
                 }
 
-                vmRenderControl1.ModuleSource = flow;
+                vmRenderControl1.ModuleSource = _flow;
 
-                flow.OnWorkEndStatusCallBack -= OnVisionDone;
-                flow.OnWorkEndStatusCallBack += OnVisionDone;
-            //    flow.Run();
+                _flow.OnWorkEndStatusCallBack -= OnVisionDone;
+                _flow.OnWorkEndStatusCallBack += OnVisionDone;
+                //    flow.Run();
 
-                richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
+              //  richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
+                AppendLog(richTextBox2, $"✅ Vision OK: {model.Name}");
             }
             catch (Exception ex)
             {
-                richTextBox2.AppendText("❌ " + ex.ToString() + "\n");
+                AppendLog(richTextBox2, "❌ " + ex.ToString());
             }
         }
         private void OnVisionDone(object sender, EventArgs e)
@@ -333,38 +367,36 @@ namespace Machine.UI
 
             this.Invoke(new Action(() =>
             {
-                richTextBox2.AppendText("🔥 CALLBACK\n");
+             //   richTextBox2.AppendText("🔥 Vision Done\n");
+                AppendLog(richTextBox2, "🔥 Vision Done");
             }));
-            this.Invoke(new Action(() =>
-            {
-                richTextBox2.AppendText($"ModuResult = {(proc.ModuResult == null ? "NULL" : "OK")}\n");
-            }));
+
             if (proc?.ModuResult == null)
             {
                 this.Invoke(new Action(() =>
                 {
-                    richTextBox2.AppendText("❌ ModuResult NULL\n");
+                    // richTextBox2.AppendText("❌ ModuResult NULL\n");
+                    AppendLog(richTextBox2, "❌ ModuResult NULL");
                 }));
+
+                _isVisionRunning = false;
                 return;
             }
-
-            // 🔥 lấy list output
+            // =========================
+            // 🔥 2. DEBUG OUTPUT VM (nếu cần)
+            // =========================
             var outputs = proc.ModuResult.GetAllOutputNameInfo();
 
             this.Invoke(new Action(() =>
             {
-                richTextBox2.AppendText($"Output count = {outputs?.Count}\n");
+             //   richTextBox2.AppendText($"Output count = {outputs?.Count}\n");
+                AppendLog(richTextBox2, $"Output count = {outputs?.Count}");
             }));
-            foreach (var item in outputs)
-            {
-                string name = item.Name;
-                string type = item.TypeName.ToString();
 
-                this.Invoke(new Action(() =>
-                {
-                    richTextBox2.AppendText($"Name: {name} | Type: {type}\n");
-                }));
-            }
+            // =========================
+            // 🔥 DONE → unlock
+            // =========================
+            _isVisionRunning = false;
         }
 
         // ================== STYLE ==================
@@ -376,7 +408,17 @@ namespace Machine.UI
 
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.ColumnHeadersVisible = false;
+            this.BeginInvoke(new Action(() =>
+            {
+                dataGridView1.ClearSelection();
+                dataGridView1.CurrentCell = null;
+            }));
+            dataGridView1.SelectionChanged += (s, e) =>
+            {
 
+                dataGridView1.CurrentCell = null;
+                dataGridView1.ClearSelection();
+            };
             dataGridView1.ScrollBars = ScrollBars.None; // 🔥 quan trọng để không lệch
 
             int rows = dataGridView1.Rows.Count;
@@ -416,11 +458,12 @@ namespace Machine.UI
             string text;
 
             if (result == "EMPTY")
-                text = $"{row},{col}\nEMPTY";
+                text = $"EMPTY";
             else
-                text = $"{row},{col}\n{result}";
+                text = $"{result}";
 
             dataGridView1.Rows[row].Cells[col].Value = text;
+            dataGridView1.Rows[row].Cells[col].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.InvalidateCell(col, row);
         }
         private void ClearTray()
@@ -491,18 +534,12 @@ namespace Machine.UI
 
         private void btnDevice_Click(object sender, EventArgs e)
         {
-            if (flPnDevice.Height == 70)
-                flPnDevice.Height = 280;
-            else
-                flPnDevice.Height = 70;
+
         }
 
         private void btnImage_Click(object sender, EventArgs e)
         {
-            if (flPnImage.Height == 70)
-                flPnImage.Height = 210;
-            else
-                flPnImage.Height = 70;
+
         }
 
 
@@ -517,9 +554,7 @@ namespace Machine.UI
 
         private void tUpdate_Tick(object sender, EventArgs e)
         {
-            lblHour.Text = DateTime.Now.ToString("hh:mm");
-            lblDay.Text = DateTime.Now.DayOfWeek.ToString();
-            lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
         }
 
 
@@ -530,17 +565,19 @@ namespace Machine.UI
 
             robot.WriteIndex(val);
 
-            richTextBox2.AppendText($"📤 Send Index: {val}\n");
+          //  richTextBox2.AppendText($"📤 Send Index: {val}\n");
+            AppendLog(richTextBox2, $"📤 Send Index: {val}");
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            richTextBox2.AppendText("🔌 Connecting...\n");
+         //   richTextBox2.AppendText("🔌 Connecting...\n");
+            AppendLog(richTextBox2, "🔌 Connecting...");
             var ok = robot.Connect(ipRobot, portRobot);
 
             if (!await ok)
             {
-                richTextBox2.AppendText("Không kết nối được Modbus");
+                AppendLog(richTextBox2, "❌ Không kết nối được Modbus");
             }
 
         }
@@ -549,7 +586,7 @@ namespace Machine.UI
         {
             robot.Disconnect();
 
-            richTextBox2.AppendText("🔌 Disconnected\n");
+            AppendLog(richTextBox2, "🔌 Disconnected");
         }
 
         private void richTextBox3_TextChanged(object sender, EventArgs e)
@@ -564,13 +601,14 @@ namespace Machine.UI
             {
                 richTextBox2.AppendText("🔌 Connecting Vision...\n");
 
+
                 await vision.Connect(ipVision, portVision);
 
-                richTextBox2.AppendText("✅ Vision Connected\n");
+                AppendLog(richTextBox2, "✅ Vision Connected");
             }
             catch (Exception ex)
             {
-                richTextBox2.AppendText("❌ Vision Connect Error: " + ex.Message + "\n");
+                AppendLog(richTextBox2, "❌ Vision Connect Error: " + ex.Message);
             }
         }
 
@@ -578,21 +616,32 @@ namespace Machine.UI
         {
             //disconnect vision
             vision.Disconnect();
-            richTextBox2.AppendText("🔌 Vision Disconnected\n");
-
+            AppendLog(richTextBox2, "🔌 Vision Disconnected");
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
+            DateTime from = dateTimePickerFrom.Value;
+            DateTime to = dateTimePickerTo.Value;
+            string safeFrom = from.ToString("yyyyMMdd_HHmmss");
+            string safeTo = to.ToString("yyyyMMdd_HHmmss");
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Excel Files|*.xlsx";
-                sfd.FileName = "tray" + DateTime.Now.ToString("yyyyMMdd HHmmss");
+                sfd.FileName = $"all_tray_{safeFrom}_{safeTo}";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    excelService.Export(dataGridView1, sfd.FileName);
-                    richTextBox2.AppendText("✅ Export thành công!");
+                    try
+                    {
+                        excelService.ExportAllByTrayTypeDateTime(sfd.FileName,from,to);
+
+                        AppendLog(richTextBox2, "✅ Export ALL tray thành công");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi export: " + ex.Message);
+                    }
                 }
             }
         }
@@ -621,7 +670,8 @@ namespace Machine.UI
                     }
             catch(Exception ex)
             {
-                richTextBox2.AppendText("ERR run vision " + ex.ToString() +"\n");
+              //  richTextBox2.AppendText("ERR run vision " + ex.ToString() +"\n");
+                AppendLog(richTextBox2, "ERR run vision " + ex.ToString());
             }
 
         }
@@ -654,7 +704,14 @@ namespace Machine.UI
 
         private void groupBox3_Enter(object sender, EventArgs e) { }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridView1.ClearSelection();
+        }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+
+            dataGridView1.ClearSelection();
+        }
 
         private async void btnMenu_Click(object sender, EventArgs e) { }
         private void pnResult_Paint(object sender, PaintEventArgs e) { }
@@ -665,6 +722,63 @@ namespace Machine.UI
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnControl_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblHour_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //Clear data
+            total = 0;
+            ok = 0;
+            ng = 0;
+            none = 0;
+            txtOK.Text = "0%";
+            txtNG.Text = "0%";
+            textBox6.Text = "0";
+            textBox1.Text = "0%";
+            textBox2.Text = "0%";
+            textBox3.Text = "0%";
+            textBox4.Text = "0%";
+        }
+        void AppendLog(RichTextBox rtb, string text)
+        {
+            text = text+"\n";
+            if (rtb.InvokeRequired)
+            {
+                rtb.Invoke(new Action(() => AppendLog(rtb, text)));
+                return;
+            }
+
+            // Check xem đang ở cuối không
+            bool isAtBottom = rtb.SelectionStart == rtb.TextLength;
+
+            rtb.AppendText(text + Environment.NewLine);
+
+            // Nếu đang ở cuối thì mới auto scroll
+            if (isAtBottom)
+            {
+                rtb.SelectionStart = rtb.Text.Length;
+                rtb.ScrollToCaret();
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
         }

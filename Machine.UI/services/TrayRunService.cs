@@ -29,7 +29,8 @@ namespace Machine.UI.services
                 cmd.Parameters.AddWithValue("@TrayName", tray.TrayName);
                 cmd.Parameters.AddWithValue("@Row", tray.Row);
                 cmd.Parameters.AddWithValue("@Col", tray.Col);
-                cmd.Parameters.AddWithValue("@StartTime", tray.StartTime);
+                cmd.Parameters.AddWithValue("@StartTime", tray.StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@EndTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }

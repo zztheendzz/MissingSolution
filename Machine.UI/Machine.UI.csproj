@@ -55,6 +55,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.72\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="ImageCollectModuCs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1456d47d4d035431, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>

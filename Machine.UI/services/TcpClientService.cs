@@ -22,11 +22,13 @@ namespace Machine.UI.services
         private NetworkStream stream;
         public async Task Connect(string ip, int port)
         {
-            client = new TcpClient();
-            await client.ConnectAsync(ip, port);
-            stream = client.GetStream();
+           
 
-            _ = ReceiveData(); // chạy background
+                client = new TcpClient();
+                await client.ConnectAsync(ip, port);
+                stream = client.GetStream();
+
+                _ = ReceiveData(); // chạy background
         }
 
         public Action<string> OnRawData; // 👈 thay vì List<string>

@@ -30,7 +30,7 @@ namespace Machine.UI.services
                 cmd.Parameters.AddWithValue("@Row", data.Row);
                 cmd.Parameters.AddWithValue("@Col", data.Col);
                 cmd.Parameters.AddWithValue("@Result", data.Result);
-                cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+                cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 cmd.ExecuteNonQuery();
             }
@@ -54,7 +54,7 @@ namespace Machine.UI.services
                     cmd.Parameters.Add("@Row", System.Data.DbType.Int32);
                     cmd.Parameters.Add("@Col", System.Data.DbType.Int32);
                     cmd.Parameters.Add("@Result", System.Data.DbType.Int32);
-                    cmd.Parameters.Add("@CreatedAt", System.Data.DbType.DateTime);
+                    cmd.Parameters.Add("@CreatedAt", System.Data.DbType.String);
 
                     foreach (var data in list)
                     {
@@ -62,7 +62,7 @@ namespace Machine.UI.services
                         cmd.Parameters["@Row"].Value = data.Row;
                         cmd.Parameters["@Col"].Value = data.Col;
                         cmd.Parameters["@Result"].Value = data.Result;
-                        cmd.Parameters["@CreatedAt"].Value = DateTime.Now;
+                        cmd.Parameters["@CreatedAt"].Value = data.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
 
                         cmd.ExecuteNonQuery();
                     }
@@ -82,8 +82,8 @@ namespace Machine.UI.services
                 conn.Open();
 
                 var cmd = new SQLiteCommand(@"
-                    SELECT * FROM VisionData WHERE TrayId = @TrayId
-                ", conn);
+            SELECT * FROM VisionData WHERE TrayId = @TrayId
+        ", conn);
 
                 cmd.Parameters.AddWithValue("@TrayId", trayId);
 
@@ -91,6 +91,30 @@ namespace Machine.UI.services
                 {
                     while (reader.Read())
                     {
+                        // 🔥 xử lý CreatedAt an toàn
+                        DateTime createdAt = DateTime.MinValue;
+                        var raw = reader["CreatedAt"]?.ToString();
+
+                        if (!string.IsNullOrEmpty(raw))
+                        {
+                            // 1. thử parse dạng string datetime
+                            if (!DateTime.TryParse(raw, out createdAt))
+                            {
+                                // 2. fallback nếu là số (dữ liệu cũ)
+                                if (long.TryParse(raw, out var num))
+                                {
+                                    try
+                                    {
+                                        createdAt = DateTimeOffset.FromUnixTimeSeconds(num).DateTime;
+                                    }
+                                    catch
+                                    {
+                                        createdAt = DateTime.MinValue;
+                                    }
+                                }
+                            }
+                        }
+
                         result.Add(new VisionData
                         {
                             Id = Convert.ToInt32(reader["Id"]),
@@ -98,7 +122,7 @@ namespace Machine.UI.services
                             Row = Convert.ToInt32(reader["Row"]),
                             Col = Convert.ToInt32(reader["Col"]),
                             Result = Convert.ToInt32(reader["Result"]),
-                            CreatedAt = Convert.ToDateTime(reader["CreatedAt"])
+                            CreatedAt = createdAt
                         });
                     }
                 }
