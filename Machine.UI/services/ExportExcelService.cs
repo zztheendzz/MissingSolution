@@ -57,8 +57,11 @@ namespace Machine.UI.services
                     {
                         string sheetName = group.Key;
                         var ws = wb.Worksheets.Add(sheetName);
-
-                        int currentRow = 1;
+                        ws.Cell(1, 1).Value = "Time Filter:";
+                        ws.Cell(1, 1).Value = $"Time Filter: {from:yyyy-MM-dd HH:mm:ss} → {to:yyyy-MM-dd HH:mm:ss}";
+                        ws.Range(1, 1, 1, 6).Merge();
+                        ws.Cell(1, 1).Style.Font.Bold = true;
+                        int currentRow = 3;
 
                         foreach (var tray in group)
                         {
@@ -73,8 +76,9 @@ namespace Machine.UI.services
 
                             // ===== HEADER =====
                             ws.Cell(currentRow, 1).Value = $"Tray ID: {tray.Id}";
-                            ws.Cell(currentRow + 1, 1).Value = $"Start: {tray.StartTime}";
-                            ws.Cell(currentRow + 2, 1).Value = $"End: {tray.EndTime}";
+                            ws.Cell(currentRow + 1, 1).Value = $"Tray Name: {tray.TrayName}";
+                            ws.Cell(currentRow + 2, 1).Value = $"Start: {tray.StartTime}";
+                            ws.Cell(currentRow + 3, 1).Value = $"End: {tray.EndTime}";
 
                             // ===== THỐNG KÊ =====
                             int total = data.Count;

@@ -30,7 +30,7 @@ namespace Machine.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnMenu = new System.Windows.Forms.Button();
             this.btnDevice = new System.Windows.Forms.Button();
@@ -78,6 +78,9 @@ namespace Machine.UI
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -89,6 +92,7 @@ namespace Machine.UI
             this.flowLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblMachineName
@@ -236,7 +240,7 @@ namespace Machine.UI
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(3, 355);
+            this.groupBox1.Location = new System.Drawing.Point(3, 296);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(396, 114);
             this.groupBox1.TabIndex = 9;
@@ -280,10 +284,10 @@ namespace Machine.UI
             this.tableLayoutPanel2.Location = new System.Drawing.Point(1927, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.12525F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.60636F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.44732F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.82107F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(408, 1006);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
@@ -306,7 +310,7 @@ namespace Machine.UI
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(396, 311);
+            this.groupBox3.Size = new System.Drawing.Size(396, 287);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Result";
@@ -371,11 +375,11 @@ namespace Machine.UI
             this.button1.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(3, 219);
+            this.button1.Location = new System.Drawing.Point(52, 213);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
             this.button1.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
-            this.button1.Size = new System.Drawing.Size(469, 58);
+            this.button1.Size = new System.Drawing.Size(299, 58);
             this.button1.TabIndex = 9;
             this.button1.Text = "Clear Data";
             this.button1.UseVisualStyleBackColor = true;
@@ -472,7 +476,7 @@ namespace Machine.UI
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(3, 505);
+            this.richTextBox2.Location = new System.Drawing.Point(3, 453);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(396, 245);
             this.richTextBox2.TabIndex = 16;
@@ -480,9 +484,9 @@ namespace Machine.UI
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(3, 756);
+            this.richTextBox3.Location = new System.Drawing.Point(3, 709);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(396, 218);
+            this.richTextBox3.Size = new System.Drawing.Size(396, 239);
             this.richTextBox3.TabIndex = 15;
             this.richTextBox3.Text = "";
             this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
@@ -500,32 +504,31 @@ namespace Machine.UI
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 5;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.03061F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.96939F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 295F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1084F));
-            this.tableLayoutPanel4.Controls.Add(this.button11, 2, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button12, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button9, 1, 1);
-            this.tableLayoutPanel4.Controls.Add(this.button7, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button10, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button8, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button2, 3, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button6, 3, 1);
-            this.tableLayoutPanel4.Controls.Add(this.dateTimePickerFrom, 4, 0);
-            this.tableLayoutPanel4.Controls.Add(this.dateTimePickerTo, 4, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.97098F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.02902F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 287F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 304F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 345F));
+            this.tableLayoutPanel4.Controls.Add(this.button2, 4, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button6, 4, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button10, 3, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button11, 3, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button8, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button9, 2, 1);
+            this.tableLayoutPanel4.Controls.Add(this.button12, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.button7, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel7, 0, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.41471F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.58528F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(2123, 299);
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.40803F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.59197F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1695, 299);
             this.tableLayoutPanel4.TabIndex = 19;
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(498, 75);
+            this.button11.Location = new System.Drawing.Point(1048, 70);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(241, 58);
             this.button11.TabIndex = 17;
@@ -535,9 +538,9 @@ namespace Machine.UI
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(3, 75);
+            this.button12.Location = new System.Drawing.Point(3, 3);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(263, 58);
+            this.button12.Size = new System.Drawing.Size(374, 58);
             this.button12.TabIndex = 18;
             this.button12.Text = "Export Excel";
             this.button12.UseVisualStyleBackColor = true;
@@ -545,9 +548,9 @@ namespace Machine.UI
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(320, 75);
+            this.button9.Location = new System.Drawing.Point(761, 70);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(172, 58);
+            this.button9.Size = new System.Drawing.Size(243, 58);
             this.button9.TabIndex = 14;
             this.button9.Text = "Disconnect Robot";
             this.button9.UseVisualStyleBackColor = true;
@@ -555,9 +558,9 @@ namespace Machine.UI
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(3, 3);
+            this.button7.Location = new System.Drawing.Point(450, 3);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(311, 66);
+            this.button7.Size = new System.Drawing.Size(249, 52);
             this.button7.TabIndex = 12;
             this.button7.Text = "test send modbus";
             this.button7.UseVisualStyleBackColor = true;
@@ -565,7 +568,7 @@ namespace Machine.UI
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(498, 3);
+            this.button10.Location = new System.Drawing.Point(1048, 3);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(241, 52);
             this.button10.TabIndex = 16;
@@ -575,9 +578,9 @@ namespace Machine.UI
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(320, 3);
+            this.button8.Location = new System.Drawing.Point(761, 3);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(172, 52);
+            this.button8.Size = new System.Drawing.Size(243, 52);
             this.button8.TabIndex = 13;
             this.button8.Text = "Connect Robot";
             this.button8.UseVisualStyleBackColor = true;
@@ -585,9 +588,9 @@ namespace Machine.UI
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(746, 3);
+            this.button2.Location = new System.Drawing.Point(1352, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(282, 33);
+            this.button2.Size = new System.Drawing.Size(282, 52);
             this.button2.TabIndex = 20;
             this.button2.Text = "Run Vision";
             this.button2.UseVisualStyleBackColor = true;
@@ -595,9 +598,9 @@ namespace Machine.UI
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(746, 75);
+            this.button6.Location = new System.Drawing.Point(1352, 70);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(282, 33);
+            this.button6.Size = new System.Drawing.Size(282, 58);
             this.button6.TabIndex = 8;
             this.button6.Text = "camera";
             this.button6.UseVisualStyleBackColor = true;
@@ -639,14 +642,14 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 373);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
@@ -735,9 +738,9 @@ namespace Machine.UI
             // 
             this.dateTimePickerFrom.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(1041, 3);
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(114, 3);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(319, 30);
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(210, 30);
             this.dateTimePickerFrom.TabIndex = 21;
             this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
@@ -745,10 +748,45 @@ namespace Machine.UI
             // 
             this.dateTimePickerTo.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerTo.Location = new System.Drawing.Point(1041, 75);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(114, 53);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(319, 30);
+            this.dateTimePickerTo.Size = new System.Drawing.Size(210, 30);
             this.dateTimePickerTo.TabIndex = 22;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.86667F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.13333F));
+            this.tableLayoutPanel7.Controls.Add(this.dateTimePickerFrom, 1, 0);
+            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.dateTimePickerTo, 1, 1);
+            this.tableLayoutPanel7.Controls.Add(this.label7, 0, 1);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 70);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 2;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(374, 100);
+            this.tableLayoutPanel7.TabIndex = 21;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 22);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "From";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 50);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 22);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "To";
             // 
             // FormMain
             // 
@@ -777,6 +815,8 @@ namespace Machine.UI
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -829,6 +869,9 @@ namespace Machine.UI
         private FlowLayoutPanel flowLayoutPanel1;
         private DateTimePicker dateTimePickerFrom;
         private DateTimePicker dateTimePickerTo;
+        private TableLayoutPanel tableLayoutPanel7;
+        private Label label7;
+        private Label label6;
     }
 }
 

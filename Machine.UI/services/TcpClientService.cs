@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Cell = Machine.UI.model.Cell;
 
 namespace Machine.UI.services
@@ -35,26 +36,52 @@ namespace Machine.UI.services
 
         private async Task ReceiveData()
         {
-            byte[] buffer = new byte[5];
+            byte[] buffer = new byte[1024];
+            string cache = "";
 
             while (true)
             {
-                int totalRead = 0;
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                if (bytesRead == 0) return;
 
-                while (totalRead < 5)
+                cache += Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+                Console.WriteLine("Cache: " + cache);
+
+                while (cache.Count(c => c == ',') >= 4)
                 {
-                    int read = await stream.ReadAsync(buffer, totalRead, 5 - totalRead);
-                    if (read == 0) return;
-                    totalRead += read;
+                    int idx = GetIndexOfNthComma(cache, 4);
+
+                    // 👉 tìm luôn ký tự sau dấu , cuối (tức là số thứ 5)
+                    int end = idx + 2; // dấu , + 1 ký tự số
+
+                    if (cache.Length < end) break; // chưa đủ dữ liệu
+
+                    string packet = cache.Substring(0, end);
+                    cache = cache.Substring(end);
+
+                    Console.WriteLine("Packet: " + packet);
+
+                    string clean = packet.Replace(",", "");
+
+                    OnRawData?.Invoke(clean); // "11111"
                 }
-
-                string msg = Encoding.ASCII.GetString(buffer);
-                Console.WriteLine("Raw: " + msg);
-
-                OnRawData?.Invoke(msg); // 👈 chỉ bắn raw
             }
         }
-
+        private int GetIndexOfNthComma(string str, int n)
+        {
+            int count = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == ',')
+                {
+                    count++;
+                    if (count == n)
+                        return i;
+                }
+            }
+            return -1;
+        }
         public void Disconnect()
         {
             try

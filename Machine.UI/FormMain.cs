@@ -26,6 +26,8 @@ namespace Machine.UI
         TcpClientService vision = new TcpClientService();
         ModbusService robot = new ModbusService();
         int positions = 0;
+        //chuỗi gửi từ camera -> app dạng : 1,1,1,1,1
+
         //string ipVision = "192.168.0.211";
         string ipVision = "127.0.0.1";
         string ipRobot = "127.0.0.1";
