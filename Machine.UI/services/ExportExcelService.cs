@@ -141,6 +141,213 @@ namespace Machine.UI.services
 
 
 
+
+
+        public void ExportFlatData(string path, DateTime from, DateTime to)
+        {
+            try
+            {
+                using (var wb = new XLWorkbook())
+                using (var conn = new SQLiteConnection(_conn))
+                {
+                    conn.Open();
+
+                    // 🔥 lấy hết ngày cuối
+                    to = to.Date.AddDays(1).AddTicks(-1);
+
+                    // ===== TRAY =====
+                    var trays = conn.Query<TrayRun>("SELECT * FROM TrayRun").ToList();
+                    var trayDict = trays.ToDictionary(t => t.Id, t => t);
+
+                    // ===== DATA =====
+                    var allData = conn.Query<VisionData>(@"
+                SELECT 
+                    Id,
+                    TrayId,
+                    Row,
+                    Col,
+                    Result,
+                    datetime(CreatedAt) as CreatedAt
+                FROM VisionData
+                WHERE datetime(CreatedAt) BETWEEN @from AND @to
+            ", new
+                    {
+                        from = from.ToString("yyyy-MM-dd HH:mm:ss"),
+                        to = to.ToString("yyyy-MM-dd HH:mm:ss")
+                    }).ToList();
+
+                    // ===== GROUP THEO TRAY =====
+                    var grouped = allData
+                        .Where(d => trayDict.ContainsKey(d.TrayId))
+                        .GroupBy(d => d.TrayId);
+
+                    foreach (var g in grouped)
+                    {
+                        var tray = trayDict[g.Key];
+
+                        // 🔥 xử lý tên sheet an toàn
+                        string sheetName = tray.TrayName;
+                        sheetName = System.Text.RegularExpressions.Regex
+                            .Replace(sheetName, @"[\\\/\?\*\[\]]", "_");
+
+                        // tránh trùng tên sheet
+                      //  if (wb.Worksheets.Any(x => x.Name == sheetName))
+                            sheetName = sheetName + "_" + tray.Id;
+
+                        var ws = wb.Worksheets.Add(sheetName);
+
+                        int r = 1;
+
+                        // ===== HEADER =====
+                        ws.Cell(r, 1).Value = "Date";
+                        ws.Cell(r, 2).Value = "Time";
+                        ws.Cell(r, 3).Value = "TrayName";
+                        ws.Cell(r, 4).Value = "TrayId";
+                        ws.Cell(r, 5).Value = "ProductId";
+                        ws.Cell(r, 6).Value = "Result";
+
+                        ws.Range(1, 1, 1, 6).Style.Font.Bold = true;
+                        r++;
+
+                        // ===== DATA (SORT PRODUCTID) =====
+                        foreach (var d in g.OrderBy(d => d.Row * tray.Col + d.Col))
+                        {
+                            DateTime dt = d.CreatedAt; // 🔥 không cần parse lại
+
+                            int productId = d.Row * tray.Col + d.Col;
+
+                            ws.Cell(r, 1).Value = dt.ToString("yyyy-MM-dd");
+                            ws.Cell(r, 2).Value = dt.ToString("HH:mm:ss");
+                            ws.Cell(r, 3).Value = tray.TrayName;
+                            ws.Cell(r, 4).Value = tray.Id;
+                            ws.Cell(r, 5).Value = productId;
+
+                            string resultText =
+                                d.Result == 1 ? "OK" :
+                                d.Result == 0 ? "NG" : "EMPTY";
+
+                            ws.Cell(r, 6).Value = resultText;
+
+                            r++;
+                        }
+
+                        // format
+                        ws.Columns().AdjustToContents();
+                        ws.RangeUsed().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    }
+
+                    // ===== SAVE =====
+                    wb.SaveAs(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi export: " + ex.Message);
+            }
+        }
+        public void ExportFlatData1(string path, DateTime from, DateTime to)
+        {
+            try
+            {
+                using (var wb = new XLWorkbook())
+                using (var conn = new SQLiteConnection(_conn))
+                {
+                    conn.Open();
+
+                    // 🔥 lấy hết ngày cuối
+                    to = to.Date.AddDays(1).AddTicks(-1);
+
+                    // ===== TRAY =====
+                    var trays = conn.Query<TrayRun>("SELECT * FROM TrayRun").ToList();
+                    var trayDict = trays.ToDictionary(t => t.Id, t => t);
+
+                    // ===== DATA =====
+                    var allData = conn.Query<VisionData>(@"
+                        SELECT * FROM VisionData
+                        WHERE CreatedAt BETWEEN @from AND @to
+                    ", new
+                    {
+                        from,
+                        to
+                    }).ToList();
+
+                    // ===== SORT (QUAN TRỌNG) =====
+                    var exportData = allData
+                        .Where(d => trayDict.ContainsKey(d.TrayId))
+                        .OrderBy(d => d.TrayId)
+                        .ThenBy(d => d.Row)
+                        .ThenBy(d => d.Col)
+                        .ThenBy(d => d.Id) // tránh trùng hiếm
+                        .ToList();
+
+                    // ===== SHEET =====
+                    var ws = wb.Worksheets.Add("Data");
+
+                    int r = 1;
+
+                    // HEADER
+                    ws.Cell(r, 1).Value = "Date";
+                    ws.Cell(r, 2).Value = "Time";
+                    ws.Cell(r, 3).Value = "TrayName";
+                    ws.Cell(r, 4).Value = "TrayId";
+                    ws.Cell(r, 5).Value = "ProductId";
+                    ws.Cell(r, 6).Value = "Result";
+
+                    ws.Range(1, 1, 1, 6).Style.Font.Bold = true;
+
+                    r++;
+
+                    // ===== DATA LOOP =====
+                    foreach (var d in exportData)
+                    {
+                        var tray = trayDict[d.TrayId];
+
+                        DateTime dt = d.CreatedAt;
+
+                        // productId (bắt đầu từ 1 cho dễ đọc)
+                        int productId = d.Row * tray.Col + d.Col + 1;
+
+                        // Date
+                        ws.Cell(r, 1).Value = dt.Date;
+                        ws.Cell(r, 1).Style.DateFormat.Format = "yyyy-MM-dd";
+
+                        // Time
+                        ws.Cell(r, 2).Value = dt;
+                        ws.Cell(r, 2).Style.DateFormat.Format = "HH:mm:ss";
+
+                        ws.Cell(r, 3).Value = tray.TrayName;
+                        ws.Cell(r, 4).Value = tray.Id;
+                        ws.Cell(r, 5).Value = productId;
+
+                        // Result
+                        string resultText;
+
+                        if (d.Result == 1)
+                            resultText = "OK";
+                        else if (d.Result == 0)
+                            resultText = "NG";
+                        else
+                            resultText = "EMPTY";
+
+                        ws.Cell(r, 6).Value = resultText;
+
+                        r++;
+                    }
+
+                    // ===== FORMAT =====
+                    ws.Columns().AdjustToContents();
+                    ws.RangeUsed().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    // ===== SAVE =====
+                    wb.SaveAs(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi export: " + ex.Message);
+            }
+        }
+
         public void ExportAllByTrayType(string path)
         {
             using (var wb = new XLWorkbook())

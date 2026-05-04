@@ -664,7 +664,7 @@ namespace Machine.UI
                 {
                     try
                     {
-                        excelService.ExportAllByTrayTypeDateTime(sfd.FileName,from,to);
+                        excelService.ExportFlatData(sfd.FileName,from,to);
 
                         AppendLog(richTextBox2, "✅ Export ALL tray thành công");
                     }
