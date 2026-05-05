@@ -164,7 +164,6 @@ namespace Machine.UI
             }
             catch (Exception ex)
             {
-               // richTextBox2.AppendText($"❌ Vision Error: {ex.Message}\n");
                 AppendLog(richTextBox2, $"❌ Vision Error: {ex.Message}");
                 return false;
             }
@@ -366,7 +365,7 @@ namespace Machine.UI
                     {
                         this.Invoke(new Action(() =>
                         {
-                            MessageBox.Show("Không kết nối được Vision!", "Lỗi");
+                            AppendLog(richTextBox2, "❌ Không kết nối được Vision!");
                         }));
                     }
                 });
@@ -569,8 +568,6 @@ namespace Machine.UI
         {
 
         }
-
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -816,6 +813,21 @@ namespace Machine.UI
         }
 
         private void flowLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel9_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
         {
 
         }

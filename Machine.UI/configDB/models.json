@@ -7,50 +7,56 @@
     },
     {
         "Name": "A266",
-        "Row": 11,
-        "Col": 11,
+        "Row": 7,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\A266\\A266.solw"
     },
     {
         "Name": "F761",
-        "Row": 6,
-        "Col": 8,
+        "Row": 7,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"
     },
     {
         "Name": "F766",
-        "Row": 12,
-        "Col": 11,
+        "Row": 7,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F766\\F766.solw"
     },
     {
         "Name": "F776",
-        "Row": 18,
-        "Col": 12,
+        "Row": 7,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F776\\F776.solw"
     },
     {
         "Name": "F966",
-        "Row": 12,
-        "Col": 12,
+        "Row": 1,
+        "Col": 1,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F966\\F966.solw"
     },
     {
         "Name": "F971",
-        "Row": 12,
-        "Col": 14,
+        "Row": 9,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F971\\F971.solw"
     },
     {
         "Name": "F976",
-        "Row": 12,
-        "Col": 13,
+        "Row": 7,
+        "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F976\\F976.solw"
     },
     {
         "Name": "X526",
-        "Row": 12,
-        "Col": 18,
+        "Row": 7,
+        "Col": 25,
+        "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\X526\\X526.solw"
+    },
+    {
+        "Name": "1820",
+        "Row": 18,
+        "Col": 20,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\X526\\X526.solw"
     }
 ]
