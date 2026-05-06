@@ -31,7 +31,7 @@ namespace Machine.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.Button();
             this.btnData = new System.Windows.Forms.Button();
@@ -39,9 +39,16 @@ namespace Machine.UI
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.labelTotal = new System.Windows.Forms.Label();
+            this.labelNonePer = new System.Windows.Forms.Label();
+            this.labelNone = new System.Windows.Forms.Label();
+            this.labelNgPer = new System.Windows.Forms.Label();
+            this.labelNg = new System.Windows.Forms.Label();
+            this.labelOkPer = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelOk = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
@@ -66,25 +73,18 @@ namespace Machine.UI
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.SummaryResult = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblHour = new System.Windows.Forms.Label();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblDayofY = new System.Windows.Forms.Label();
-            this.lblDayofW = new System.Windows.Forms.Label();
-            this.HidenApp = new System.Windows.Forms.Button();
-            this.ExtendApp = new System.Windows.Forms.Button();
             this.CloseApp = new System.Windows.Forms.Button();
-            this.labelOk = new System.Windows.Forms.Label();
-            this.labelOkPer = new System.Windows.Forms.Label();
-            this.labelNg = new System.Windows.Forms.Label();
-            this.labelNgPer = new System.Windows.Forms.Label();
-            this.labelNone = new System.Windows.Forms.Label();
-            this.labelNonePer = new System.Windows.Forms.Label();
-            this.labelTotal = new System.Windows.Forms.Label();
+            this.ExtendApp = new System.Windows.Forms.Button();
+            this.HidenApp = new System.Windows.Forms.Button();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblDayofW = new System.Windows.Forms.Label();
+            this.lblDayofY = new System.Windows.Forms.Label();
+            this.lblHour = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.SummaryResult = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -210,7 +210,7 @@ namespace Machine.UI
             // 
             // tableLayoutPanel7
             // 
-            this.tableLayoutPanel7.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tableLayoutPanel7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tableLayoutPanel7.ColumnCount = 3;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.30303F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.43526F));
@@ -238,6 +238,72 @@ namespace Machine.UI
             this.tableLayoutPanel7.Size = new System.Drawing.Size(363, 206);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
+            // labelTotal
+            // 
+            this.labelTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelTotal.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelTotal.Location = new System.Drawing.Point(113, 153);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(119, 53);
+            this.labelTotal.TabIndex = 23;
+            this.labelTotal.Text = "0";
+            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNonePer
+            // 
+            this.labelNonePer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNonePer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNonePer.Location = new System.Drawing.Point(238, 102);
+            this.labelNonePer.Name = "labelNonePer";
+            this.labelNonePer.Size = new System.Drawing.Size(122, 51);
+            this.labelNonePer.TabIndex = 22;
+            this.labelNonePer.Text = "0%";
+            this.labelNonePer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNone
+            // 
+            this.labelNone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNone.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNone.Location = new System.Drawing.Point(113, 102);
+            this.labelNone.Name = "labelNone";
+            this.labelNone.Size = new System.Drawing.Size(119, 51);
+            this.labelNone.TabIndex = 21;
+            this.labelNone.Text = "0";
+            this.labelNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNgPer
+            // 
+            this.labelNgPer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNgPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNgPer.Location = new System.Drawing.Point(238, 51);
+            this.labelNgPer.Name = "labelNgPer";
+            this.labelNgPer.Size = new System.Drawing.Size(122, 51);
+            this.labelNgPer.TabIndex = 20;
+            this.labelNgPer.Text = "0%";
+            this.labelNgPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNg
+            // 
+            this.labelNg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNg.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNg.Location = new System.Drawing.Point(113, 51);
+            this.labelNg.Name = "labelNg";
+            this.labelNg.Size = new System.Drawing.Size(119, 51);
+            this.labelNg.TabIndex = 19;
+            this.labelNg.Text = "0";
+            this.labelNg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelOkPer
+            // 
+            this.labelOkPer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOkPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelOkPer.Location = new System.Drawing.Point(238, 0);
+            this.labelOkPer.Name = "labelOkPer";
+            this.labelOkPer.Size = new System.Drawing.Size(122, 51);
+            this.labelOkPer.TabIndex = 18;
+            this.labelOkPer.Text = "0%";
+            this.labelOkPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -256,7 +322,7 @@ namespace Machine.UI
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label5.ForeColor = System.Drawing.Color.PowderBlue;
             this.label5.Location = new System.Drawing.Point(3, 116);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 23);
@@ -268,12 +334,24 @@ namespace Machine.UI
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Green;
+            this.label1.ForeColor = System.Drawing.Color.PaleGreen;
             this.label1.Location = new System.Drawing.Point(3, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(51, 23);
             this.label1.TabIndex = 1;
             this.label1.Text = "OK :";
+            // 
+            // labelOk
+            // 
+            this.labelOk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOk.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelOk.Location = new System.Drawing.Point(113, 0);
+            this.labelOk.Name = "labelOk";
+            this.labelOk.Size = new System.Drawing.Size(119, 51);
+            this.labelOk.TabIndex = 14;
+            this.labelOk.Text = "0";
+            this.labelOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelOk.Click += new System.EventHandler(this.label4_Click);
             // 
             // label2
             // 
@@ -483,14 +561,14 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 242);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
@@ -521,7 +599,7 @@ namespace Machine.UI
             // 
             // flowLayoutPanel3
             // 
-            this.flowLayoutPanel3.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.flowLayoutPanel3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.flowLayoutPanel3.Controls.Add(this.btnSetting);
             this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel3.Controls.Add(this.btnData);
@@ -581,6 +659,16 @@ namespace Machine.UI
             this.label7.TabIndex = 24;
             this.label7.Text = "To";
             // 
+            // SummaryResult
+            // 
+            this.SummaryResult.Location = new System.Drawing.Point(3, 144);
+            this.SummaryResult.Name = "SummaryResult";
+            this.SummaryResult.Size = new System.Drawing.Size(175, 33);
+            this.SummaryResult.TabIndex = 25;
+            this.SummaryResult.Text = "Summary Result";
+            this.SummaryResult.UseVisualStyleBackColor = true;
+            this.SummaryResult.Click += new System.EventHandler(this.SummaryResult_Click);
+            // 
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.BackColor = System.Drawing.SystemColors.AppWorkspace;
@@ -623,24 +711,50 @@ namespace Machine.UI
             this.flowLayoutPanel1.Controls.Add(this.lblHour);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1251, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1250, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(624, 85);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(625, 85);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
-            // lblHour
+            // CloseApp
             // 
-            this.lblHour.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblHour.AutoSize = true;
-            this.lblHour.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHour.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblHour.Location = new System.Drawing.Point(211, 21);
-            this.lblHour.Margin = new System.Windows.Forms.Padding(0);
-            this.lblHour.Name = "lblHour";
-            this.lblHour.Size = new System.Drawing.Size(132, 55);
-            this.lblHour.TabIndex = 6;
-            this.lblHour.Text = "00:00";
-            this.lblHour.Click += new System.EventHandler(this.lblHour_Click_1);
+            this.CloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.CloseApp.FlatAppearance.BorderSize = 0;
+            this.CloseApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CloseApp.Image = global::Machine.UI.Properties.Resources.Close32x32;
+            this.CloseApp.Location = new System.Drawing.Point(587, 3);
+            this.CloseApp.Name = "CloseApp";
+            this.CloseApp.Size = new System.Drawing.Size(35, 35);
+            this.CloseApp.TabIndex = 11;
+            this.CloseApp.UseVisualStyleBackColor = false;
+            this.CloseApp.Click += new System.EventHandler(this.CloseApp_Click);
+            // 
+            // ExtendApp
+            // 
+            this.ExtendApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.ExtendApp.FlatAppearance.BorderSize = 0;
+            this.ExtendApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ExtendApp.Image = global::Machine.UI.Properties.Resources.Rectangle32x32;
+            this.ExtendApp.Location = new System.Drawing.Point(546, 3);
+            this.ExtendApp.Name = "ExtendApp";
+            this.ExtendApp.Size = new System.Drawing.Size(35, 35);
+            this.ExtendApp.TabIndex = 10;
+            this.ExtendApp.UseVisualStyleBackColor = false;
+            this.ExtendApp.Click += new System.EventHandler(this.ExtendApp_Click);
+            // 
+            // HidenApp
+            // 
+            this.HidenApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.HidenApp.FlatAppearance.BorderSize = 0;
+            this.HidenApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.HidenApp.Image = global::Machine.UI.Properties.Resources.Horizontal_Line32x32;
+            this.HidenApp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.HidenApp.Location = new System.Drawing.Point(505, 3);
+            this.HidenApp.Name = "HidenApp";
+            this.HidenApp.Size = new System.Drawing.Size(35, 35);
+            this.HidenApp.TabIndex = 9;
+            this.HidenApp.UseVisualStyleBackColor = false;
+            this.HidenApp.Click += new System.EventHandler(this.button4_Click);
             // 
             // tableLayoutPanel8
             // 
@@ -648,25 +762,13 @@ namespace Machine.UI
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.19483F));
             this.tableLayoutPanel8.Controls.Add(this.lblDayofW, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.lblDayofY, 0, 1);
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(346, 3);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(347, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.45055F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.54945F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(152, 91);
             this.tableLayoutPanel8.TabIndex = 2;
-            // 
-            // lblDayofY
-            // 
-            this.lblDayofY.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblDayofY.AutoSize = true;
-            this.lblDayofY.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDayofY.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblDayofY.Location = new System.Drawing.Point(21, 56);
-            this.lblDayofY.Name = "lblDayofY";
-            this.lblDayofY.Size = new System.Drawing.Size(110, 23);
-            this.lblDayofY.TabIndex = 8;
-            this.lblDayofY.Text = "01/01/2000";
             // 
             // lblDayofW
             // 
@@ -680,137 +782,35 @@ namespace Machine.UI
             this.lblDayofW.TabIndex = 7;
             this.lblDayofW.Text = "Monday";
             // 
-            // HidenApp
+            // lblDayofY
             // 
-            this.HidenApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.HidenApp.FlatAppearance.BorderSize = 0;
-            this.HidenApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.HidenApp.Image = global::Machine.UI.Properties.Resources.Horizontal_Line32x32;
-            this.HidenApp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.HidenApp.Location = new System.Drawing.Point(504, 3);
-            this.HidenApp.Name = "HidenApp";
-            this.HidenApp.Size = new System.Drawing.Size(35, 35);
-            this.HidenApp.TabIndex = 9;
-            this.HidenApp.UseVisualStyleBackColor = false;
-            this.HidenApp.Click += new System.EventHandler(this.button4_Click);
+            this.lblDayofY.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblDayofY.AutoSize = true;
+            this.lblDayofY.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDayofY.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.lblDayofY.Location = new System.Drawing.Point(21, 56);
+            this.lblDayofY.Name = "lblDayofY";
+            this.lblDayofY.Size = new System.Drawing.Size(110, 23);
+            this.lblDayofY.TabIndex = 8;
+            this.lblDayofY.Text = "01/01/2000";
             // 
-            // ExtendApp
+            // lblHour
             // 
-            this.ExtendApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.ExtendApp.FlatAppearance.BorderSize = 0;
-            this.ExtendApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ExtendApp.Image = global::Machine.UI.Properties.Resources.Rectangle32x32;
-            this.ExtendApp.Location = new System.Drawing.Point(545, 3);
-            this.ExtendApp.Name = "ExtendApp";
-            this.ExtendApp.Size = new System.Drawing.Size(35, 35);
-            this.ExtendApp.TabIndex = 10;
-            this.ExtendApp.UseVisualStyleBackColor = false;
-            this.ExtendApp.Click += new System.EventHandler(this.ExtendApp_Click);
-            // 
-            // CloseApp
-            // 
-            this.CloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.CloseApp.FlatAppearance.BorderSize = 0;
-            this.CloseApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CloseApp.Image = global::Machine.UI.Properties.Resources.Close32x32;
-            this.CloseApp.Location = new System.Drawing.Point(586, 3);
-            this.CloseApp.Name = "CloseApp";
-            this.CloseApp.Size = new System.Drawing.Size(35, 35);
-            this.CloseApp.TabIndex = 11;
-            this.CloseApp.UseVisualStyleBackColor = false;
-            this.CloseApp.Click += new System.EventHandler(this.CloseApp_Click);
-            // 
-            // labelOk
-            // 
-            this.labelOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOk.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelOk.Location = new System.Drawing.Point(113, 0);
-            this.labelOk.Name = "labelOk";
-            this.labelOk.Size = new System.Drawing.Size(119, 51);
-            this.labelOk.TabIndex = 14;
-            this.labelOk.Text = "0";
-            this.labelOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelOk.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // labelOkPer
-            // 
-            this.labelOkPer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOkPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelOkPer.Location = new System.Drawing.Point(238, 0);
-            this.labelOkPer.Name = "labelOkPer";
-            this.labelOkPer.Size = new System.Drawing.Size(122, 51);
-            this.labelOkPer.TabIndex = 18;
-            this.labelOkPer.Text = "0%";
-            this.labelOkPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNg
-            // 
-            this.labelNg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNg.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNg.Location = new System.Drawing.Point(113, 51);
-            this.labelNg.Name = "labelNg";
-            this.labelNg.Size = new System.Drawing.Size(119, 51);
-            this.labelNg.TabIndex = 19;
-            this.labelNg.Text = "0";
-            this.labelNg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNgPer
-            // 
-            this.labelNgPer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNgPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNgPer.Location = new System.Drawing.Point(238, 51);
-            this.labelNgPer.Name = "labelNgPer";
-            this.labelNgPer.Size = new System.Drawing.Size(122, 51);
-            this.labelNgPer.TabIndex = 20;
-            this.labelNgPer.Text = "0%";
-            this.labelNgPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNone
-            // 
-            this.labelNone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNone.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNone.Location = new System.Drawing.Point(113, 102);
-            this.labelNone.Name = "labelNone";
-            this.labelNone.Size = new System.Drawing.Size(119, 51);
-            this.labelNone.TabIndex = 21;
-            this.labelNone.Text = "0";
-            this.labelNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNonePer
-            // 
-            this.labelNonePer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNonePer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNonePer.Location = new System.Drawing.Point(238, 102);
-            this.labelNonePer.Name = "labelNonePer";
-            this.labelNonePer.Size = new System.Drawing.Size(122, 51);
-            this.labelNonePer.TabIndex = 22;
-            this.labelNonePer.Text = "0%";
-            this.labelNonePer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelTotal
-            // 
-            this.labelTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTotal.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelTotal.Location = new System.Drawing.Point(113, 153);
-            this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(119, 53);
-            this.labelTotal.TabIndex = 23;
-            this.labelTotal.Text = "0";
-            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblHour.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblHour.AutoSize = true;
+            this.lblHour.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHour.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.lblHour.Location = new System.Drawing.Point(212, 21);
+            this.lblHour.Margin = new System.Windows.Forms.Padding(0);
+            this.lblHour.Name = "lblHour";
+            this.lblHour.Size = new System.Drawing.Size(132, 55);
+            this.lblHour.TabIndex = 6;
+            this.lblHour.Text = "00:00";
+            this.lblHour.Click += new System.EventHandler(this.lblHour_Click_1);
             // 
             // timer1
             // 
             this.timer1.Interval = 1000;
-            // 
-            // SummaryResult
-            // 
-            this.SummaryResult.Location = new System.Drawing.Point(3, 144);
-            this.SummaryResult.Name = "SummaryResult";
-            this.SummaryResult.Size = new System.Drawing.Size(175, 33);
-            this.SummaryResult.TabIndex = 25;
-            this.SummaryResult.Text = "Summary Result";
-            this.SummaryResult.UseVisualStyleBackColor = true;
-            this.SummaryResult.Click += new System.EventHandler(this.SummaryResult_Click);
             // 
             // FormMain
             // 

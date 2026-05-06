@@ -64,7 +64,7 @@ namespace Machine.UI.services
 
                     string clean = packet.Replace(",", "");
 
-                    OnRawData?.Invoke(clean); // "11111"
+                    OnRawData?.Invoke(clean); // 
                 }
             }
         }

@@ -31,24 +31,27 @@ namespace Machine.UI
         //chuỗi gửi từ camera -> app dạng : 1,1,1,1,1
 
         //string ipVision = "192.168.0.211";
-        string ipVision = "127.0.0.1";
+        string ipVision = "127.0.0.1"; 
         string ipRobot = "127.0.0.1";
-        TrayModel currentTray;
-        TrayProcessor processor;
-        ushort registerData = 5;
+        TrayModel currentTray; 
+        TrayProcessor processor; 
+        ushort registerData = 5; 
 
         VisionDataService visionDb;
         TrayRunService trayRunService;
-        int _previousIndex = -1;
+
         bool _isInitializing = true;
 
         int portVision = 8001;
         int portRobot = 502;
-        int currentTrayId;
-        int total = 0;
-        int ok = 0;
-        int ng = 0;
-        int none = 0;
+
+        int currentTrayId; // xác định xem tray nào đang chạy để insert vào db
+        int _previousIndex = -1; // biến xác định ng dùng có đổi tray mới k - cacche tray
+
+        int total = 0; // biến cục bộ hiển thị tổng số hàng đã quét
+        int ok = 0;// biến cục bộ hiển thị tổng số hàng ok
+        int ng = 0;// biến cục bộ hiển thị tổng số hàng ng
+        int none = 0;// biến cục bộ hiển thị tổng số hàng none
 
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
@@ -73,49 +76,57 @@ namespace Machine.UI
             summaryResultsService = new SummaryResultsService(conn);
             TimeReal();
             this.FormBorderStyle = FormBorderStyle.None;
-            tableLayoutPanel1.MouseDown += tableLayoutPanel1_MouseDown;
+            tableLayoutPanel1.MouseDown += tableLayoutPanel1_MouseDown;// kéo thả - di chuyển vị trí trên màn hình
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
-            string path = Path.Combine(Application.StartupPath, "configDB", "models.json");
-            flowLayoutPanel4.Visible = false;
-            flowLayoutPanel6.Visible = false;
-            string json = File.ReadAllText(path);
+            flowLayoutPanel4.Visible = false;//ẩn menu ở setting
+            flowLayoutPanel6.Visible = false;//ẩn menu ở data
 
-            trays = JsonSerializer.Deserialize<List<Model1>>(json);
+            string path = Path.Combine(Application.StartupPath, "configDB", "models.json");//path file json các loại tray
+            string json = File.ReadAllText(path);
+            trays = JsonSerializer.Deserialize<List<Model1>>(json);// lấy ds tray từ file json
+
+            //  xử lý sự kiện nhận index từ robot ??? cần thiết ??
             robot.OnIndexReceived = (index) =>
             {
                 this.Invoke(new Action(() =>
                 {
-                  //  richTextBox2.AppendText($" Index: {index}\n");
                     AppendLog(richTextBox2, $" Index: {index}" );
                 }));
             };
+            robot.Trigger=() =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    AppendLog(richTextBox2, "🔥 Robot Triggered");
+                    if (!_isVisionRunning)
+                    {
+                        _isVisionRunning = true;
+                        var flow = VmSolution.Instance["Flow1"] as VmProcedure;
+                        try
+                        {
+                            flow?.Run();
+                        }
+                        catch (Exception ex)
+                        {
+                            AppendLog(richTextBox2, "ERR run vision " + ex.ToString());
+                            _isVisionRunning = false;
+                        }
+                    }
+                    else
+                    {
+                        AppendLog(richTextBox2, "❌ Vision is already running. Ignoring trigger.");
+                    }
+                }));
+            };
+            // sự kiên dc gọi khi nhận dc data từ vision, parse ra kết quả, gửi cho robot, update UI, insert vào db
             vision.OnRawData = (msg) =>
             {
                 this.Invoke(new Action(() =>
                 {
-                    var results = VisionParser.Parse(msg);
-                    robot.WriteStringToRobot(registerData, msg);
-                    string appendTextRs = $"[{DateTime.Now:HH:mm:ss}] ";
-                    foreach (var item in results)
-                    {
-                        appendTextRs += item + "\t";
-                    }
-                   // richTextBox3.AppendText(appendTextRs + "\n");
-                    AppendLog(richTextBox3, appendTextRs);
-                    var cells = processor.ProcessBatch(results);
-
-                    InsertData(cells);
-
-                    foreach (var cell in cells)
-                    {
-                        if (!string.IsNullOrEmpty(cell.Result))
-                        {
-                            UpdateTray(cell.Row, cell.Col, cell.Result);
-                        }
-                    }
+                   _flow?.Run(); // chạy chương trình vision
                 }));
             };
 
@@ -123,36 +134,39 @@ namespace Machine.UI
                 // robot.Connect(ipRobot, portRobot),
                 //vision.Connect(ipVision, portVision)
                 );
-          //  bool visionOk = await ConnectVisionSafe();
 
-            //if (!visionOk)
-            //{
-            //    MessageBox.Show("Không kết nối được Vision!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
             robot.OnTrayCompleted = () =>
             {
                 this.Invoke(new Action(() =>
                 {
-                  //  richTextBox2.AppendText("✅ Tray DONE\n");
                     AppendLog(richTextBox2, "✅ Tray DONE");
-                    trayRunService.UpdateEndTime(currentTrayId);
+
+                    trayRunService.UpdateEndTime(currentTrayId);// thêm thời gian kết thúc tray vào db
                     // 🔥 reset UI
                     ClearTray();
-
-                    // 🔥 reset processor
+                    // 🔥 reset data ở code
                     processor.Reset();
                 }));
             };
 
             InitComboBox();
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
-            LoadTray(0);
+            LoadTray(0);// load tray đầu tiên 0 - tray đầu tiên của combobox
             _previousIndex = 0;
             comboBox1.SelectedIndex = 0;
             comboBox1.BringToFront();
-            comboBox1.Size = new Size(150, 30);
             comboBox1.Dock = DockStyle.None;
             _isInitializing = false;
+        }
+        public void LoadComboBox1()
+        {
+            comboBox1.Items.Clear();
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            for (int i = 0; i < trays.Count; i++)
+            {
+                comboBox1.Items.Add($"Tray {trays[i].Name}");
+            }
+
         }
         async Task<bool> ConnectVisionSafe()
         {
@@ -293,11 +307,14 @@ namespace Machine.UI
 
             var model = trays[index];
 
-            currentTray = model.ToTrayModel();
+            currentTray = model.ToTrayModel();//tray hiện tại
 
             processor = new TrayProcessor(currentTray);
-            processor.Reset();
-            StartTray();
+            processor.Reset();//
+
+            StartTray();  //lưu tray chuẩn bị chạy vào db
+
+            //===========start render các ô ở gridviewtable thành ô===========================
             int rows = model.Row;
             int cols = model.Col;
 
@@ -314,16 +331,16 @@ namespace Machine.UI
 
                 table.Rows.Add(row);
             }
+            //===========end===========================
 
             dataGridView1.DataSource = table;
             SetupGridStyle();
+
             // ===== 3. LOAD VISION (🔥 QUAN TRỌNG) =====
             if (!File.Exists(model.ProgramVision))
             {
-
                 AppendLog(richTextBox2, $"📂 Path: {model.ProgramVision}");
-
-                AppendLog(richTextBox2, "❌ File không tồn tại");
+                AppendLog(richTextBox2, "❌File does not exist - recheck the path.");
                 return;
             }
 
@@ -340,8 +357,8 @@ namespace Machine.UI
                      //   VmSolution.Instance.Dispose();
                     }
 
-                    VmSolution.Load(model.ProgramVision, "", false);
-                    AppendLog(richTextBox2, "Load OK");
+                    VmSolution.Load(model.ProgramVision, "", false);//load chương trình vision
+                    AppendLog(richTextBox2, "Load ProgramVision OK");
                 }
                 catch (Exception e)
                 {
@@ -369,8 +386,10 @@ namespace Machine.UI
                 _flow.OnWorkEndStatusCallBack += OnVisionDone;
                    // _flow.Run();
 
-              //  richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
+
                 AppendLog(richTextBox2, $"✅ Vision OK: {model.Name}");
+
+                //check kết nối vision, nếu không kết nối được thì log ra richtextbox2
                 _ = Task.Run(async () =>
                 {
                     bool visionOk = await ConnectVisionSafe();
@@ -379,7 +398,7 @@ namespace Machine.UI
                     {
                         this.Invoke(new Action(() =>
                         {
-                            AppendLog(richTextBox2, "❌ Không kết nối được Vision!");
+                            AppendLog(richTextBox2, "❌ Cannot connect to Vision.!");
                         }));
                     }
                 }
@@ -390,6 +409,7 @@ namespace Machine.UI
                 AppendLog(richTextBox2, "❌ " + ex.ToString());
             }
 
+            //connect robot, nếu không kết nối được thì log ra richtextbox2
             _ = Task.Run(async () =>
             {
                 AppendLog(richTextBox2, "🤖 Connecting Robot...");
@@ -431,7 +451,6 @@ namespace Machine.UI
 
             this.Invoke(new Action(() =>
             {
-             //   richTextBox2.AppendText($"Output count = {outputs?.Count}\n");
                 AppendLog(richTextBox2, $"Output count = {outputs?.Count}");
             }));
 
@@ -441,7 +460,7 @@ namespace Machine.UI
             _isVisionRunning = false;
         }
 
-        // ================== STYLE ==================
+        // ================== STYLE  datagirdtable==================
         private void SetupGridStyle()
         {
             dataGridView1.AllowUserToAddRows = false;
@@ -490,7 +509,7 @@ namespace Machine.UI
         {
             SetupGridStyle();
         }
-        // ================== UPDATE ==================
+        // ================== UPDATE kết quả chụp, hiển thị lên datagridview==================
         private void UpdateTray(int row, int col, string result)
         {
             if (row < 0 || col < 0) return;
@@ -508,7 +527,7 @@ namespace Machine.UI
             dataGridView1.Rows[row].Cells[col].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.InvalidateCell(col, row);
         }
-        private void ClearTray()
+        private void ClearTray()//
         {
             richTextBox3.Clear();
             if (dataGridView1.InvokeRequired)
@@ -525,14 +544,14 @@ namespace Machine.UI
                 }
             }
         }
-        void StartTray()
+
+        void StartTray()        //lưu tray chuẩn bị chạy vào db
         {
             if (comboBox1.SelectedIndex < 0)
             {
-              //  MessageBox.Show("Chưa chọn tray!");
+                AppendLog(richTextBox2, "chưa chọn tray");
                 return;
             }
-
             var model = trays[comboBox1.SelectedIndex];
 
             currentTrayId = trayRunService.Create(new TrayRun
@@ -543,7 +562,7 @@ namespace Machine.UI
                 StartTime = DateTime.Now
             });
         }
-        // ================== COLOR ==================
+        // ================== COLOR cho từng cell khi nhận kết quả ==================
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value == null) return;
@@ -574,60 +593,34 @@ namespace Machine.UI
             }
         }
 
-        private void btnDevice_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void btnImage_Click(object sender, EventArgs e)
-        {
-
-        }
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btnCamera_Click(object sender, EventArgs e) { }
-
         private void btnSetting_Click(object sender, EventArgs e) {
             flowLayoutPanel4.Visible = !flowLayoutPanel4.Visible;
         }
 
-        private void tUpdate_Tick(object sender, EventArgs e)
-        {
-
-        }
 
 
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            int val = int.Parse("1");
-
-            robot.WriteIndex(val);
-
-          //  richTextBox2.AppendText($"📤 Send Index: {val}\n");
-            AppendLog(richTextBox2, $"📤 Send Index: {val}");
-        }
-
+        //kết nối robot
         private async void button8_Click(object sender, EventArgs e)
         {
-         //   richTextBox2.AppendText("🔌 Connecting...\n");
             AppendLog(richTextBox2, "🔌 Connecting...");
             var ok = robot.Connect(ipRobot, portRobot);
-
+            AppendLog(richTextBox2, "🔌 Connected");
             if (!await ok)
             {
                 AppendLog(richTextBox2, "❌ Không kết nối được Modbus");
             }
 
         }
-
+        // ngắt kết nối robot
         private void button9_Click(object sender, EventArgs e)
         {
             robot.Disconnect();
-
             AppendLog(richTextBox2, "🔌 Disconnected");
         }
 
@@ -636,16 +629,13 @@ namespace Machine.UI
             //showdata vision
             // richTextBox1.AppendText(results + "\n");
         }
-
+        // kết nối vision
         private async void button10_Click(object sender, EventArgs e)
         {
             try
             {
                 richTextBox2.AppendText("🔌 Connecting Vision...\n");
-
-
                 await vision.Connect(ipVision, portVision);
-
                 AppendLog(richTextBox2, "✅ Vision Connected");
             }
             catch (Exception ex)
@@ -653,7 +643,7 @@ namespace Machine.UI
                 AppendLog(richTextBox2, "❌ Vision Connect Error: " + ex.Message);
             }
         }
-
+        // ngắt kết nối vision
         private void button11_Click(object sender, EventArgs e)
         {
             //disconnect vision
@@ -661,6 +651,7 @@ namespace Machine.UI
             AppendLog(richTextBox2, "🔌 Vision Disconnected");
         }
 
+        // hiện popup tổng hợp kết quả chạy máy từ DB theo thời gian
         private void SummaryResult_Click(object sender, EventArgs e)
         {
             DateTime from = dateTimePickerFrom.Value;
@@ -668,10 +659,7 @@ namespace Machine.UI
             string safeFrom = from.ToString("yyyyMMdd_HHmmss");
             string safeTo = to.ToString("yyyyMMdd_HHmmss");
             try {
-
-               
                 var data = summaryResultsService.GetSummaryByModel(from, to);
-
                 var f = new FormSummary(data);
                 f.ShowDialog(); // popup modal
                 AppendLog(richTextBox2, "Get SummaryResultsService done : " );
@@ -682,6 +670,7 @@ namespace Machine.UI
             }
 
         }
+        //xuất excel tất cả tray theo thời gian từ DB
         private void button12_Click(object sender, EventArgs e)
         {
             DateTime from = dateTimePickerFrom.Value;
@@ -703,22 +692,13 @@ namespace Machine.UI
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Lỗi export: " + ex.Message);
+                        MessageBox.Show("Lỗi export" + ex.Message);
                     }
                 }
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Clear data
-            total = 0;
-            ok = 0;
-            ng = 0;
-            none = 0;
-
-        }
-
+        //chạy chương trình vision
         private void button2_Click(object sender, EventArgs e)
         {
             var flow = VmSolution.Instance["Flow1"] as VmProcedure;
@@ -727,46 +707,17 @@ namespace Machine.UI
                     }
             catch(Exception ex)
             {
-              //  richTextBox2.AppendText("ERR run vision " + ex.ToString() +"\n");
                 AppendLog(richTextBox2, "ERR run vision " + ex.ToString());
             }
 
         }
-        private void txtOK_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void txtNG_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button15_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void vmRenderControl1_Load(object sender, EventArgs e)
-        {
-
-        }
-        private void tHiden_Tick(object sender, EventArgs e) { }
-
-        private void btnReset_Click(object sender, EventArgs e) { }
-
+        // ẩn hiện menu data
         private void btnData_Click(object sender, EventArgs e) {
             flowLayoutPanel6.Visible = !flowLayoutPanel6.Visible;
         }
 
-        private void ImageDisplayInit() { }
-
-        private void groupBox3_Enter(object sender, EventArgs e) { }
-
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-            dataGridView1.ClearSelection();
-        }
+        //chặn selection cell khi click vào datagridview
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) {
 
             dataGridView1.ClearSelection();
@@ -775,31 +726,8 @@ namespace Machine.UI
         private async void btnMenu_Click(object sender, EventArgs e) { }
         private void pnResult_Paint(object sender, PaintEventArgs e) { }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pnControl_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblHour_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //đặt lại biến cục bộ hiển thị tổng số hàng đã quét, ok, ng, none về 0 và update lại label
         private void button1_Click_1(object sender, EventArgs e)
         {
             //Clear data
@@ -819,6 +747,8 @@ namespace Machine.UI
 
             labelTotal.Text = "0";
         }
+
+        //add log vào richtextbox
         void AppendLog(RichTextBox rtb, string text)
         {
             text = text+"\n";
@@ -843,31 +773,6 @@ namespace Machine.UI
             {
                 rtb.Clear();
             }
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel9_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
-        {
-
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -901,28 +806,6 @@ namespace Machine.UI
                 Console.WriteLine("Error closing: " + ex.Message);
             }
         }
-
-        private void lblMachineName_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtOK_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblHour_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
@@ -968,6 +851,78 @@ namespace Machine.UI
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnControl_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblHour_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void lblMachineName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblHour_Click_1(object sender, EventArgs e)
+        {
+
+        }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel9_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+
+
+        private void vmRenderControl1_Load(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

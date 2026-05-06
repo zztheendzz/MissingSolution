@@ -18,6 +18,7 @@ namespace Machine.UI.services
 
         public Action<int, int> OnPositionReceived;
         public Action OnTrayCompleted;
+        public Action Trigger;
         public async Task<bool> Connect(string ip, int port)
         {
             try
@@ -30,7 +31,7 @@ namespace Machine.UI.services
 
                 isRunning = true;
                 _ = ReadLoop();
-
+                _ = TriggerNotice();
                 Console.WriteLine("Connected Modbus Robot");
 
                 return true;
@@ -107,12 +108,41 @@ namespace Machine.UI.services
             }
 
         }
+
+        private async Task TriggerNotice()
+        {
+
+            while (isRunning)
+            {
+                try
+                {
+                    //đọc từ robot xác nhận đến vị trí chụp
+                    ushort[] regs = master.ReadHoldingRegisters(1, 3, 1);
+                    bool trigger = regs[0] == 1;
+                    // 👇 chỉ ăn 1 lần khi 0 -> 1
+                    if (trigger)
+                    {
+                        // xử lý logic của bạn
+                        Trigger?.Invoke();
+                        // 🔥 reset về 0 NGAY
+                        master.WriteSingleRegister(1, 3, 0);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Modbus error: " + ex.Message);
+                }
+                await Task.Delay(50);
+            }
+        }
+
         private async Task ReadLoop()
         {
             while (isRunning)
             {
                 try
                 {
+                    //đọc từ robot xác nhận xong tray hiện tại
                     ushort[] regs = master.ReadHoldingRegisters(1, 4, 1);
                     bool trigger = regs[0] == 1;
 
