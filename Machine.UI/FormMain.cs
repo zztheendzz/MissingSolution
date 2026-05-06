@@ -26,6 +26,7 @@ namespace Machine.UI
         bool isRunning = false;
         TcpClientService vision = new TcpClientService();
         ModbusService robot = new ModbusService();
+        TcpPlcService plc = new TcpPlcService();
         int positions = 0;
         SummaryResultsService summaryResultsService;
         //chuỗi gửi từ camera -> app dạng : 1,1,1,1,1
@@ -33,6 +34,7 @@ namespace Machine.UI
         //string ipVision = "192.168.0.211";
         string ipVision = "127.0.0.1";
         string ipRobot = "127.0.0.1";
+        string ipPlc = "127.0.0.1";
         TrayModel currentTray;
         TrayProcessor processor;
         ushort registerData = 5;
@@ -44,6 +46,7 @@ namespace Machine.UI
 
         int portVision = 8001;
         int portRobot = 502;
+        int portPlc = 5000;
 
         int currentTrayId; // xác định xem tray nào đang chạy để insert vào db
         int _previousIndex = -1; // biến xác định ng dùng có đổi tray mới k - cacche tray
@@ -72,6 +75,7 @@ namespace Machine.UI
             string conn = configDB.configDB.ConnectionString;
             excelService = new ExportExcelService(conn);
             visionDb = new VisionDataService(conn);
+
             trayRunService = new TrayRunService(conn);
             summaryResultsService = new SummaryResultsService(conn);
             TimeReal();
@@ -94,6 +98,16 @@ namespace Machine.UI
                 this.Invoke(new Action(() =>
                 {
                     AppendLog(richTextBox2, $" Index: {index}");
+                }));
+            };
+
+            // nhận tín hiệu từ robot và run chương trình vision
+            robot.Trigger = () =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    _flow?.Run();
+                    AppendLog(richTextBox2, "Run vision");
                 }));
             };
 
@@ -125,6 +139,7 @@ namespace Machine.UI
                     ////////////////////////////////////////////////////
                 }));
             };
+
 
             await Task.WhenAll(
       // robot.Connect(ipRobot, portRobot),
@@ -380,7 +395,7 @@ namespace Machine.UI
 
                 _flow.OnWorkEndStatusCallBack -= OnVisionDone;
                 _flow.OnWorkEndStatusCallBack += OnVisionDone;
-                // _flow.Run();
+               //  _flow.Run();
 
 
                 AppendLog(richTextBox2, $"✅ Vision OK: {model.Name}");
@@ -420,6 +435,24 @@ namespace Machine.UI
                         AppendLog(richTextBox2, "❌ Robot Connect Fail");
                 }));
             });
+
+            //_ = Task.Run(async () =>
+            //{
+            //    AppendLog(richTextBox2, "🤖 Connecting Plc...");
+
+            //    //var ok = await plc.Connect(ipPlc, portPlc);
+
+            //    this.Invoke(new Action(() =>
+            //    {
+            // ////       if (ok)
+            //            AppendLog(richTextBox2, "✅ Plc Connected");
+            ////        else
+            //   //         AppendLog(richTextBox2, "❌ Plc Connect Fail");
+            //    }));
+            //});
+
+
+
         }
         private void OnVisionDone(object sender, EventArgs e)
         {
@@ -782,7 +815,7 @@ namespace Machine.UI
             base.OnFormClosing(e);
 
             try
-            {
+            { 
                 // 🔌 stop vision
                 vision?.Disconnect();
 

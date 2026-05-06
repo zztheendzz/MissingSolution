@@ -3,14 +3,38 @@ using HslCommunication.Profinet.Melsec;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Machine.UI.services
 {
     public class TcpPlcService
     {
-        MelsecMcNet melsecPLC = new MelsecMcNet("192.168.1.10", 6000);
+        MelsecMcNet melsecPLC;
+        private string ip; 
+        private int port;
+        public TcpPlcService(string ipAddress, int port)
+        {
+            this.ip = ipAddress;
+            this.port = port;
+        }
+        public TcpPlcService(){}
+        public async Task<bool> Connect(string ip, int port)
+        {
+            this.ip = ip;
+            this.port = port;
+            try {
+                this.melsecPLC = new MelsecMcNet(this.ip, this.port);
+                await Task.Run(() => this.melsecPLC.ConnectServer());
+            }
+            catch (Exception ex) {
+            MessageBox.Show("Error connecting to PLC: " + ex.ToString());
+            }
+            return false;
+        }
+
 
         private async void ConnectAndRead()
         {
@@ -85,12 +109,10 @@ namespace Machine.UI.services
         {
             return melsecPLC.Write(address, value).IsSuccess;
         }
-
         // 4. Ghi Float
         public bool WriteFloat(string address, float value)
         {
             return melsecPLC.Write(address, value).IsSuccess;
         }
-
     }
 }
