@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Machine.UI.services
 {
-    public class ExportExcel
+    public class TcpPlcService
     {
 
 

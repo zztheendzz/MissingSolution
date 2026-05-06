@@ -1,7 +1,6 @@
 ﻿
-using DocumentFormat.OpenXml.Wordprocessing;
-using FrontendUI.Design.Controls;
 using Machine.UI.model;
+using Machine.UI.popupForm;
 using Machine.UI.services;
 using System;
 using System.Collections.Generic;
@@ -9,12 +8,14 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using VM.Core;
+
 
 namespace Machine.UI
 {
@@ -26,6 +27,7 @@ namespace Machine.UI
         TcpClientService vision = new TcpClientService();
         ModbusService robot = new ModbusService();
         int positions = 0;
+        SummaryResultsService summaryResultsService;
         //chuỗi gửi từ camera -> app dạng : 1,1,1,1,1
 
         //string ipVision = "192.168.0.211";
@@ -48,6 +50,12 @@ namespace Machine.UI
         int ng = 0;
         int none = 0;
 
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
         VmProcedure _flow;
         string _lastTcpMsg = null;
         bool _isVisionRunning = false;
@@ -62,6 +70,10 @@ namespace Machine.UI
             excelService = new ExportExcelService(conn);
             visionDb = new VisionDataService(conn);
             trayRunService = new TrayRunService(conn);
+            summaryResultsService = new SummaryResultsService(conn);
+            TimeReal();
+            this.FormBorderStyle = FormBorderStyle.None;
+            tableLayoutPanel1.MouseDown += tableLayoutPanel1_MouseDown;
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -168,7 +180,7 @@ namespace Machine.UI
                 return false;
             }
         }
-        public void InsertData(List<Cell> cells)
+        public void InsertData(List<Machine.UI.model.Cell> cells )
         {
             var list = new List<VisionData>();
 
@@ -213,16 +225,18 @@ namespace Machine.UI
         }
         void UpdateUI()
         {
-            textBox3.Text = ((double)ng / total * 100).ToString("F2") + "%";
-            textBox1.Text = ((double)none / total * 100).ToString("F2") + "%";
-            textBox2.Text = (100
+
+
+            labelOk.Text = ok.ToString();
+            labelNg.Text = ng.ToString();
+            labelNone.Text = none.ToString();
+            labelTotal.Text = total.ToString();
+
+            labelNgPer.Text= ((double)ng / total * 100).ToString("F2") + "%";
+            labelNonePer.Text = ((double)none / total * 100).ToString("F2") + "%";
+            labelOkPer.Text = (100
                 - (double)ng / total * 100
                 - (double)none / total * 100).ToString("F2") + "%";
-
-            txtOK.Text = ok.ToString();
-            txtNG.Text = ng.ToString();
-            textBox6.Text = total.ToString();
-            textBox4.Text = none.ToString();
         }
         // ================== COMBOBOX ==================
         private void InitComboBox()
@@ -322,10 +336,10 @@ namespace Machine.UI
                 {
                     if (VmSolution.Instance != null)
                     {
-                      //  VmSolution.Instance.Dispose();
+                        //app crash???
+                     //   VmSolution.Instance.Dispose();
                     }
 
-                    System.Threading.Thread.Sleep(200);
                     VmSolution.Load(model.ProgramVision, "", false);
                     AppendLog(richTextBox2, "Load OK");
                 }
@@ -353,7 +367,7 @@ namespace Machine.UI
 
                 _flow.OnWorkEndStatusCallBack -= OnVisionDone;
                 _flow.OnWorkEndStatusCallBack += OnVisionDone;
-                //    flow.Run();
+                   // _flow.Run();
 
               //  richTextBox2.AppendText($"✅ Vision OK: {model.Name}\n");
                 AppendLog(richTextBox2, $"✅ Vision OK: {model.Name}");
@@ -368,7 +382,8 @@ namespace Machine.UI
                             AppendLog(richTextBox2, "❌ Không kết nối được Vision!");
                         }));
                     }
-                });
+                }
+                );
             }
             catch (Exception ex)
             {
@@ -646,6 +661,27 @@ namespace Machine.UI
             AppendLog(richTextBox2, "🔌 Vision Disconnected");
         }
 
+        private void SummaryResult_Click(object sender, EventArgs e)
+        {
+            DateTime from = dateTimePickerFrom.Value;
+            DateTime to = dateTimePickerTo.Value;
+            string safeFrom = from.ToString("yyyyMMdd_HHmmss");
+            string safeTo = to.ToString("yyyyMMdd_HHmmss");
+            try {
+
+               
+                var data = summaryResultsService.GetSummaryByModel(from, to);
+
+                var f = new FormSummary(data);
+                f.ShowDialog(); // popup modal
+                AppendLog(richTextBox2, "Get SummaryResultsService done : " );
+            }
+            catch(Exception ex)
+            {
+                AppendLog(richTextBox2, "❌ Lỗi SummaryResultsService : " + ex.ToString());
+            }
+
+        }
         private void button12_Click(object sender, EventArgs e)
         {
             DateTime from = dateTimePickerFrom.Value;
@@ -680,13 +716,7 @@ namespace Machine.UI
             ok = 0;
             ng = 0;
             none = 0;
-            txtOK.Text = "0%";
-            txtNG.Text = "0%";
-            textBox6.Text = "0";
-            textBox1.Text = "0%";
-            textBox2.Text = "0%";
-            textBox3.Text = "0%";
-            textBox4.Text = "0%";
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -777,13 +807,17 @@ namespace Machine.UI
             ok = 0;
             ng = 0;
             none = 0;
-            txtOK.Text = "0%";
-            txtNG.Text = "0%";
-            textBox6.Text = "0";
-            textBox1.Text = "0%";
-            textBox2.Text = "0%";
-            textBox3.Text = "0%";
-            textBox4.Text = "0%";
+            labelOk.Text="0";
+            labelOkPer.Text = "0%";
+            
+
+            labelNg.Text = "0";
+            labelNgPer.Text = "0%";
+
+            labelNone.Text = "0";
+            labelNonePer.Text = "0%";
+
+            labelTotal.Text = "0";
         }
         void AppendLog(RichTextBox rtb, string text)
         {
@@ -804,6 +838,10 @@ namespace Machine.UI
             {
                 rtb.SelectionStart = rtb.Text.Length;
                 rtb.ScrollToCaret();
+            }
+            if (rtb.Lines.Length > 1000)
+            {
+                rtb.Clear();
             }
         }
 
@@ -831,5 +869,105 @@ namespace Machine.UI
         {
 
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            try
+            {
+                // 🔌 stop vision
+                vision?.Disconnect();
+
+                // 🤖 stop robot
+                robot?.Disconnect();
+
+                // 📷 camera
+               // cam?.Dispose();
+
+                // 🔥 dispose VM (QUAN TRỌNG NHẤT)
+                if (VmSolution.Instance != null)
+                {
+                    VmSolution.Instance.Dispose();
+                }
+
+                // 🔥 remove event
+                if (_flow != null)
+                {
+                    _flow.OnWorkEndStatusCallBack -= OnVisionDone;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error closing: " + ex.Message);
+            }
+        }
+
+        private void lblMachineName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtOK_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblHour_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+
+            lblHour.Text = now.ToString("HH:mm:ss");
+            lblDayofY.Text = now.ToString("dd/MM/yyyy");
+            lblDayofW.Text = now.ToString("dddd",
+                new System.Globalization.CultureInfo("en-US"));
+        }
+
+        private void TimeReal()
+        {
+            timer1 = new Timer();
+            timer1.Interval = 1000;
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void CloseApp_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void ExtendApp_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+                this.WindowState = FormWindowState.Normal;
+            else
+                this.WindowState = FormWindowState.Maximized;
+        }
+        private void tableLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, 0x112, 0xf012, 0);
+            }
+        }
+
+
     }
 }

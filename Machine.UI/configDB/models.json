@@ -1,22 +1,17 @@
 [
     {
-        "Name": "test",
-        "Row": 3,
-        "Col": 3,
-        "ProgramVision": "D:\\Desktop\\Vision\\test.solw"
-    },
-    {
-        "Name": "A266",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\A266\\A266.solw"
-    },
-    {
         "Name": "F761",
         "Row": 7,
         "Col": 26,
         "ProgramVision": "D:\\Desktop\\New folder (4)\\finger\\FINGER BRK PROGRAM\\F761\\F761.solw"
     },
+    {
+        "Name": "A266",
+        "Row": 7,
+        "Col": 26,
+        "ProgramVision": "D:\\Desktop\\Vision\\test.solw"
+    },
+
     {
         "Name": "F766",
         "Row": 7,
