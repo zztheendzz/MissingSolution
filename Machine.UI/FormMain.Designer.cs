@@ -31,7 +31,7 @@ namespace Machine.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.Button();
             this.btnData = new System.Windows.Forms.Button();
@@ -88,6 +88,7 @@ namespace Machine.UI
             this.lblDayofY = new System.Windows.Forms.Label();
             this.lblHour = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.token = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -111,9 +112,9 @@ namespace Machine.UI
             this.lblMachineName.BackColor = System.Drawing.Color.Transparent;
             this.lblMachineName.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMachineName.ForeColor = System.Drawing.Color.DarkOrange;
-            this.lblMachineName.Location = new System.Drawing.Point(3, 28);
+            this.lblMachineName.Location = new System.Drawing.Point(3, 24);
             this.lblMachineName.Name = "lblMachineName";
-            this.lblMachineName.Size = new System.Drawing.Size(288, 34);
+            this.lblMachineName.Size = new System.Drawing.Size(370, 43);
             this.lblMachineName.TabIndex = 1;
             this.lblMachineName.Text = "UIL MACHINE DEMO";
             this.lblMachineName.Click += new System.EventHandler(this.lblMachineName_Click);
@@ -145,7 +146,7 @@ namespace Machine.UI
             this.btnData.ForeColor = System.Drawing.Color.White;
             this.btnData.Image = global::Machine.UI.Properties.Resources.Database;
             this.btnData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnData.Location = new System.Drawing.Point(0, 428);
+            this.btnData.Location = new System.Drawing.Point(0, 473);
             this.btnData.Margin = new System.Windows.Forms.Padding(0);
             this.btnData.Name = "btnData";
             this.btnData.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
@@ -166,10 +167,10 @@ namespace Machine.UI
             "model2",
             "model3",
             "model4"});
-            this.comboBox1.Location = new System.Drawing.Point(109, 15);
+            this.comboBox1.Location = new System.Drawing.Point(127, 15);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(254, 39);
+            this.comboBox1.Size = new System.Drawing.Size(236, 45);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -286,9 +287,9 @@ namespace Machine.UI
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Green;
-            this.label1.Location = new System.Drawing.Point(3, 14);
+            this.label1.Location = new System.Drawing.Point(3, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 23);
+            this.label1.Size = new System.Drawing.Size(65, 31);
             this.label1.TabIndex = 1;
             this.label1.Text = "OK :";
             // 
@@ -310,9 +311,9 @@ namespace Machine.UI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Crimson;
-            this.label2.Location = new System.Drawing.Point(3, 64);
+            this.label2.Location = new System.Drawing.Point(3, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 23);
+            this.label2.Size = new System.Drawing.Size(65, 31);
             this.label2.TabIndex = 2;
             this.label2.Text = "NG :";
             // 
@@ -391,8 +392,8 @@ namespace Machine.UI
             // tableLayoutPanel9
             // 
             this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.02755F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.97245F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tableLayoutPanel9.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.comboBox1, 1, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -412,7 +413,7 @@ namespace Machine.UI
             this.label8.Location = new System.Drawing.Point(10, 15);
             this.label8.Margin = new System.Windows.Forms.Padding(10, 15, 3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(93, 31);
+            this.label8.Size = new System.Drawing.Size(114, 39);
             this.label8.TabIndex = 2;
             this.label8.Text = "Model ";
             // 
@@ -505,7 +506,7 @@ namespace Machine.UI
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(3, 105);
+            this.button12.Location = new System.Drawing.Point(3, 119);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(175, 33);
             this.button12.TabIndex = 18;
@@ -517,9 +518,9 @@ namespace Machine.UI
             // 
             this.dateTimePickerFrom.CustomFormat = "MM-dd HH:mm:ss";
             this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(3, 22);
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(3, 25);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(175, 26);
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(175, 30);
             this.dateTimePickerFrom.TabIndex = 21;
             this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
@@ -527,9 +528,9 @@ namespace Machine.UI
             // 
             this.dateTimePickerTo.CustomFormat = "MM-dd HH:mm:ss";
             this.dateTimePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerTo.Location = new System.Drawing.Point(3, 73);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(3, 83);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(175, 26);
+            this.dateTimePickerTo.Size = new System.Drawing.Size(175, 30);
             this.dateTimePickerTo.TabIndex = 22;
             // 
             // tableLayoutPanel3
@@ -566,14 +567,14 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 242);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
@@ -627,10 +628,11 @@ namespace Machine.UI
             this.flowLayoutPanel4.Controls.Add(this.ConnectPlc);
             this.flowLayoutPanel4.Controls.Add(this.WritePlc);
             this.flowLayoutPanel4.Controls.Add(this.ReadPlc);
+            this.flowLayoutPanel4.Controls.Add(this.token);
             this.flowLayoutPanel4.Location = new System.Drawing.Point(6, 73);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 352);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 397);
             this.flowLayoutPanel4.TabIndex = 9;
             this.flowLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel4_Paint);
             // 
@@ -675,7 +677,7 @@ namespace Machine.UI
             this.flowLayoutPanel6.Controls.Add(this.dateTimePickerTo);
             this.flowLayoutPanel6.Controls.Add(this.button12);
             this.flowLayoutPanel6.Controls.Add(this.SummaryResult);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 501);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 546);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 258);
             this.flowLayoutPanel6.TabIndex = 13;
@@ -686,7 +688,7 @@ namespace Machine.UI
             this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(42, 19);
+            this.label6.Size = new System.Drawing.Size(52, 22);
             this.label6.TabIndex = 23;
             this.label6.Text = "From";
             // 
@@ -694,15 +696,15 @@ namespace Machine.UI
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label7.Location = new System.Drawing.Point(3, 51);
+            this.label7.Location = new System.Drawing.Point(3, 58);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(25, 19);
+            this.label7.Size = new System.Drawing.Size(31, 22);
             this.label7.TabIndex = 24;
             this.label7.Text = "To";
             // 
             // SummaryResult
             // 
-            this.SummaryResult.Location = new System.Drawing.Point(3, 144);
+            this.SummaryResult.Location = new System.Drawing.Point(3, 158);
             this.SummaryResult.Name = "SummaryResult";
             this.SummaryResult.Size = new System.Drawing.Size(175, 33);
             this.SummaryResult.TabIndex = 25;
@@ -817,9 +819,9 @@ namespace Machine.UI
             this.lblDayofW.AutoSize = true;
             this.lblDayofW.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDayofW.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblDayofW.Location = new System.Drawing.Point(37, 11);
+            this.lblDayofW.Location = new System.Drawing.Point(23, 7);
             this.lblDayofW.Name = "lblDayofW";
-            this.lblDayofW.Size = new System.Drawing.Size(77, 23);
+            this.lblDayofW.Size = new System.Drawing.Size(105, 31);
             this.lblDayofW.TabIndex = 7;
             this.lblDayofW.Text = "Monday";
             // 
@@ -829,9 +831,9 @@ namespace Machine.UI
             this.lblDayofY.AutoSize = true;
             this.lblDayofY.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDayofY.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblDayofY.Location = new System.Drawing.Point(21, 56);
+            this.lblDayofY.Location = new System.Drawing.Point(5, 52);
             this.lblDayofY.Name = "lblDayofY";
-            this.lblDayofY.Size = new System.Drawing.Size(110, 23);
+            this.lblDayofY.Size = new System.Drawing.Size(142, 31);
             this.lblDayofY.TabIndex = 8;
             this.lblDayofY.Text = "01/01/2000";
             // 
@@ -841,10 +843,10 @@ namespace Machine.UI
             this.lblHour.AutoSize = true;
             this.lblHour.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHour.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblHour.Location = new System.Drawing.Point(212, 21);
+            this.lblHour.Location = new System.Drawing.Point(180, 14);
             this.lblHour.Margin = new System.Windows.Forms.Padding(0);
             this.lblHour.Name = "lblHour";
-            this.lblHour.Size = new System.Drawing.Size(132, 55);
+            this.lblHour.Size = new System.Drawing.Size(164, 68);
             this.lblHour.TabIndex = 6;
             this.lblHour.Text = "00:00";
             this.lblHour.Click += new System.EventHandler(this.lblHour_Click_1);
@@ -853,9 +855,20 @@ namespace Machine.UI
             // 
             this.timer1.Interval = 1000;
             // 
+            // token
+            // 
+            this.token.Location = new System.Drawing.Point(3, 345);
+            this.token.Name = "token";
+            this.token.Size = new System.Drawing.Size(177, 32);
+            this.token.TabIndex = 24;
+            this.token.Text = "token";
+            this.token.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.token.UseVisualStyleBackColor = true;
+            this.token.Click += new System.EventHandler(this.token_Click);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1878, 908);
             this.Controls.Add(this.tableLayoutPanel6);
@@ -947,6 +960,7 @@ namespace Machine.UI
         private Button ReadPlc;
         private Label label3;
         private Label label4;
+        private Button token;
     }
 }
 

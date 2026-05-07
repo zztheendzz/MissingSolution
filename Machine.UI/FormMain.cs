@@ -1,4 +1,5 @@
 ﻿
+using HslCommunication.Profinet.Melsec;
 using Machine.UI.model;
 using Machine.UI.popupForm;
 using Machine.UI.services;
@@ -11,16 +12,17 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using VM.Core;
-using HslCommunication.Profinet.Melsec;
 
 namespace Machine.UI
 {
     public partial class FormMain : Form
     {
+        MelsecMcServer plcServer = new MelsecMcServer();
         ExportExcelService excelService;
         CameraService cam = new CameraService();
         bool isRunning = false;
@@ -38,6 +40,7 @@ namespace Machine.UI
         TrayModel currentTray;
         TrayProcessor processor;
 
+        private CancellationTokenSource _cts = new CancellationTokenSource();
 
         VisionDataService visionDb;
         TrayRunService trayRunService;
@@ -72,7 +75,7 @@ namespace Machine.UI
             InitializeComponent();
 
             //========giả lập server plc để test robot, nếu muốn test thật thì comment dòng này đi=========
-            MelsecMcServer plcServer = new MelsecMcServer();
+
             plcServer.ServerStart(6000);
             //========end giả lập server plc để test robot, nếu muốn test thật thì comment dòng này đi=====
 
@@ -365,8 +368,12 @@ namespace Machine.UI
                 AppendLog(richTextBox2, $"📂 Load: {model.ProgramVision}");
                 string dir = Path.GetDirectoryName(model.ProgramVision);
                 Directory.SetCurrentDirectory(dir);
+                if (_cts.Token.IsCancellationRequested)
+                    return;
                 try
                 {
+                    if (_cts.Token.IsCancellationRequested)
+                        return;
                     if (VmSolution.Instance != null)
                     {
                         //app crash???
@@ -407,6 +414,9 @@ namespace Machine.UI
                 //check kết nối vision, nếu không kết nối được thì log ra richtextbox2
                 _ = Task.Run(async () =>
                 {
+
+                    if (_cts.Token.IsCancellationRequested)
+                        return;
                     bool visionOk = await ConnectVisionSafe();
 
                     if (!visionOk)
@@ -427,6 +437,9 @@ namespace Machine.UI
             //connect robot, nếu không kết nối được thì log ra richtextbox2
             _ = Task.Run(async () =>
             {
+
+                if (_cts.Token.IsCancellationRequested)
+                    return;
                 AppendLog(richTextBox2, "🤖 Connecting Robot...");
 
                 var ok = await robot.Connect(ipRobot, portRobot);
@@ -442,6 +455,12 @@ namespace Machine.UI
             //connect plc, nếu không kết nối được thì log ra richtextbox2
             _ = Task.Run(async () =>
             {
+
+                if (_cts.Token.IsCancellationRequested)
+                {
+                    { AppendLog(richTextBox2, "❌ Plc Disconnect"); }
+                    return;
+                }
                 AppendLog(richTextBox2, "🤖 Connecting Plc...");
 
                 var ok = await plc.Connect(ipPlc, portPlc);
@@ -774,13 +793,11 @@ namespace Machine.UI
         //chặn selection cell khi click vào datagridview
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
             dataGridView1.ClearSelection();
         }
 
         private async void btnMenu_Click(object sender, EventArgs e) { }
         private void pnResult_Paint(object sender, PaintEventArgs e) { }
-
 
         //đặt lại biến cục bộ hiển thị tổng số hàng đã quét, ok, ng, none về 0 và update lại label
         private void button1_Click_1(object sender, EventArgs e)
@@ -860,10 +877,7 @@ namespace Machine.UI
             // Hiển thị kết quả ra Label hoặc TextBox
             readBit();
             ReadFloat();
-
-
         }
-
         public async void readBit()
         {
             string address = "M100";
@@ -910,35 +924,37 @@ namespace Machine.UI
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
-
             try
-            { 
-                // 🔌 stop vision
-                vision?.Disconnect();
+            {
+                _cts.Cancel();
 
-                // 🤖 stop robot
-                robot?.Disconnect();
+                timer1?.Stop();
+                timer1?.Dispose();
 
-                // 📷 camera
-                // cam?.Dispose();
+                vision?.Disconnect();
 
-                // 🔥 dispose VM (QUAN TRỌNG NHẤT)
+                robot?.Disconnect();
+
+               // plc?.Disconnect();
+
+                if (_flow != null)
+                {
+                    _flow.OnWorkEndStatusCallBack -= OnVisionDone;
+                }
+
                 if (VmSolution.Instance != null)
                 {
                     VmSolution.Instance.Dispose();
                 }
 
-                // 🔥 remove event
-                if (_flow != null)
-                {
-                    _flow.OnWorkEndStatusCallBack -= OnVisionDone;
-                }
+                plcServer.ServerClose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error closing: " + ex.Message);
+                Console.WriteLine(ex);
             }
+
+            base.OnFormClosing(e);
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -953,7 +969,7 @@ namespace Machine.UI
 
         private void TimeReal()
         {
-            timer1 = new Timer();
+            timer1 = new System.Windows.Forms.Timer();
             timer1.Interval = 1000;
             timer1.Tick += Timer1_Tick;
             timer1.Start();
@@ -967,6 +983,12 @@ namespace Machine.UI
         private void CloseApp_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            vision.CancelToken();
+        }
+
+        private void token_Click(object sender, EventArgs e)
+        {
+            vision.CancelToken();
         }
 
         private void ExtendApp_Click(object sender, EventArgs e)
@@ -985,36 +1007,10 @@ namespace Machine.UI
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pnControl_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblHour_Click(object sender, EventArgs e)
-        {
-
-        }
         private void lblMachineName_Click(object sender, EventArgs e)
         {
 
         }
-
-
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -1050,9 +1046,6 @@ namespace Machine.UI
 
         }
 
-
-
-
         private void vmRenderControl1_Load(object sender, EventArgs e)
         {
 
@@ -1067,5 +1060,7 @@ namespace Machine.UI
         {
 
         }
+
+
     }
 }

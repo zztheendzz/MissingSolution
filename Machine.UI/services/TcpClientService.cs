@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Cell = Machine.UI.model.Cell;
@@ -21,26 +22,31 @@ namespace Machine.UI.services
 
         private TcpClient client;
         private NetworkStream stream;
+
+        CancellationTokenSource cts;
         public async Task Connect(string ip, int port)
         {
-           
-
                 client = new TcpClient();
                 await client.ConnectAsync(ip, port);
                 stream = client.GetStream();
-
                 _ = ReceiveData(); // chạy background
         }
 
         public Action<string> OnRawData; // 👈 thay vì List<string>
 
+
+
         private async Task ReceiveData()
         {
             byte[] buffer = new byte[1024];
             string cache = "";
+            cts = new CancellationTokenSource();
+            var token = cts.Token;
 
-            while (true)
+            while (!token.IsCancellationRequested)
             {
+                var check = token.IsCancellationRequested;
+                Console.WriteLine("check: "+ check);
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 if (bytesRead == 0) return;
 
@@ -66,7 +72,19 @@ namespace Machine.UI.services
 
                     OnRawData?.Invoke(clean); // 
                 }
+                
             }
+        }
+        public void CancelToken()
+        {
+            if (cts != null)
+            {
+                MessageBox.Show("cancel token");
+                cts.Cancel();
+                cts.Dispose();
+                cts = null;
+            }
+            else { MessageBox.Show("cancel = null"); }
         }
         private int GetIndexOfNthComma(string str, int n)
         {

@@ -1,9 +1,13 @@
-﻿using Modbus.Device;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Modbus.Device;
 using Modbus.Extensions.Enron;
 using System;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace Machine.UI.services
 {
@@ -18,11 +22,13 @@ namespace Machine.UI.services
 
         public ushort triggered =3; // thông báo Trigger chụp ảnh từ robot (địa chỉ 3)
         public ushort trayDone = 4;// thông báo hoàn thành Tray từ robot (địa chỉ 4)
-        public ushort receiveResult = 5; // thông báo nhận kết quả từ robot (địa chỉ 5)
+        public ushort receiveResult = 5; // thông báo nhận kết quả ng/ok  gửi cho robot (địa chỉ 5)
 
         public Action<int, int> OnPositionReceived;
         public Action OnTrayCompleted;
         public Action Trigger;
+
+        CancellationTokenSource cts;
         public async Task<bool> Connect(string ip, int port)
         {
             try
@@ -126,8 +132,8 @@ namespace Machine.UI.services
                 {
                     // Đọc gộp từ địa chỉ 3 (Trigger) và 4 (Tray Done) - Đọc 2 thanh ghi cùng lúc
                     // Slave ID mặc định là 1.
-                    ushort[] triger = await Task.Run(() => master.ReadHoldingRegisters(1, triggered, 1));
-                    ushort[] tray = await Task.Run(() => master.ReadHoldingRegisters(1, trayDone, 1));
+                    ushort[] triger = master.ReadHoldingRegisters(1, triggered, 1);
+                    ushort[] tray =  master.ReadHoldingRegisters(1, trayDone, 1);
 
                     // 1. Xử lý Trigger chụp ảnh (Địa chỉ 3)
                     if (triger[0] == 1)
@@ -210,6 +216,27 @@ namespace Machine.UI.services
             client = null;
 
             Console.WriteLine("Modbus Disconnected");
+        }
+        private void LogToBox(string message)
+        {
+            // Kiểm tra nếu gọi từ thread khác thì dùng Invoke
+            //if (richTextBox2.InvokeRequired)
+            //{
+            //    richTextBox2.Invoke(new Action(() => LogToBox(message)));
+            //    return;
+            //}
+
+            //// Giới hạn số dòng để không làm treo app nếu chạy lâu
+            //if (richTextBox2.Lines.Length > 100) richTextBox2.Clear();
+
+            //richTextBox2.SelectionStart = richTextBox2.TextLength;
+            //richTextBox2.SelectionLength = 0;
+
+            //string timestamp = DateTime.Now.ToString("HH:mm:ss");
+            //richTextBox2.AppendText($"[{timestamp}] {message}{Environment.NewLine}");
+
+            //// Tự động cuộn xuống dòng mới nhất
+            //richTextBox2.ScrollToCaret();
         }
     }
 }
