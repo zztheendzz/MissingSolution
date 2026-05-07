@@ -16,6 +16,10 @@ namespace Machine.UI.services
         public Action<int> OnIndexReceived;
         public int index = 0;
 
+        public ushort triggered =3; // thông báo Trigger chụp ảnh từ robot (địa chỉ 3)
+        public ushort trayDone = 4;// thông báo hoàn thành Tray từ robot (địa chỉ 4)
+        public ushort receiveResult = 5; // thông báo nhận kết quả từ robot (địa chỉ 5)
+
         public Action<int, int> OnPositionReceived;
         public Action OnTrayCompleted;
         public Action Trigger;
@@ -30,8 +34,7 @@ namespace Machine.UI.services
                 master = ModbusIpMaster.CreateIp(client);
 
                 isRunning = true;
-                _ = ReadLoop();
-                _ = TriggerNotice();
+                _ = WorkerLoop();
                 Console.WriteLine("Connected Modbus Robot");
 
                 return true;
@@ -64,33 +67,13 @@ namespace Machine.UI.services
 
                 ushort[] data = values.Select(v => (ushort)v).ToArray();
 
-                master.WriteMultipleRegisters(1, data);
+                master.WriteMultipleRegisters(1, receiveResult, data);
             } catch (Exception ex) {
                 Console.WriteLine("WriteBatch error: " + ex.Message);
             }
 
         }
-        public void _WriteStringToRobot(ushort register, string msg)
-        {
-            try
-            {
-                if (master == null) return;
-
-                // 👉 bỏ dấu phẩy
-                var clean = msg.Replace(",", "");
-
-                ushort[] data = clean
-                    .Select(c => (ushort)(c - '0'))
-                    .ToArray();
-
-                master.WriteMultipleRegisters(register, data);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("WriteStringToRobot error: " + ex.Message);
-            }
-        }
-        public void WriteStringToRobot(ushort register ,string msg)
+        public void WriteStringToRobot(string msg)//ghi thông báo kết quả từ PC đến robot (địa chỉ 5)
         {
             try {
                 if (master == null) return;
@@ -99,80 +82,134 @@ namespace Machine.UI.services
                     .Select(c => (ushort)(c - '0')) // 🔥 '1' → 1
                     .ToArray();
 
-                master.WriteMultipleRegisters(register, data);
+                master.WriteMultipleRegisters(1, receiveResult, data);
 
             }
             catch (Exception ex) {
 
-                Console.WriteLine("WriteStringToRobot error: " + ex.Message + " Register: " + register + " Msg: " + msg);
+                Console.WriteLine("WriteStringToRobot error: " + ex.Message + " Register: " + receiveResult + " Msg: " + msg);
             }
 
         }
 
-        private async Task TriggerNotice()
-        {
+        //private async Task TriggerNotice()
+        //{
 
+        //    while (isRunning)
+        //    {
+        //        try
+        //        {
+        //            //đọc từ robot xác nhận đến vị trí chụp
+        //            ushort[] regs = master.ReadHoldingRegisters(1, 3, 1);
+        //            bool trigger = regs[0] == 1;
+        //            // 👇 chỉ ăn 1 lần khi 0 -> 1
+        //            if (trigger)
+        //            {
+        //                // xử lý logic của bạn
+        //                Trigger?.Invoke();
+        //                // 🔥 reset về 0 NGAY
+        //                master.WriteSingleRegister(1, 3, 0);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine("Modbus error: " + ex.Message);
+        //        }
+        //        await Task.Delay(50);
+        //    }
+        //}
+        private async Task WorkerLoop()
+        {
             while (isRunning)
             {
                 try
                 {
-                    //đọc từ robot xác nhận đến vị trí chụp
-                    ushort[] regs = master.ReadHoldingRegisters(1, 3, 1);
-                    bool trigger = regs[0] == 1;
-                    // 👇 chỉ ăn 1 lần khi 0 -> 1
-                    if (trigger)
+                    // Đọc gộp từ địa chỉ 3 (Trigger) và 4 (Tray Done) - Đọc 2 thanh ghi cùng lúc
+                    // Slave ID mặc định là 1.
+                    ushort[] triger = await Task.Run(() => master.ReadHoldingRegisters(1, triggered, 1));
+                    ushort[] tray = await Task.Run(() => master.ReadHoldingRegisters(1, trayDone, 1));
+
+                    // 1. Xử lý Trigger chụp ảnh (Địa chỉ 3)
+                    if (triger[0] == 1)
                     {
-                        // xử lý logic của bạn
                         Trigger?.Invoke();
-                        // 🔥 reset về 0 NGAY
-                        master.WriteSingleRegister(1, 3, 0);
+                        // Reset ngay lập tức để Robot biết PC đã nhận lệnh
+                        master.WriteSingleRegister(1, triggered, 0);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Modbus error: " + ex.Message);
-                }
-                await Task.Delay(50);
-            }
-        }
 
-        private async Task ReadLoop()
-        {
-            while (isRunning)
-            {
-                try
-                {
-                    //đọc từ robot xác nhận xong tray hiện tại
-                    ushort[] regs = master.ReadHoldingRegisters(1, 4, 1);
-                    bool trigger = regs[0] == 1;
-
-                    // 👇 chỉ ăn 1 lần khi 0 -> 1
-                    if (trigger && !lastTrigger)
+                    // 2. Xử lý Hoàn thành Tray (Địa chỉ 4)
+                    bool currentTrayStatus = (tray[0] == 1);
+                    if (currentTrayStatus )
                     {
-                        Console.WriteLine("Tray DONE");
 
-                        // xử lý logic của bạn
                         OnTrayCompleted?.Invoke();
-
-                        // 🔥 reset về 0 NGAY
-                        master.WriteSingleRegister(1, 4, 0);
+                        // Reset ngay lập tức
+                        master.WriteSingleRegister(1, trayDone, 0);
                     }
-
-                    lastTrigger = trigger;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Modbus error: " + ex.Message);
+                    Console.WriteLine("Modbus Loop Error: " + ex.Message);
+                    Disconnect();
+                    // Nếu lỗi mất kết nối, có thể xử lý reconnect ở đây
                 }
 
+                // Nghỉ 50ms để Robot không bị quá tải và dành CPU cho việc xử lý ảnh
                 await Task.Delay(50);
             }
         }
+        //private async Task ReadLoop()
+        //{
+        //    while (isRunning)
+        //    {
+        //        try
+        //        {
+        //            //đọc từ robot xác nhận xong tray hiện tại
+        //            ushort[] regs = master.ReadHoldingRegisters(1, 4, 1);
+        //            bool trigger = regs[0] == 1;
+
+        //            // 👇 chỉ ăn 1 lần khi 0 -> 1
+        //            if (trigger && !lastTrigger)
+        //            {
+        //                Console.WriteLine("Tray DONE");
+
+        //                // xử lý logic của bạn
+        //                OnTrayCompleted?.Invoke();
+
+        //                // 🔥 reset về 0 NGAY
+        //                master.WriteSingleRegister(1, 4, 0);
+        //            }
+
+        //            lastTrigger = trigger;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine("Modbus error: " + ex.Message);
+        //        }
+
+        //        await Task.Delay(50);
+        //    }
+        //}
 
         public void Disconnect()
         {
-            isRunning = false;
-            client?.Close();
+            try
+            {
+                isRunning = false;
+
+                master?.Dispose();
+
+                client?.Close();
+                client?.Dispose();
+            }
+            catch
+            {
+            }
+
+            master = null;
+            client = null;
+
+            Console.WriteLine("Modbus Disconnected");
         }
     }
 }

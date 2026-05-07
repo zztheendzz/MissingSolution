@@ -25,14 +25,32 @@ namespace Machine.UI.services
         {
             this.ip = ip;
             this.port = port;
-            try {
+            MessageBox.Show("port = " + port + "\n" + "ip = " + ip);
+            try
+            {
+                // Khởi tạo đối tượng
                 this.melsecPLC = new MelsecMcNet(this.ip, this.port);
-                await Task.Run(() => this.melsecPLC.ConnectServer());
+
+                // Gọi hàm kết nối và kiểm tra kết quả từ OperateResult
+                OperateResult result = await Task.Run(() => this.melsecPLC.ConnectServer());
+
+                if (result.IsSuccess)
+                {
+                    // Kết nối thành công
+                    return true;
+                }
+                else
+                {
+                    // Kết nối thất bại (sai IP, sai Port hoặc PLC đang offline)
+                    MessageBox.Show($"Kết nối thất bại: {result.Message}");
+                    return false;
+                }
             }
-            catch (Exception ex) {
-            MessageBox.Show("Error connecting to PLC: " + ex.ToString());
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi hệ thống khi kết nối PLC: " + ex.Message);
+                return false;
             }
-            return false;
         }
 
 
@@ -69,6 +87,8 @@ namespace Machine.UI.services
         public bool ReadBit(string address)
         {
             OperateResult<bool> result = melsecPLC.ReadBool(address);
+
+
             return result.IsSuccess ? result.Content : false;
         }
 

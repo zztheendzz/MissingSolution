@@ -31,26 +31,26 @@ namespace Machine.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.Button();
             this.btnData = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.labelTotal = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelNonePer = new System.Windows.Forms.Label();
             this.labelNone = new System.Windows.Forms.Label();
             this.labelNgPer = new System.Windows.Forms.Label();
             this.labelNg = new System.Windows.Forms.Label();
             this.labelOkPer = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.labelOk = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
@@ -70,6 +70,9 @@ namespace Machine.UI
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ConnectPlc = new System.Windows.Forms.Button();
+            this.WritePlc = new System.Windows.Forms.Button();
+            this.ReadPlc = new System.Windows.Forms.Button();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -142,7 +145,7 @@ namespace Machine.UI
             this.btnData.ForeColor = System.Drawing.Color.White;
             this.btnData.Image = global::Machine.UI.Properties.Resources.Database;
             this.btnData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnData.Location = new System.Drawing.Point(0, 319);
+            this.btnData.Location = new System.Drawing.Point(0, 428);
             this.btnData.Margin = new System.Windows.Forms.Padding(0);
             this.btnData.Name = "btnData";
             this.btnData.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
@@ -172,7 +175,7 @@ namespace Machine.UI
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 0);
@@ -196,8 +199,8 @@ namespace Machine.UI
             this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel7, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button1, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel7, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -208,126 +211,75 @@ namespace Machine.UI
             this.tableLayoutPanel4.TabIndex = 14;
             this.tableLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel4_Paint);
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(0, 206);
+            this.button1.Margin = new System.Windows.Forms.Padding(0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(363, 59);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Clear Data";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // tableLayoutPanel7
             // 
-            this.tableLayoutPanel7.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.tableLayoutPanel7.ColumnCount = 3;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.30303F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.43526F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.97561F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.84146F));
+            this.tableLayoutPanel7.Controls.Add(this.label4, 0, 3);
+            this.tableLayoutPanel7.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.labelTotal, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel7.Controls.Add(this.labelNonePer, 2, 2);
             this.tableLayoutPanel7.Controls.Add(this.labelNone, 1, 2);
             this.tableLayoutPanel7.Controls.Add(this.labelNgPer, 2, 1);
             this.tableLayoutPanel7.Controls.Add(this.labelNg, 1, 1);
             this.tableLayoutPanel7.Controls.Add(this.labelOkPer, 2, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label3, 0, 3);
-            this.tableLayoutPanel7.Controls.Add(this.label5, 0, 2);
-            this.tableLayoutPanel7.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.labelOk, 1, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 4;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.27184F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.24272F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(363, 206);
             this.tableLayoutPanel7.TabIndex = 0;
+            this.tableLayoutPanel7.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel7_Paint);
             // 
-            // labelTotal
+            // label4
             // 
-            this.labelTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTotal.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelTotal.Location = new System.Drawing.Point(113, 153);
-            this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(119, 53);
-            this.labelTotal.TabIndex = 23;
-            this.labelTotal.Text = "0";
-            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNonePer
-            // 
-            this.labelNonePer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNonePer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNonePer.Location = new System.Drawing.Point(238, 102);
-            this.labelNonePer.Name = "labelNonePer";
-            this.labelNonePer.Size = new System.Drawing.Size(122, 51);
-            this.labelNonePer.TabIndex = 22;
-            this.labelNonePer.Text = "0%";
-            this.labelNonePer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNone
-            // 
-            this.labelNone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNone.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNone.Location = new System.Drawing.Point(113, 102);
-            this.labelNone.Name = "labelNone";
-            this.labelNone.Size = new System.Drawing.Size(119, 51);
-            this.labelNone.TabIndex = 21;
-            this.labelNone.Text = "0";
-            this.labelNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNgPer
-            // 
-            this.labelNgPer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNgPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNgPer.Location = new System.Drawing.Point(238, 51);
-            this.labelNgPer.Name = "labelNgPer";
-            this.labelNgPer.Size = new System.Drawing.Size(122, 51);
-            this.labelNgPer.TabIndex = 20;
-            this.labelNgPer.Text = "0%";
-            this.labelNgPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNg
-            // 
-            this.labelNg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNg.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelNg.Location = new System.Drawing.Point(113, 51);
-            this.labelNg.Name = "labelNg";
-            this.labelNg.Size = new System.Drawing.Size(119, 51);
-            this.labelNg.TabIndex = 19;
-            this.labelNg.Text = "0";
-            this.labelNg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelOkPer
-            // 
-            this.labelOkPer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOkPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelOkPer.Location = new System.Drawing.Point(238, 0);
-            this.labelOkPer.Name = "labelOkPer";
-            this.labelOkPer.Size = new System.Drawing.Size(122, 51);
-            this.labelOkPer.TabIndex = 18;
-            this.labelOkPer.Text = "0%";
-            this.labelOkPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 15F);
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(3, 159);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(103, 40);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "TOTAL:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(3, 153);
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 15F);
+            this.label3.ForeColor = System.Drawing.Color.Cyan;
+            this.label3.Location = new System.Drawing.Point(3, 101);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 53);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "TOTAL :";
+            this.label3.Size = new System.Drawing.Size(103, 52);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "NONE:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label5.Location = new System.Drawing.Point(3, 116);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 23);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "NONE :";
             // 
             // label1
             // 
@@ -341,17 +293,17 @@ namespace Machine.UI
             this.label1.TabIndex = 1;
             this.label1.Text = "OK :";
             // 
-            // labelOk
+            // labelTotal
             // 
-            this.labelOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOk.Font = new System.Drawing.Font("Times New Roman", 20.25F);
-            this.labelOk.Location = new System.Drawing.Point(113, 0);
-            this.labelOk.Name = "labelOk";
-            this.labelOk.Size = new System.Drawing.Size(119, 51);
-            this.labelOk.TabIndex = 14;
-            this.labelOk.Text = "0";
-            this.labelOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelOk.Click += new System.EventHandler(this.label4_Click);
+            this.labelTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelTotal.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelTotal.ForeColor = System.Drawing.Color.White;
+            this.labelTotal.Location = new System.Drawing.Point(112, 153);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(124, 53);
+            this.labelTotal.TabIndex = 23;
+            this.labelTotal.Text = "0";
+            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -359,29 +311,83 @@ namespace Machine.UI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Crimson;
-            this.label2.Location = new System.Drawing.Point(3, 65);
+            this.label2.Location = new System.Drawing.Point(3, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "NG :";
             // 
-            // button1
+            // labelNonePer
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(0, 206);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
-            this.button1.Size = new System.Drawing.Size(363, 59);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Clear Data";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.labelNonePer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNonePer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNonePer.ForeColor = System.Drawing.Color.Cyan;
+            this.labelNonePer.Location = new System.Drawing.Point(242, 101);
+            this.labelNonePer.Name = "labelNonePer";
+            this.labelNonePer.Size = new System.Drawing.Size(118, 52);
+            this.labelNonePer.TabIndex = 22;
+            this.labelNonePer.Text = "0%";
+            this.labelNonePer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNone
+            // 
+            this.labelNone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNone.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNone.ForeColor = System.Drawing.Color.Cyan;
+            this.labelNone.Location = new System.Drawing.Point(112, 101);
+            this.labelNone.Name = "labelNone";
+            this.labelNone.Size = new System.Drawing.Size(124, 52);
+            this.labelNone.TabIndex = 21;
+            this.labelNone.Text = "0";
+            this.labelNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNgPer
+            // 
+            this.labelNgPer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNgPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNgPer.ForeColor = System.Drawing.Color.Red;
+            this.labelNgPer.Location = new System.Drawing.Point(242, 51);
+            this.labelNgPer.Name = "labelNgPer";
+            this.labelNgPer.Size = new System.Drawing.Size(118, 50);
+            this.labelNgPer.TabIndex = 20;
+            this.labelNgPer.Text = "0%";
+            this.labelNgPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNg
+            // 
+            this.labelNg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNg.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelNg.ForeColor = System.Drawing.Color.Red;
+            this.labelNg.Location = new System.Drawing.Point(112, 51);
+            this.labelNg.Name = "labelNg";
+            this.labelNg.Size = new System.Drawing.Size(124, 50);
+            this.labelNg.TabIndex = 19;
+            this.labelNg.Text = "0";
+            this.labelNg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelOkPer
+            // 
+            this.labelOkPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelOkPer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.labelOkPer.Location = new System.Drawing.Point(242, 0);
+            this.labelOkPer.Name = "labelOkPer";
+            this.labelOkPer.Size = new System.Drawing.Size(118, 51);
+            this.labelOkPer.TabIndex = 18;
+            this.labelOkPer.Text = "0%";
+            this.labelOkPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelOk
+            // 
+            this.labelOk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOk.Font = new System.Drawing.Font("Times New Roman", 20.25F);
+            this.labelOk.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.labelOk.Location = new System.Drawing.Point(112, 0);
+            this.labelOk.Name = "labelOk";
+            this.labelOk.Size = new System.Drawing.Size(124, 51);
+            this.labelOk.TabIndex = 14;
+            this.labelOk.Text = "0";
+            this.labelOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelOk.Click += new System.EventHandler(this.label4_Click);
             // 
             // tableLayoutPanel9
             // 
@@ -561,14 +567,14 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 242);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
@@ -619,12 +625,48 @@ namespace Machine.UI
             this.flowLayoutPanel4.Controls.Add(this.button11);
             this.flowLayoutPanel4.Controls.Add(this.button2);
             this.flowLayoutPanel4.Controls.Add(this.button6);
+            this.flowLayoutPanel4.Controls.Add(this.ConnectPlc);
+            this.flowLayoutPanel4.Controls.Add(this.WritePlc);
+            this.flowLayoutPanel4.Controls.Add(this.ReadPlc);
             this.flowLayoutPanel4.Location = new System.Drawing.Point(6, 73);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 243);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 352);
             this.flowLayoutPanel4.TabIndex = 9;
             this.flowLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel4_Paint);
+            // 
+            // ConnectPlc
+            // 
+            this.ConnectPlc.Location = new System.Drawing.Point(3, 231);
+            this.ConnectPlc.Name = "ConnectPlc";
+            this.ConnectPlc.Size = new System.Drawing.Size(177, 32);
+            this.ConnectPlc.TabIndex = 21;
+            this.ConnectPlc.Text = "Connect Plc";
+            this.ConnectPlc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ConnectPlc.UseVisualStyleBackColor = true;
+            this.ConnectPlc.Click += new System.EventHandler(this.ConnectPlc_Click);
+            // 
+            // WritePlc
+            // 
+            this.WritePlc.Location = new System.Drawing.Point(3, 269);
+            this.WritePlc.Name = "WritePlc";
+            this.WritePlc.Size = new System.Drawing.Size(177, 32);
+            this.WritePlc.TabIndex = 22;
+            this.WritePlc.Text = "test write plc";
+            this.WritePlc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.WritePlc.UseVisualStyleBackColor = true;
+            this.WritePlc.Click += new System.EventHandler(this.WritePlc_Click);
+            // 
+            // ReadPlc
+            // 
+            this.ReadPlc.Location = new System.Drawing.Point(3, 307);
+            this.ReadPlc.Name = "ReadPlc";
+            this.ReadPlc.Size = new System.Drawing.Size(177, 32);
+            this.ReadPlc.TabIndex = 23;
+            this.ReadPlc.Text = "test read plc";
+            this.ReadPlc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ReadPlc.UseVisualStyleBackColor = true;
+            this.ReadPlc.Click += new System.EventHandler(this.ReadPlc_Click);
             // 
             // flowLayoutPanel6
             // 
@@ -634,9 +676,9 @@ namespace Machine.UI
             this.flowLayoutPanel6.Controls.Add(this.dateTimePickerTo);
             this.flowLayoutPanel6.Controls.Add(this.button12);
             this.flowLayoutPanel6.Controls.Add(this.SummaryResult);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 392);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 501);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 222);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 258);
             this.flowLayoutPanel6.TabIndex = 13;
             // 
             // label6
@@ -856,7 +898,6 @@ namespace Machine.UI
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -893,7 +934,6 @@ namespace Machine.UI
         private Button ExtendApp;
         private Button HidenApp;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label label3;
         private Label labelOk;
         private Label labelTotal;
         private Label labelNonePer;
@@ -903,6 +943,11 @@ namespace Machine.UI
         private Label labelOkPer;
         private Timer timer1;
         private Button SummaryResult;
+        private Button ConnectPlc;
+        private Button WritePlc;
+        private Button ReadPlc;
+        private Label label3;
+        private Label label4;
     }
 }
 

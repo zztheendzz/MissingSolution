@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using VM.Core;
-
+using HslCommunication.Profinet.Melsec;
 
 namespace Machine.UI
 {
@@ -37,7 +37,7 @@ namespace Machine.UI
         string ipPlc = "127.0.0.1";
         TrayModel currentTray;
         TrayProcessor processor;
-        ushort registerData = 5;
+
 
         VisionDataService visionDb;
         TrayRunService trayRunService;
@@ -46,7 +46,7 @@ namespace Machine.UI
 
         int portVision = 8001;
         int portRobot = 502;
-        int portPlc = 5000;
+        int portPlc = 6000;
 
         int currentTrayId; // xác định xem tray nào đang chạy để insert vào db
         int _previousIndex = -1; // biến xác định ng dùng có đổi tray mới k - cacche tray
@@ -70,6 +70,12 @@ namespace Machine.UI
         public FormMain()
         {
             InitializeComponent();
+
+            //========giả lập server plc để test robot, nếu muốn test thật thì comment dòng này đi=========
+            MelsecMcServer plcServer = new MelsecMcServer();
+            plcServer.ServerStart(6000);
+            //========end giả lập server plc để test robot, nếu muốn test thật thì comment dòng này đi=====
+
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Normal;
             string conn = configDB.configDB.ConnectionString;
@@ -110,7 +116,6 @@ namespace Machine.UI
                     AppendLog(richTextBox2, "Run vision");
                 }));
             };
-
             // sự kiên dc gọi khi nhận dc data từ vision, parse ra kết quả, gửi cho robot, update UI, insert vào db
             vision.OnRawData = (msg) =>
             {
@@ -118,7 +123,7 @@ namespace Machine.UI
                 {
 
                     var results = VisionParser.Parse(msg); //nhận dữ liệu từ vision
-                    robot.WriteStringToRobot(registerData, msg);//gửi cho robot
+                    robot.WriteStringToRobot(msg);//gửi cho robot
 
                     ////////////////////////////////////////////////////, parse ra kết quả, update UI, insert vào db
                     string appendTextRs = $"[{DateTime.Now:HH:mm:ss}] ";
@@ -386,7 +391,6 @@ namespace Machine.UI
 
                 if (_flow == null)
                 {
-                    //  richTextBox2.AppendText("❌ Không có Flow1\n");
                     AppendLog(richTextBox2, "❌ Không có Flow1");
                     return;
                 }
@@ -435,21 +439,21 @@ namespace Machine.UI
                         AppendLog(richTextBox2, "❌ Robot Connect Fail");
                 }));
             });
+            //connect plc, nếu không kết nối được thì log ra richtextbox2
+            _ = Task.Run(async () =>
+            {
+                AppendLog(richTextBox2, "🤖 Connecting Plc...");
 
-            //_ = Task.Run(async () =>
-            //{
-            //    AppendLog(richTextBox2, "🤖 Connecting Plc...");
+                var ok = await plc.Connect(ipPlc, portPlc);
 
-            //    //var ok = await plc.Connect(ipPlc, portPlc);
-
-            //    this.Invoke(new Action(() =>
-            //    {
-            // ////       if (ok)
-            //            AppendLog(richTextBox2, "✅ Plc Connected");
-            ////        else
-            //   //         AppendLog(richTextBox2, "❌ Plc Connect Fail");
-            //    }));
-            //});
+                this.Invoke(new Action(() =>
+                {
+                    if (ok)
+                    { AppendLog(richTextBox2, "✅ Plc Connected"); }
+                    else
+                    { AppendLog(richTextBox2, "❌ Plc Connect Fail"); }
+                }));
+            });
 
 
 
@@ -633,17 +637,34 @@ namespace Machine.UI
             flowLayoutPanel4.Visible = !flowLayoutPanel4.Visible;
         }
 
+        private async void ConnectPlc_Click(object sender, EventArgs e)
+        {
+            AppendLog(richTextBox2, "🔌 Connecting Plc...");
+            var ok = plc.Connect(ipPlc, portPlc);
 
+            if (!await ok)
+            {
+                AppendLog(richTextBox2, "❌ Không kết nối được Plc");
+            }
+            else
+            {
+                AppendLog(richTextBox2, "🔌 Connected Plc");
+            }
+        }
 
         //kết nối robot
         private async void button8_Click(object sender, EventArgs e)
         {
             AppendLog(richTextBox2, "🔌 Connecting...");
             var ok = robot.Connect(ipRobot, portRobot);
-            AppendLog(richTextBox2, "🔌 Connected");
+
             if (!await ok)
             {
                 AppendLog(richTextBox2, "❌ Không kết nối được Modbus");
+            }
+            else
+            {
+                AppendLog(richTextBox2, "🔌 Connected");
             }
 
         }
@@ -808,7 +829,84 @@ namespace Machine.UI
                 rtb.Clear();
             }
         }
+        //test ghi plc d100
+        private async void WritePlc_Click(object sender, EventArgs e)
+        {
+            string address = "D100";
+            short value = 123;
 
+            // Gọi hàm WriteWord bạn đã viết
+            bool isSuccess = await Task.Run(() => plc.WriteWord(address, value));
+
+            if (isSuccess)
+            {
+                AppendLog(richTextBox2, $"✅ Ghi thành công {value} vào {address}  với {value}");
+            }
+            else
+            {
+                AppendLog(richTextBox2, $"❌ Ghi thất bại {value} vào {address}  với {value}");
+            }
+            writeBit();
+            WriteFloat();
+        }
+        //test đọc plc d100
+        private async void ReadPlc_Click(object sender, EventArgs e)
+        {
+            string address = "D100";
+
+            // Gọi hàm ReadWord bạn đã viết
+            short result = await Task.Run(() => plc.ReadWord(address));
+            AppendLog(richTextBox2, $"📥 Đọc thành công {result} từ {address}  với {result}");
+            // Hiển thị kết quả ra Label hoặc TextBox
+            readBit();
+            ReadFloat();
+
+
+        }
+
+        public async void readBit()
+        {
+            string address = "M100";
+            bool value = true;
+
+            // Thư viện sẽ tự động ghi vào D100 và D101
+            bool success = await Task.Run(() => plc.ReadBit(address));
+
+            AppendLog(richTextBox2, $"📥 Đọc thành công {success} từ {address}  với {value}");
+        }
+
+        public async void writeBit()
+        {
+            string address = "M100";
+            bool value = true;
+
+            // Thư viện sẽ tự động ghi vào D100 và D101
+            bool success = await Task.Run(() => plc.WriteBit(address, value));
+
+            AppendLog(richTextBox2, $"📥 Ghi thành công {success} từ {address}  với {value}");
+        }
+        // --- GHI SỐ THỰC (Float/Real) ---
+        private async void WriteFloat()
+        {
+            string address = "D300";
+            float value = 123.45f;
+
+            // Thư viện sẽ tự động ghi vào D100 và D101
+            bool success = await Task.Run(() => plc.WriteFloat(address, value));
+
+            AppendLog(richTextBox2, $"📥 Ghi float thành công {success} từ {address}  với {value}");
+        }
+
+        private async void ReadFloat()
+        {
+            string address = "D300";
+            float value = 123.45f;
+
+            // Thư viện sẽ tự động ghi vào D100 và D101
+            bool success = await Task.Run(() => plc.WriteFloat(address, value));
+
+            AppendLog(richTextBox2, $"📥 Đọc float thành công {success} từ {address} với {value}");
+        }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -960,5 +1058,14 @@ namespace Machine.UI
 
         }
 
+        private void tableLayoutPanel7_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
