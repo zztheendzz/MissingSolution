@@ -1,57 +1,67 @@
 [
     {
-        "Name": "test",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Desktop\\Vision\\test.solw"
-    },
-    {
         "Name": "A266",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\A266\\Program\\A266.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 1,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\A266\\A266.solw"
     },
     {
         "Name": "F761",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F761\\Program\\F761.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 2,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F761\\F761.solw"
     },
     {
         "Name": "F766",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F766\\Program\\F766.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 3,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F766\\F766.solw"
     },
     {
         "Name": "F776",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F776\\Program\\F776.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 4,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F776\\F776.solw"
     },
     {
         "Name": "F966",
-        "Row": 1,
-        "Col": 1,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F966\\Program\\F966.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 5,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F966\\F966.solw"
     },
     {
         "Name": "F971",
-        "Row": 9,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F971\\Program\\F971.solw"
+        "Row": 26,
+        "Col": 9,
+        "Index": 6,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F971\\F971.solw"
     },
     {
         "Name": "F976",
-        "Row": 7,
-        "Col": 26,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\F976\\Program\\F976.solw"
+        "Row": 26,
+        "Col": 7,
+        "Index": 7,
+        "VisionCount": 5,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\F976\\F976.solw"
     },
     {
         "Name": "X526",
-        "Row": 7,
-        "Col": 25,
-        "ProgramVision": "D:\\Vision Master\\FINGER BRK Vision\\X526\\Program\\X526.solw"
+        "Row": 25,
+        "Col": 7,
+        "Index": 8,
+        "VisionCount": 4,
+        "ProgramVision": "D:\\FINGER BRK PROGRAM\\FINGER BRK PROGRAM\\X526\\X526.solw"
     }
 
 ]

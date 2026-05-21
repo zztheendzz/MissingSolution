@@ -63,6 +63,7 @@ namespace Machine.UI.services
                         cmd.Parameters["@Col"].Value = data.Col;
                         cmd.Parameters["@Result"].Value = data.Result;
                         cmd.Parameters["@CreatedAt"].Value = data.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                        Console.WriteLine("data.Result importDB = " + data.Result);
 
                         cmd.ExecuteNonQuery();
                     }
