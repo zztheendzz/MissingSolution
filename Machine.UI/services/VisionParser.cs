@@ -25,6 +25,8 @@ namespace Machine.UI.services
                     case '2':
                         results.Add("NONE");
                         break;
+                    case ',':
+                        break;
                     default:
                         results.Add("UNKNOWN");
                         break;

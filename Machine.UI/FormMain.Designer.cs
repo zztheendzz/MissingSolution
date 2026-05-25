@@ -31,7 +31,7 @@ namespace Machine.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMachineName = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.Button();
             this.btnData = new System.Windows.Forms.Button();
@@ -56,7 +56,6 @@ namespace Machine.UI
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -73,22 +72,30 @@ namespace Machine.UI
             this.ConnectPlc = new System.Windows.Forms.Button();
             this.WritePlc = new System.Windows.Forms.Button();
             this.ReadPlc = new System.Windows.Forms.Button();
+            this.token = new System.Windows.Forms.Button();
+            this.serverc = new System.Windows.Forms.Button();
+            this.sendserversk = new System.Windows.Forms.Button();
+            this.OnOffLight = new System.Windows.Forms.Button();
+            this.OnOffPickUp = new System.Windows.Forms.Button();
+            this.Model = new System.Windows.Forms.Button();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.SummaryResult = new System.Windows.Forms.Button();
+            this.GetBackUpDb = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.CloseApp = new System.Windows.Forms.Button();
             this.ExtendApp = new System.Windows.Forms.Button();
             this.HidenApp = new System.Windows.Forms.Button();
+            this.CycleTime = new System.Windows.Forms.Label();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.lblDayofW = new System.Windows.Forms.Label();
             this.lblDayofY = new System.Windows.Forms.Label();
             this.lblHour = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.token = new System.Windows.Forms.Button();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -112,7 +119,7 @@ namespace Machine.UI
             this.lblMachineName.BackColor = System.Drawing.Color.Transparent;
             this.lblMachineName.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMachineName.ForeColor = System.Drawing.Color.DarkOrange;
-            this.lblMachineName.Location = new System.Drawing.Point(3, 24);
+            this.lblMachineName.Location = new System.Drawing.Point(3, 31);
             this.lblMachineName.Name = "lblMachineName";
             this.lblMachineName.Size = new System.Drawing.Size(370, 43);
             this.lblMachineName.TabIndex = 1;
@@ -146,7 +153,7 @@ namespace Machine.UI
             this.btnData.ForeColor = System.Drawing.Color.White;
             this.btnData.Image = global::Machine.UI.Properties.Resources.Database;
             this.btnData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnData.Location = new System.Drawing.Point(0, 473);
+            this.btnData.Location = new System.Drawing.Point(0, 626);
             this.btnData.Margin = new System.Windows.Forms.Padding(0);
             this.btnData.Name = "btnData";
             this.btnData.Padding = new System.Windows.Forms.Padding(5, 5, 60, 5);
@@ -167,10 +174,10 @@ namespace Machine.UI
             "model2",
             "model3",
             "model4"});
-            this.comboBox1.Location = new System.Drawing.Point(127, 15);
+            this.comboBox1.Location = new System.Drawing.Point(100, 15);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(236, 45);
+            this.comboBox1.Size = new System.Drawing.Size(187, 45);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -184,14 +191,14 @@ namespace Machine.UI
             this.tableLayoutPanel2.Controls.Add(this.richTextBox3, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.richTextBox2, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1496, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1196, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.8983F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.003766F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.06026F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.22599F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(369, 801);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(293, 934);
             this.tableLayoutPanel2.TabIndex = 8;
             this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
@@ -208,7 +215,7 @@ namespace Machine.UI
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.96439F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(363, 265);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(287, 310);
             this.tableLayoutPanel4.TabIndex = 14;
             this.tableLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel4_Paint);
             // 
@@ -219,10 +226,10 @@ namespace Machine.UI
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(0, 206);
+            this.button1.Location = new System.Drawing.Point(0, 251);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(363, 59);
+            this.button1.Size = new System.Drawing.Size(287, 59);
             this.button1.TabIndex = 9;
             this.button1.Text = "Clear Data";
             this.button1.UseVisualStyleBackColor = true;
@@ -254,17 +261,18 @@ namespace Machine.UI
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.27184F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.24272F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(363, 206);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(287, 251);
             this.tableLayoutPanel7.TabIndex = 0;
             this.tableLayoutPanel7.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel7_Paint);
             // 
             // label4
             // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 15F);
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(3, 153);
+            this.label4.Location = new System.Drawing.Point(3, 187);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 40);
+            this.label4.Size = new System.Drawing.Size(80, 64);
             this.label4.TabIndex = 25;
             this.label4.Text = "TOTAL:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -274,9 +282,9 @@ namespace Machine.UI
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 15F);
             this.label3.ForeColor = System.Drawing.Color.Cyan;
-            this.label3.Location = new System.Drawing.Point(3, 101);
+            this.label3.Location = new System.Drawing.Point(3, 124);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 52);
+            this.label3.Size = new System.Drawing.Size(80, 63);
             this.label3.TabIndex = 24;
             this.label3.Text = "NONE:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -287,7 +295,7 @@ namespace Machine.UI
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Green;
-            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 31);
             this.label1.TabIndex = 1;
@@ -298,9 +306,9 @@ namespace Machine.UI
             this.labelTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelTotal.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(112, 153);
+            this.labelTotal.Location = new System.Drawing.Point(89, 187);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(124, 53);
+            this.labelTotal.Size = new System.Drawing.Size(97, 64);
             this.labelTotal.TabIndex = 23;
             this.labelTotal.Text = "0";
             this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -311,7 +319,7 @@ namespace Machine.UI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Crimson;
-            this.label2.Location = new System.Drawing.Point(3, 60);
+            this.label2.Location = new System.Drawing.Point(3, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 31);
             this.label2.TabIndex = 2;
@@ -322,9 +330,9 @@ namespace Machine.UI
             this.labelNonePer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelNonePer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelNonePer.ForeColor = System.Drawing.Color.Cyan;
-            this.labelNonePer.Location = new System.Drawing.Point(242, 101);
+            this.labelNonePer.Location = new System.Drawing.Point(192, 124);
             this.labelNonePer.Name = "labelNonePer";
-            this.labelNonePer.Size = new System.Drawing.Size(118, 52);
+            this.labelNonePer.Size = new System.Drawing.Size(92, 63);
             this.labelNonePer.TabIndex = 22;
             this.labelNonePer.Text = "0%";
             this.labelNonePer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -334,9 +342,9 @@ namespace Machine.UI
             this.labelNone.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelNone.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelNone.ForeColor = System.Drawing.Color.Cyan;
-            this.labelNone.Location = new System.Drawing.Point(112, 101);
+            this.labelNone.Location = new System.Drawing.Point(89, 124);
             this.labelNone.Name = "labelNone";
-            this.labelNone.Size = new System.Drawing.Size(124, 52);
+            this.labelNone.Size = new System.Drawing.Size(97, 63);
             this.labelNone.TabIndex = 21;
             this.labelNone.Text = "0";
             this.labelNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -346,9 +354,9 @@ namespace Machine.UI
             this.labelNgPer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelNgPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelNgPer.ForeColor = System.Drawing.Color.Red;
-            this.labelNgPer.Location = new System.Drawing.Point(242, 51);
+            this.labelNgPer.Location = new System.Drawing.Point(192, 63);
             this.labelNgPer.Name = "labelNgPer";
-            this.labelNgPer.Size = new System.Drawing.Size(118, 50);
+            this.labelNgPer.Size = new System.Drawing.Size(92, 61);
             this.labelNgPer.TabIndex = 20;
             this.labelNgPer.Text = "0%";
             this.labelNgPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -358,20 +366,21 @@ namespace Machine.UI
             this.labelNg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelNg.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelNg.ForeColor = System.Drawing.Color.Red;
-            this.labelNg.Location = new System.Drawing.Point(112, 51);
+            this.labelNg.Location = new System.Drawing.Point(89, 63);
             this.labelNg.Name = "labelNg";
-            this.labelNg.Size = new System.Drawing.Size(124, 50);
+            this.labelNg.Size = new System.Drawing.Size(97, 61);
             this.labelNg.TabIndex = 19;
             this.labelNg.Text = "0";
             this.labelNg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelOkPer
             // 
+            this.labelOkPer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOkPer.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelOkPer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.labelOkPer.Location = new System.Drawing.Point(242, 0);
+            this.labelOkPer.Location = new System.Drawing.Point(192, 0);
             this.labelOkPer.Name = "labelOkPer";
-            this.labelOkPer.Size = new System.Drawing.Size(118, 51);
+            this.labelOkPer.Size = new System.Drawing.Size(92, 63);
             this.labelOkPer.TabIndex = 18;
             this.labelOkPer.Text = "0%";
             this.labelOkPer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -381,9 +390,9 @@ namespace Machine.UI
             this.labelOk.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOk.Font = new System.Drawing.Font("Times New Roman", 20.25F);
             this.labelOk.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.labelOk.Location = new System.Drawing.Point(112, 0);
+            this.labelOk.Location = new System.Drawing.Point(89, 0);
             this.labelOk.Name = "labelOk";
-            this.labelOk.Size = new System.Drawing.Size(124, 51);
+            this.labelOk.Size = new System.Drawing.Size(97, 63);
             this.labelOk.TabIndex = 14;
             this.labelOk.Text = "0";
             this.labelOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -397,11 +406,11 @@ namespace Machine.UI
             this.tableLayoutPanel9.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.comboBox1, 1, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 274);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 319);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(363, 57);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(287, 68);
             this.tableLayoutPanel9.TabIndex = 17;
             this.tableLayoutPanel9.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel9_Paint);
             // 
@@ -413,17 +422,17 @@ namespace Machine.UI
             this.label8.Location = new System.Drawing.Point(10, 15);
             this.label8.Margin = new System.Windows.Forms.Padding(10, 15, 3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(114, 39);
+            this.label8.Size = new System.Drawing.Size(81, 53);
             this.label8.TabIndex = 2;
             this.label8.Text = "Model ";
             // 
             // richTextBox3
             // 
             this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox3.Location = new System.Drawing.Point(0, 558);
+            this.richTextBox3.Location = new System.Drawing.Point(0, 651);
             this.richTextBox3.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(369, 243);
+            this.richTextBox3.Size = new System.Drawing.Size(293, 283);
             this.richTextBox3.TabIndex = 15;
             this.richTextBox3.Text = "";
             this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
@@ -431,10 +440,10 @@ namespace Machine.UI
             // richTextBox2
             // 
             this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Location = new System.Drawing.Point(0, 334);
+            this.richTextBox2.Location = new System.Drawing.Point(0, 390);
             this.richTextBox2.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(369, 224);
+            this.richTextBox2.Size = new System.Drawing.Size(293, 261);
             this.richTextBox2.TabIndex = 16;
             this.richTextBox2.Text = "";
             // 
@@ -448,17 +457,6 @@ namespace Machine.UI
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(3, 193);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(189, 32);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "camera";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button10
             // 
@@ -535,18 +533,18 @@ namespace Machine.UI
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel3.Controls.Add(this.vmRenderControl1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(186, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(149, 0);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1307, 807);
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1044, 940);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // vmRenderControl1
@@ -555,11 +553,12 @@ namespace Machine.UI
             this.vmRenderControl1.CoordinateInfoVisible = true;
             this.vmRenderControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vmRenderControl1.ImageSource = null;
+            this.vmRenderControl1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.vmRenderControl1.Location = new System.Drawing.Point(0, 0);
             this.vmRenderControl1.Margin = new System.Windows.Forms.Padding(0);
             this.vmRenderControl1.ModuleSource = null;
             this.vmRenderControl1.Name = "vmRenderControl1";
-            this.vmRenderControl1.Size = new System.Drawing.Size(1307, 242);
+            this.vmRenderControl1.Size = new System.Drawing.Size(417, 940);
             this.vmRenderControl1.TabIndex = 22;
             this.vmRenderControl1.Load += new System.EventHandler(this.vmRenderControl1_Load);
             // 
@@ -567,21 +566,21 @@ namespace Machine.UI
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 242);
+            this.dataGridView1.Location = new System.Drawing.Point(417, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1307, 565);
+            this.dataGridView1.Size = new System.Drawing.Size(627, 940);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -595,12 +594,12 @@ namespace Machine.UI
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel2, 2, 0);
             this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel3, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(5, 96);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(5, 110);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1868, 807);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1492, 940);
             this.tableLayoutPanel5.TabIndex = 10;
             // 
             // flowLayoutPanel3
@@ -614,7 +613,7 @@ namespace Machine.UI
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(186, 807);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(149, 940);
             this.flowLayoutPanel3.TabIndex = 10;
             // 
             // flowLayoutPanel4
@@ -624,21 +623,25 @@ namespace Machine.UI
             this.flowLayoutPanel4.Controls.Add(this.button10);
             this.flowLayoutPanel4.Controls.Add(this.button11);
             this.flowLayoutPanel4.Controls.Add(this.button2);
-            this.flowLayoutPanel4.Controls.Add(this.button6);
             this.flowLayoutPanel4.Controls.Add(this.ConnectPlc);
             this.flowLayoutPanel4.Controls.Add(this.WritePlc);
             this.flowLayoutPanel4.Controls.Add(this.ReadPlc);
             this.flowLayoutPanel4.Controls.Add(this.token);
+            this.flowLayoutPanel4.Controls.Add(this.serverc);
+            this.flowLayoutPanel4.Controls.Add(this.sendserversk);
+            this.flowLayoutPanel4.Controls.Add(this.OnOffLight);
+            this.flowLayoutPanel4.Controls.Add(this.OnOffPickUp);
+            this.flowLayoutPanel4.Controls.Add(this.Model);
             this.flowLayoutPanel4.Location = new System.Drawing.Point(6, 73);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(178, 397);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(162, 550);
             this.flowLayoutPanel4.TabIndex = 9;
             this.flowLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel4_Paint);
             // 
             // ConnectPlc
             // 
-            this.ConnectPlc.Location = new System.Drawing.Point(3, 231);
+            this.ConnectPlc.Location = new System.Drawing.Point(3, 193);
             this.ConnectPlc.Name = "ConnectPlc";
             this.ConnectPlc.Size = new System.Drawing.Size(177, 32);
             this.ConnectPlc.TabIndex = 21;
@@ -649,7 +652,7 @@ namespace Machine.UI
             // 
             // WritePlc
             // 
-            this.WritePlc.Location = new System.Drawing.Point(3, 269);
+            this.WritePlc.Location = new System.Drawing.Point(3, 231);
             this.WritePlc.Name = "WritePlc";
             this.WritePlc.Size = new System.Drawing.Size(177, 32);
             this.WritePlc.TabIndex = 22;
@@ -660,7 +663,7 @@ namespace Machine.UI
             // 
             // ReadPlc
             // 
-            this.ReadPlc.Location = new System.Drawing.Point(3, 307);
+            this.ReadPlc.Location = new System.Drawing.Point(3, 269);
             this.ReadPlc.Name = "ReadPlc";
             this.ReadPlc.Size = new System.Drawing.Size(177, 32);
             this.ReadPlc.TabIndex = 23;
@@ -668,6 +671,72 @@ namespace Machine.UI
             this.ReadPlc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ReadPlc.UseVisualStyleBackColor = true;
             this.ReadPlc.Click += new System.EventHandler(this.ReadPlc_Click);
+            // 
+            // token
+            // 
+            this.token.Location = new System.Drawing.Point(3, 307);
+            this.token.Name = "token";
+            this.token.Size = new System.Drawing.Size(177, 32);
+            this.token.TabIndex = 24;
+            this.token.Text = "token";
+            this.token.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.token.UseVisualStyleBackColor = true;
+            this.token.Click += new System.EventHandler(this.token_Click);
+            // 
+            // serverc
+            // 
+            this.serverc.Location = new System.Drawing.Point(3, 345);
+            this.serverc.Name = "serverc";
+            this.serverc.Size = new System.Drawing.Size(177, 32);
+            this.serverc.TabIndex = 27;
+            this.serverc.Text = "serverc#";
+            this.serverc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.serverc.UseVisualStyleBackColor = true;
+            this.serverc.Click += new System.EventHandler(this.serverc_Click);
+            // 
+            // sendserversk
+            // 
+            this.sendserversk.Location = new System.Drawing.Point(3, 383);
+            this.sendserversk.Name = "sendserversk";
+            this.sendserversk.Size = new System.Drawing.Size(177, 32);
+            this.sendserversk.TabIndex = 28;
+            this.sendserversk.Text = "sendserversk";
+            this.sendserversk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sendserversk.UseVisualStyleBackColor = true;
+            this.sendserversk.Click += new System.EventHandler(this.sendserversk_Click);
+            // 
+            // OnOffLight
+            // 
+            this.OnOffLight.Location = new System.Drawing.Point(3, 421);
+            this.OnOffLight.Name = "OnOffLight";
+            this.OnOffLight.Size = new System.Drawing.Size(177, 32);
+            this.OnOffLight.TabIndex = 29;
+            this.OnOffLight.Text = "OnOffLight";
+            this.OnOffLight.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OnOffLight.UseVisualStyleBackColor = true;
+            this.OnOffLight.Click += new System.EventHandler(this.OnOffLight_Click);
+            // 
+            // OnOffPickUp
+            // 
+            this.OnOffPickUp.Location = new System.Drawing.Point(3, 459);
+            this.OnOffPickUp.Name = "OnOffPickUp";
+            this.OnOffPickUp.Size = new System.Drawing.Size(177, 32);
+            this.OnOffPickUp.TabIndex = 30;
+            this.OnOffPickUp.Text = "On/Off pickup";
+            this.OnOffPickUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OnOffPickUp.UseVisualStyleBackColor = true;
+            this.OnOffPickUp.Click += new System.EventHandler(this.OnOffPickUp_Click);
+            // 
+            // Model
+            // 
+            this.Model.Location = new System.Drawing.Point(3, 497);
+            this.Model.Name = "Model";
+            this.Model.Size = new System.Drawing.Size(177, 32);
+            this.Model.TabIndex = 31;
+            this.Model.Text = "Model";
+            this.Model.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Model.UseVisualStyleBackColor = true;
+            this.Model.Click += new System.EventHandler(this.Model_Click);
             // 
             // flowLayoutPanel6
             // 
@@ -677,9 +746,10 @@ namespace Machine.UI
             this.flowLayoutPanel6.Controls.Add(this.dateTimePickerTo);
             this.flowLayoutPanel6.Controls.Add(this.button12);
             this.flowLayoutPanel6.Controls.Add(this.SummaryResult);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 546);
+            this.flowLayoutPanel6.Controls.Add(this.GetBackUpDb);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 699);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 258);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(197, 220);
             this.flowLayoutPanel6.TabIndex = 13;
             // 
             // label6
@@ -712,6 +782,17 @@ namespace Machine.UI
             this.SummaryResult.UseVisualStyleBackColor = true;
             this.SummaryResult.Click += new System.EventHandler(this.SummaryResult_Click);
             // 
+            // GetBackUpDb
+            // 
+            this.GetBackUpDb.Location = new System.Drawing.Point(3, 197);
+            this.GetBackUpDb.Name = "GetBackUpDb";
+            this.GetBackUpDb.Size = new System.Drawing.Size(177, 32);
+            this.GetBackUpDb.TabIndex = 31;
+            this.GetBackUpDb.Text = "GetBackUpDb";
+            this.GetBackUpDb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GetBackUpDb.UseVisualStyleBackColor = true;
+            this.GetBackUpDb.Click += new System.EventHandler(this.GetBackUpDb_Click);
+            // 
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.BackColor = System.Drawing.SystemColors.AppWorkspace;
@@ -725,15 +806,15 @@ namespace Machine.UI
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.02203F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.97797F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1878, 908);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1502, 1055);
             this.tableLayoutPanel6.TabIndex = 11;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.45367F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.54633F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.05992F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.94008F));
             this.tableLayoutPanel1.Controls.Add(this.lblMachineName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -742,7 +823,7 @@ namespace Machine.UI
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1878, 91);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1502, 105);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // flowLayoutPanel1
@@ -750,13 +831,14 @@ namespace Machine.UI
             this.flowLayoutPanel1.Controls.Add(this.CloseApp);
             this.flowLayoutPanel1.Controls.Add(this.ExtendApp);
             this.flowLayoutPanel1.Controls.Add(this.HidenApp);
+            this.flowLayoutPanel1.Controls.Add(this.CycleTime);
             this.flowLayoutPanel1.Controls.Add(this.tableLayoutPanel8);
             this.flowLayoutPanel1.Controls.Add(this.lblHour);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1250, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(830, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(625, 85);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(669, 99);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // CloseApp
@@ -765,7 +847,7 @@ namespace Machine.UI
             this.CloseApp.FlatAppearance.BorderSize = 0;
             this.CloseApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseApp.Image = global::Machine.UI.Properties.Resources.Close32x32;
-            this.CloseApp.Location = new System.Drawing.Point(587, 3);
+            this.CloseApp.Location = new System.Drawing.Point(631, 3);
             this.CloseApp.Name = "CloseApp";
             this.CloseApp.Size = new System.Drawing.Size(35, 35);
             this.CloseApp.TabIndex = 11;
@@ -778,7 +860,7 @@ namespace Machine.UI
             this.ExtendApp.FlatAppearance.BorderSize = 0;
             this.ExtendApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ExtendApp.Image = global::Machine.UI.Properties.Resources.Rectangle32x32;
-            this.ExtendApp.Location = new System.Drawing.Point(546, 3);
+            this.ExtendApp.Location = new System.Drawing.Point(590, 3);
             this.ExtendApp.Name = "ExtendApp";
             this.ExtendApp.Size = new System.Drawing.Size(35, 35);
             this.ExtendApp.TabIndex = 10;
@@ -792,12 +874,25 @@ namespace Machine.UI
             this.HidenApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HidenApp.Image = global::Machine.UI.Properties.Resources.Horizontal_Line32x32;
             this.HidenApp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.HidenApp.Location = new System.Drawing.Point(505, 3);
+            this.HidenApp.Location = new System.Drawing.Point(549, 3);
             this.HidenApp.Name = "HidenApp";
             this.HidenApp.Size = new System.Drawing.Size(35, 35);
             this.HidenApp.TabIndex = 9;
             this.HidenApp.UseVisualStyleBackColor = false;
             this.HidenApp.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // CycleTime
+            // 
+            this.CycleTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CycleTime.AutoSize = true;
+            this.CycleTime.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CycleTime.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.CycleTime.Location = new System.Drawing.Point(382, 14);
+            this.CycleTime.Margin = new System.Windows.Forms.Padding(0);
+            this.CycleTime.Name = "CycleTime";
+            this.CycleTime.Size = new System.Drawing.Size(164, 68);
+            this.CycleTime.TabIndex = 34;
+            this.CycleTime.Text = "00:00";
             // 
             // tableLayoutPanel8
             // 
@@ -805,7 +900,7 @@ namespace Machine.UI
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.19483F));
             this.tableLayoutPanel8.Controls.Add(this.lblDayofW, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.lblDayofY, 0, 1);
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(347, 3);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(227, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.45055F));
@@ -843,7 +938,7 @@ namespace Machine.UI
             this.lblHour.AutoSize = true;
             this.lblHour.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHour.ForeColor = System.Drawing.Color.DarkKhaki;
-            this.lblHour.Location = new System.Drawing.Point(180, 14);
+            this.lblHour.Location = new System.Drawing.Point(60, 14);
             this.lblHour.Margin = new System.Windows.Forms.Padding(0);
             this.lblHour.Name = "lblHour";
             this.lblHour.Size = new System.Drawing.Size(164, 68);
@@ -855,22 +950,16 @@ namespace Machine.UI
             // 
             this.timer1.Interval = 1000;
             // 
-            // token
+            // timer2
             // 
-            this.token.Location = new System.Drawing.Point(3, 345);
-            this.token.Name = "token";
-            this.token.Size = new System.Drawing.Size(177, 32);
-            this.token.TabIndex = 24;
-            this.token.Text = "token";
-            this.token.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.token.UseVisualStyleBackColor = true;
-            this.token.Click += new System.EventHandler(this.token_Click);
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1878, 908);
+            this.ClientSize = new System.Drawing.Size(1502, 1055);
             this.Controls.Add(this.tableLayoutPanel6);
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -919,7 +1008,6 @@ namespace Machine.UI
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dataGridView1;
         private VMControls.Winform.Release.VmRenderControl vmRenderControl1;
@@ -961,6 +1049,14 @@ namespace Machine.UI
         private Label label3;
         private Label label4;
         private Button token;
+        private Button serverc;
+        private Button sendserversk;
+        private Button OnOffLight;
+        private Button OnOffPickUp;
+        private Button GetBackUpDb;
+        private Timer timer2;
+        private Label CycleTime;
+        private Button Model;
     }
 }
 

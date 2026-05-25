@@ -21,16 +21,23 @@ namespace Machine.UI.services
                 conn.Open();
 
                 var cmd = new SQLiteCommand(@"
-                    INSERT INTO TrayRun (TrayName, Row, Col, StartTime)
-                    VALUES (@TrayName, @Row, @Col, @StartTime);
-                    SELECT last_insert_rowid();
-                ", conn);
+            INSERT INTO TrayRun
+            (TrayName, Row, Col, StartTime, EndTime)
+            VALUES
+            (@TrayName, @Row, @Col, @StartTime, @EndTime);
+
+            SELECT last_insert_rowid();
+        ", conn);
 
                 cmd.Parameters.AddWithValue("@TrayName", tray.TrayName);
                 cmd.Parameters.AddWithValue("@Row", tray.Row);
                 cmd.Parameters.AddWithValue("@Col", tray.Col);
-                cmd.Parameters.AddWithValue("@StartTime", tray.StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                cmd.Parameters.AddWithValue("@EndTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.Parameters.AddWithValue("@StartTime",
+                    tray.StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.Parameters.AddWithValue("@EndTime",
+                    tray.EndTime?.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }

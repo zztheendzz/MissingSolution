@@ -88,18 +88,19 @@ namespace Machine.UI.popupForm
                 }
 
                 // NG đỏ
-                if (dgv.Columns[e.ColumnIndex].Name == "NG" && e.Value != null)
+                if (dgv.Columns[e.ColumnIndex].Name == "Ng" && e.Value != null)
                 {
                     if (Convert.ToInt32(e.Value) > 0)
                         e.CellStyle.ForeColor = Color.Red;
                 }
 
                 // OK xanh
-                if (dgv.Columns[e.ColumnIndex].Name == "OK" && e.Value != null)
+                if (dgv.Columns[e.ColumnIndex].Name == "Ok" && e.Value != null)
                 {
                     if (Convert.ToInt32(e.Value) > 0)
                         e.CellStyle.ForeColor = Color.Green;
                 }
+
             };
         }
     }

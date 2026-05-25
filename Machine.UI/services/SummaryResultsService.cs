@@ -29,7 +29,7 @@ namespace Machine.UI.services
 
                     // lấy hết ngày cuối
                     to = to.Date.AddDays(1).AddTicks(-1);
-
+                    //                    SUM(CASE WHEN v.Result IS NULL OR v.Result NOT IN (0,1) THEN 1 ELSE 0 END) AS None,
                     var data = conn.Query<SummaryResults>(@"
                 SELECT 
                     t.TrayName AS Model,

@@ -795,18 +795,47 @@
     <Compile Include="model\TrayModel.cs" />
     <Compile Include="model\TrayRun.cs" />
     <Compile Include="model\VisionData.cs" />
+    <Compile Include="popupForm\BackupViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popupForm\BackupViewerForm.Designer.cs">
+      <DependentUpon>BackupViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="popupForm\FormSummary.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="popupForm\FormSummary.Designer.cs">
       <DependentUpon>FormSummary.cs</DependentUpon>
     </Compile>
+    <Compile Include="popupForm\LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popupForm\LoadingForm.Designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="popupForm\ModelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popupForm\ModelForm.Designer.cs">
+      <DependentUpon>ModelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="popupForm\PopupWarning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popupForm\PopupWarning.Designer.cs">
+      <DependentUpon>PopupWarning.cs</DependentUpon>
+    </Compile>
     <Compile Include="processors\TrayProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="services\BackupDbService.cs" />
+    <Compile Include="services\BackupViewerService.cs" />
     <Compile Include="services\CameraService.cs" />
     <Compile Include="services\ExportExcelService.cs" />
     <Compile Include="services\ModbusService.cs" />
+    <Compile Include="services\serverService.cs" />
+    <Compile Include="services\SocketRobot.cs" />
+    <Compile Include="services\SocketService.cs" />
     <Compile Include="services\SummaryResultsService.cs" />
     <Compile Include="services\TcpClientService.cs" />
     <Compile Include="services\TcpPlcService.cs" />
@@ -822,6 +851,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="popupForm\BackupViewerForm.resx">
+      <DependentUpon>BackupViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="popupForm\ModelForm.resx">
+      <DependentUpon>ModelForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
