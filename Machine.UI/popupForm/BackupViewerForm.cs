@@ -1,4 +1,5 @@
-﻿using Machine.UI.services;
+﻿using Machine.UI.Services;
+using Machine.UI.services;
 using Machine.UI.Services;
 using System;
 using System.Data;
@@ -31,6 +32,7 @@ namespace Machine.UI.popupForm
             dtTo.Value =
                 DateTime.Now;
 
+            dgvData.AutoGenerateColumns = true;
 
             dgvData.AutoGenerateColumns =
                 true;
@@ -138,10 +140,10 @@ namespace Machine.UI.popupForm
 
                     totalRow["OKRate"] =
                         total > 0
-                        ? Math.Round(
-                            ok * 100.0 / total,
-                            2)
-                        : 0;
+                            ? Math.Round(
+                                ok * 100.0 / total,
+                                2)
+                            : 0;
 
                     if (dt.Columns.Contains("NGRate"))
                     {
@@ -240,11 +242,11 @@ namespace Machine.UI.popupForm
                 foreach (string col in rateCols)
                 {
                     if (dgvData.Columns.Contains(col))
-                    {
+                {
                         dgvData.Columns[col]
                             .DefaultCellStyle.Format =
-                            "0.00'%'";
-                    }
+                        "0.00'%'";
+                }
                 }
 
                 // =====================================
@@ -399,13 +401,13 @@ namespace Machine.UI.popupForm
         private CancellationTokenSource exportCts;
 
         private async void btnExport_Click(
-            object sender,
-            EventArgs e)
+    object sender,
+    EventArgs e)
         {
             try
             {
                 using (SaveFileDialog sfd =
-                    new SaveFileDialog())
+                       new SaveFileDialog())
                 {
                     sfd.Filter =
                         "Excel File|*.xlsx";
@@ -439,18 +441,18 @@ namespace Machine.UI.popupForm
                         {
                             await Task.Run(() =>
                             {
-                                service.ExportFlatData(
-                                    sfd.FileName,
-                                    dtFrom.Value,
+                    service.ExportFlatData(
+                        sfd.FileName,
+                        dtFrom.Value,
                                     dtTo.Value,
                                     exportCts.Token);
                             });
 
                             loading.Close();
 
-                            MessageBox.Show(
-                                "Export success.");
-                        }
+                    MessageBox.Show(
+                        "Export success.");
+                }
                         catch (
                             OperationCanceledException)
                         {
@@ -458,19 +460,19 @@ namespace Machine.UI.popupForm
 
                             MessageBox.Show(
                                 "Export cancelled.");
-                        }
-                        catch (Exception ex)
-                        {
-                            loading.Close();
-
-                            MessageBox.Show(
-                                ex.ToString());
-                        }
-                    }
-                }
             }
             catch (Exception ex)
             {
+                            loading.Close();
+
+                MessageBox.Show(
+                    ex.ToString());
+            }
+        }
+                }
+            }
+            catch (Exception ex)
+        {
                 MessageBox.Show(
                     ex.ToString());
             }
@@ -507,6 +509,8 @@ namespace Machine.UI.popupForm
                         dtFrom.Value,
                         dtTo.Value);
 
+                    MessageBox.Show(
+                        "Export success.");
                 }
             }
             catch (Exception ex)

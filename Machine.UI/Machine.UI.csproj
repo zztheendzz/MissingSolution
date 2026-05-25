@@ -807,12 +807,15 @@
     <Compile Include="popupForm\FormSummary.Designer.cs">
       <DependentUpon>FormSummary.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="popupForm\LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="popupForm\LoadingForm.Designer.cs">
       <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
+=======
+>>>>>>> b7599ce62fe6dff274295db656fd1a288d4ef6f3
     <Compile Include="popupForm\ModelForm.cs">
       <SubType>Form</SubType>
     </Compile>

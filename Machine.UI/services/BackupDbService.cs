@@ -73,21 +73,21 @@ namespace Machine.UI.Services
         {
             try
             {
-                BackupConfig config = LoadConfig();
+            BackupConfig config = LoadConfig();
 
-                // chưa backup lần nào
-                if (config.LastBackupTime == DateTime.MinValue)
-                {
-                    BackupAndReset();
-                    return;
-                }
-
-                // quá 3 ngày
-                if (DateTime.Now >= config.LastBackupTime.AddDays(3))
-                {
-                    BackupAndReset();
-                }
+            // chưa backup lần nào
+            if (config.LastBackupTime == DateTime.MinValue)
+            {
+                BackupAndReset();
+                return;
             }
+
+            // quá 3 ngày
+            if (DateTime.Now >= config.LastBackupTime.AddDays(3))
+            {
+                BackupAndReset();
+            }
+        }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

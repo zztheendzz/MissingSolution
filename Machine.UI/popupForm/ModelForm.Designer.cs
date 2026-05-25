@@ -527,6 +527,7 @@ namespace Machine.UI.popupForm
             this.buttonLayout.ResumeLayout(false);
 
             this.ResumeLayout(false);
+
         }
 
         #endregion

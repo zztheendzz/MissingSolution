@@ -55,6 +55,7 @@ namespace Machine.UI.popupForm
             this.dtTo = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
+            this.dgvData = new System.Windows.Forms.DataGridView();
             this.ExportReportExcel = new System.Windows.Forms.Button();
             this.dgvData = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
@@ -228,5 +229,7 @@ namespace Machine.UI.popupForm
         }
 
         #endregion
+
+        private Button ExportReportExcel;
     }
 }

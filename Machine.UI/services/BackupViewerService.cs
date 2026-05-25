@@ -50,49 +50,49 @@ namespace Machine.UI.services
             if (Directory.Exists(backupRoot))
             {
                 // backup 3 ngày/lần
-                DateTime searchFrom =
-                    from.AddDays(-3);
+            DateTime searchFrom =
+                from.AddDays(-3);
 
-                DateTime searchTo =
-                    to.AddDays(3);
+            DateTime searchTo =
+                to.AddDays(3);
 
-                string[] folders =
-                    Directory.GetDirectories(
-                        backupRoot);
+            string[] folders =
+                Directory.GetDirectories(
+                    backupRoot);
 
-                foreach (string folder in folders)
+            foreach (string folder in folders)
+            {
+                try
                 {
-                    try
+                    string folderName =
+                        Path.GetFileName(folder);
+
+                    DateTime backupTime =
+                        DateTime.ParseExact(
+                            folderName,
+                            "yyyy_MM_dd_HH_mm_ss",
+                            CultureInfo.InvariantCulture);
+
+                    if (backupTime >= searchFrom &&
+                        backupTime <= searchTo)
                     {
-                        string folderName =
-                            Path.GetFileName(folder);
-
-                        DateTime backupTime =
-                            DateTime.ParseExact(
-                                folderName,
-                                "yyyy_MM_dd_HH_mm_ss",
-                                CultureInfo.InvariantCulture);
-
-                        if (backupTime >= searchFrom &&
-                            backupTime <= searchTo)
-                        {
-                            string dbFile =
-                                Directory.GetFiles(
-                                    folder,
-                                    "*.db")
-                                .FirstOrDefault();
+                        string dbFile =
+                            Directory.GetFiles(
+                                folder,
+                                "*.db")
+                            .FirstOrDefault();
 
                             if (!string.IsNullOrEmpty(dbFile) &&
                                 File.Exists(dbFile))
-                            {
-                                result.Add(dbFile);
-                            }
+                        {
+                            result.Add(dbFile);
                         }
                     }
-                    catch
-                    {
+                }
+                catch
+                {
 
-                    }
+                }
                 }
             }
 
@@ -100,18 +100,19 @@ namespace Machine.UI.services
             // CURRENT DB
             // =========================
 
-            if (File.Exists(currentDb))
-            {
-                result.Add(currentDb);
-            }
+                if (File.Exists(currentDb))
+                {
+                    result.Add(currentDb);
+                }
 
             // =========================
             // REMOVE DUPLICATE
             // =========================
 
-            result = result
-                .Distinct()
-                .ToList();
+                result = result
+                    .Distinct()
+                    .ToList();
+            }
 
             return result;
         }
@@ -561,38 +562,44 @@ namespace Machine.UI.services
                         conn.Open();
 
                         string query = @"
-                    SELECT
-                        tr.TrayName,
+                            SELECT
+                                tr.Id as TrayRunId,
 
-                        COUNT(*) as Total,
+                                tr.TrayName,
 
-                        SUM(CASE
-                                WHEN vd.Result = 1
-                                THEN 1
-                                ELSE 0
-                            END) as OKCount,
+                                datetime(tr.StartTime) as StartTime,
 
-                        SUM(CASE
-                                WHEN vd.Result = 0
-                                THEN 1
-                                ELSE 0
-                            END) as NGCount,
+                                datetime(tr.EndTime) as EndTime,
 
-                        SUM(CASE
-                                WHEN vd.Result = 2
-                                THEN 1
-                                ELSE 0
-                            END) as NoneCount,
+                                COUNT(*) as Total,
 
-                        ROUND(
-                            SUM(CASE
-                                    WHEN vd.Result = 1
-                                    THEN 1.0
-                                    ELSE 0
-                                END)
-                            * 100.0
-                            / COUNT(*),
-                            2
+                                SUM(CASE
+                                        WHEN vd.Result = 1
+                                        THEN 1
+                                        ELSE 0
+                                    END) as OKCount,
+
+                                SUM(CASE
+                                        WHEN vd.Result = 0
+                                        THEN 1
+                                        ELSE 0
+                                    END) as NGCount,
+
+                                SUM(CASE
+                                        WHEN vd.Result = 2
+                                        THEN 1
+                                        ELSE 0
+                                    END) as NoneCount,
+
+                                ROUND(
+                                    SUM(CASE
+                                            WHEN vd.Result = 1
+                                            THEN 1.0
+                                            ELSE 0
+                                        END)
+                                    * 100.0
+                                    / COUNT(*),
+                                    2
                         ) as OKRate,
 
                         ROUND(
@@ -617,13 +624,13 @@ namespace Machine.UI.services
                             2
                         ) as NoneRate
 
-                    FROM VisionData vd
+                            FROM VisionData vd
 
-                    INNER JOIN TrayRun tr
-                        ON vd.TrayId = tr.Id
+                            INNER JOIN TrayRun tr
+                                ON vd.TrayId = tr.Id
 
-                    WHERE tr.StartTime >= @from
-                    AND tr.StartTime <= @to
+                            WHERE tr.StartTime >= @from
+                            AND tr.StartTime <= @to
 
                     GROUP BY
                         tr.TrayName
@@ -632,7 +639,7 @@ namespace Machine.UI.services
                     ORDER BY
                         tr.TrayName
 
-                    ";
+                            ";
 
                         using (SQLiteCommand cmd =
                                new SQLiteCommand(
@@ -773,13 +780,13 @@ namespace Machine.UI.services
                     noneRate;
 
                 result.Rows.Add(row);
-            }
+        }
 
             return result;
         }
         public void ExportFlatData(
-            string path,
-            DateTime from,
+    string path,
+    DateTime from,
             DateTime to,
             CancellationToken token)
         {
@@ -813,8 +820,8 @@ namespace Machine.UI.services
                         try
                         {
                             using (var conn =
-                                new SQLiteConnection(
-                                    $"Data Source={dbPath};Version=3;"))
+                                   new SQLiteConnection(
+                                       $"Data Source={dbPath};Version=3;"))
                             {
                                 conn.Open();
 
@@ -829,13 +836,18 @@ namespace Machine.UI.services
                                         x => x.Id,
                                         x => x);
 
+                                var trayDict =
+                                    trays.ToDictionary(
+                                        t => t.Id,
+                                        t => t);
+
                                 // =========================
                                 // LOAD DATA
                                 // =========================
 
                                 var allData =
                                     conn.Query<VisionData>(@"
-                                SELECT 
+                                        SELECT 
                                     vd.Id,
                                     vd.TrayId,
                                     vd.Row,
@@ -849,9 +861,9 @@ namespace Machine.UI.services
                                     ON vd.TrayId = tr.Id
 
                                 WHERE datetime(tr.StartTime)
-                                BETWEEN datetime(@from)
-                                AND datetime(@to)
-                            ",
+                                        BETWEEN datetime(@from)
+                                        AND datetime(@to)
+                                        ",
                                     new
                                     {
                                         from = from.ToString(
@@ -901,6 +913,7 @@ namespace Machine.UI.services
                                             @"[\\\/\?\*\[\]]",
                                             "_");
 
+                                    // excel limit 31 char
                                     if (sheetName.Length > 31)
                                     {
                                         sheetName =
@@ -944,10 +957,12 @@ namespace Machine.UI.services
                                     {
                                         startCol =
                                             (ws.LastColumnUsed()
-                                                ?.ColumnNumber()
+                                               ?.ColumnNumber()
                                              ?? 0)
                                             + 2;
                                     }
+
+                                    int r = 1;
 
                                     // =========================
                                     // HEADER
@@ -971,17 +986,17 @@ namespace Machine.UI.services
                                         i++)
                                     {
                                         ws.Cell(
-                                            1,
+                                        1,
                                             startCol + i)
                                           .Value =
                                             headers[i];
                                     }
 
                                     var headerRange =
-                                        ws.Range(
-                                            1,
-                                            startCol,
-                                            1,
+                                    ws.Range(
+                                        1,
+                                        startCol,
+                                        1,
                                             startCol + 8);
 
                                     headerRange.Style
@@ -989,7 +1004,7 @@ namespace Machine.UI.services
 
                                     headerRange.Style
                                                .Fill
-                                               .BackgroundColor =
+                                      .BackgroundColor =
                                         XLColor.LightBlue;
 
                                     // =========================
@@ -1001,6 +1016,10 @@ namespace Machine.UI.services
                                             g.Count());
 
                                     int stt = 1;
+
+                                    // =========================
+                                    // DATA
+                                    // =========================
 
                                     foreach (var d in g
                                         .OrderBy(x =>
@@ -1028,10 +1047,12 @@ namespace Machine.UI.services
                                             new object[]
                                             {
                                         stt,
-                                        dt.ToString(
+                                            dt.ToString(
                                             "yyyy-MM-dd"),
 
-                                        dt.ToString(
+                                        ws.Cell(r, startCol + 2)
+                                          .Value =
+                                            dt.ToString(
                                             "HH:mm:ss"),
 
                                         tray.TrayName,
@@ -1100,7 +1121,7 @@ namespace Machine.UI.services
                                     for (int r = 2;
                                         r <= lastRow;
                                         r++)
-                                    {
+                                        {
                                         var cell =
                                             ws.Cell(
                                                 r,
@@ -1112,21 +1133,24 @@ namespace Machine.UI.services
                                         if (value == "OK")
                                         {
                                             cell.Style.Fill
-                                                .BackgroundColor =
+                                              .BackgroundColor =
                                                 XLColor.LightGreen;
                                         }
                                         else if (value == "NG")
                                         {
                                             cell.Style.Fill
-                                                .BackgroundColor =
+                                              .BackgroundColor =
                                                 XLColor.LightPink;
                                         }
                                         else
                                         {
                                             cell.Style.Fill
-                                                .BackgroundColor =
+                                              .BackgroundColor =
                                                 XLColor.LightGray;
                                         }
+
+                                        r++;
+                                        stt++;
                                     }
 
                                     // =========================
